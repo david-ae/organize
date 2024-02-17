@@ -2,7 +2,11 @@
   <mat-grid-tile rowspan="1">
     <mat-list>
       <mat-list-item>
-        <button mat-raised-button color="warn">Login with Google</button>
+        <button mat-raised-button color="warn">
+          <a [routerLink]="['/store']" routerLinkActive="router-link-active">
+            Login with Google</a
+          >
+        </button>
       </mat-list-item>
       <mat-list-item>
         <button mat-raised-button color="accent">Login with Instagram</button>

@@ -1,0 +1,12 @@
+<mat-toolbar color="accent" class="navbar">
+  <div>Organize</div>
+  <div>
+    <span>Inventory</span>
+    <span><a [routerLink]="['/signin']" class="link">Logout</a> </span>
+  </div>
+</mat-toolbar>
+<mat-grid-list cols="1" rowHeight="100%">
+  <mat-grid-tile>
+    <app-search></app-search>
+  </mat-grid-tile>
+</mat-grid-list>
