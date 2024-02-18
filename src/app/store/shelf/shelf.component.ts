@@ -4,6 +4,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { SearchComponent } from '../../components/search/search.component';
 import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-shelf',
@@ -14,10 +16,14 @@ import { MatListModule } from '@angular/material/list';
     MatGridListModule,
     MatListModule,
     RouterModule,
-    SearchComponent
+    SearchComponent,
+    MatSidenavModule,
+    MatIconModule,
   ],
-  styleUrl: './shelf.component.css'
+  styleUrl: './shelf.component.css',
 })
 export class ShelfComponent {
-
+  mode = 'side';
+  opened = true;
+  layoutGap = '64';
 }
