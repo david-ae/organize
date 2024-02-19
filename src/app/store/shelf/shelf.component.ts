@@ -24,6 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ShelfComponent {
   mode = 'side';
-  opened = true;
+  opened = false;
   layoutGap = '64';
 }

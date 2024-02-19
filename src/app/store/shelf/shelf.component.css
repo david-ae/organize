@@ -1,16 +1,25 @@
+.navbar {
+  justify-content: space-between;
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  z-index: 100;
+}
+
 span {
   padding-right: 1rem;
 }
 
 mat-sidenav {
-  background-color: red !important;
+  background-color: beige !important;
 }
 
 .div-scrollable {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 4000px;
+  height: 100%;
+  background-color: beige;
 }
 
 mat-toolbar {

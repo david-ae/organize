@@ -1,24 +1,7 @@
-<mat-toolbar class="mat-elevation-z6" color="accent">
-  <button mat-icon-button (click)="opened = !opened">
-    <mat-icon>menu</mat-icon>
-  </button>
-  Organize
+<mat-toolbar class="mat-elevation-z6 navbar" color="accent">
+  <div>Organize</div>
+  <div>
+    <span>Inventory</span>
+    <span><a [routerLink]="['/signin']" class="link">Logout</a> </span>
+  </div>
 </mat-toolbar>
-<!-- <mat-sidenav-container
-  class="main-sidenav-container"
-  (backdropClick)="opened = !opened"
->
-  <mat-sidenav
-    mode="side"
-    [opened]="opened"
-    [fixedInViewport]="true"
-    [fixedTopGap]="layoutGap"
-  >
-    <button mat-button (click)="opened = !opened">
-      Hello from Sidenav-Content
-    </button>
-  </mat-sidenav>
-</mat-sidenav-container> -->
-<!-- <div>scroll below</div> -->
-<!---Content-->
-<div class="div-scrollable"></div>
