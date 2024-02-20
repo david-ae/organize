@@ -10,23 +10,6 @@ span {
   padding-right: 1rem;
 }
 
-mat-sidenav {
-  background-color: beige !important;
-}
-
-.div-scrollable {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: beige;
-}
-
-mat-toolbar {
-  position: relative;
-  z-index: 0;
-}
-
 @media screen and (min-width: 960px) {
   mat-toolbar {
     z-index: 50;
@@ -40,6 +23,9 @@ mat-toolbar {
 }
 
 @media screen and (max-width: 599px) {
+  .main-content {
+    padding-top: 4rem;
+  }
   .main-sidenav-container {
     width: 100%;
     height: calc(100vh - 56px);
@@ -48,6 +34,9 @@ mat-toolbar {
 }
 
 @media screen and (min-width: 600px) {
+  .main-content {
+    padding-top: 4rem;
+  }
   .main-sidenav-container {
     width: 100%;
     height: calc(100vh - 64px);
