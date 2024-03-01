@@ -1,13 +1,9 @@
 <mat-tab-group
   #tabRef
   [backgroundColor]="'accent'"
-  [disableRipple]="true"
   (selectedTabChange)="logChange(tabRef.selectedIndex)"
 >
-  <mat-tab
-    class="text-sm font-semibold text-gray-500 dark:text-dark-txt"
-    label="AddItem"
-  >
+  <mat-tab label="AddItem">
     <app-item-management></app-item-management>
   </mat-tab>
   <mat-tab label="Search">Search</mat-tab>

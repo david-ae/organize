@@ -8,4 +8,8 @@ import { MatTabsModule } from '@angular/material/tabs';
   templateUrl: './item-management.component.html',
   styleUrl: './item-management.component.css',
 })
-export class ItemManagementComponent {}
+export class ItemManagementComponent {
+  logChange(index: unknown) {
+    console.log(index);
+  }
+}
