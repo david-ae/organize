@@ -1,7 +1,28 @@
-<input
-  type="text"
-  name="price"
-  id="price"
-  class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-  placeholder="Search for items"
-/>
+<div class="grid grid-cols-1 m-5">
+  <input
+    class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    type="text"
+    placeholder="Search for item"
+  />
+</div>
+<div class="grid grid-cols-1 m-5">
+  <div class="max-w-sm w-full lg:max-w-full lg:flex">
+    <div
+      class="h-48 lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+      style="background-image: url('/src/assets/images/clothing.png')"
+      title="Woman holding a mug"
+    ></div>
+    <div
+      class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
+    >
+      <div class="mb-8">
+        <div class="text-gray-900 font-bold text-xl mb-2">
+          Can coffee make you a better developer?
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-1">
+  <button (click)="openDialog()">Open Dialog</button>
+</div>
