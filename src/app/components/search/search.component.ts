@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateItemComponent } from '../dialogs/update-item/update-item.component';
+import { MatButtonModule } from '@angular/material/button';
+import { SellItemComponent } from '../dialogs/sell-item/sell-item.component';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [],
+  imports: [MatButtonModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
 })
 export class SearchComponent {
   constructor(private dialog: MatDialog) {}
 
-  openDialog() {
-    let dialogRef = this.dialog.open(UpdateItemComponent, {
+  sellItems() {
+    let dialogRef = this.dialog.open(SellItemComponent, {
       data: { name: 'Organize' },
-      width: '600px',
-      backdropClass: 'updateItemModal',
     });
 
     dialogRef.afterOpened().subscribe((result) => {
