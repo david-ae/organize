@@ -1,7 +1,29 @@
 <mat-toolbar class="mat-elevation-z6 navbar" color="accent">
   <div>Organize</div>
-  <div>
-    <span><a [routerLink]="'/store/inventory'">Inventory</a></span>
-    <span><a [routerLink]="['/signin']" class="link">Logout</a> </span>
+  <div class="">
+    <span class="m-3"
+      ><a [routerLink]="'/store/users'">
+        <mat-icon>manage_accounts</mat-icon>
+      </a></span
+    >
+    <span class="m-3"
+      ><a [routerLink]="'/store/inventory'">
+        <mat-icon>inventory_2</mat-icon>
+      </a></span
+    >
+    <span class="m-3"
+      ><a [routerLink]="" class="link">
+        <mat-icon
+          ><span class="material-symbols-outlined"> assignment </span></mat-icon
+        ></a
+      >
+    </span>
+    <span class="m-3"
+      ><a [routerLink]="['/signin']" class="link">
+        <mat-icon
+          ><span class="material-symbols-outlined"> logout </span></mat-icon
+        ></a
+      >
+    </span>
   </div>
 </mat-toolbar>

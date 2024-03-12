@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { UpdateItemComponent } from '../dialogs/update-item/update-item.component';
 import { MatButtonModule } from '@angular/material/button';
 import { SellItemComponent } from '../dialogs/sell-item/sell-item.component';
 

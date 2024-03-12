@@ -10,7 +10,7 @@ import { AppheaderComponent } from '../../components/appheader/appheader.compone
 
 @Component({
   selector: 'app-shelf',
-  templateUrl: './shelf.component.html',
+  templateUrl: './home.component.html',
   standalone: true,
   imports: [
     MatToolbarModule,
@@ -21,11 +21,11 @@ import { AppheaderComponent } from '../../components/appheader/appheader.compone
     RouterOutlet,
     MatSidenavModule,
     MatIconModule,
-    AppheaderComponent
+    AppheaderComponent,
   ],
-  styleUrl: './shelf.component.css',
+  styleUrl: './home.component.css',
 })
-export class ShelfComponent {
+export class HomeComponent {
   mode = 'side';
   opened = false;
   layoutGap = '64';
