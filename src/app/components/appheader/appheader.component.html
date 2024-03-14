@@ -19,6 +19,16 @@
       >
     </span>
     <span class="m-3"
+      ><a [routerLink]="'/store/checkout'" class="link">
+        <mat-icon
+          ><span class="material-symbols-outlined">
+            shopping_cart_checkout
+          </span>
+        </mat-icon>
+        {{ numberOfItems }}
+      </a>
+    </span>
+    <span class="m-3"
       ><a [routerLink]="['/signin']" class="link">
         <mat-icon
           ><span class="material-symbols-outlined"> logout </span></mat-icon
