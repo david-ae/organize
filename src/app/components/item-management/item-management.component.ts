@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
+import { CartService } from '../../cart.service';
 @Component({
   selector: 'app-item-management',
   standalone: true,
@@ -9,7 +10,12 @@ import { MatTabsModule } from '@angular/material/tabs';
   styleUrl: './item-management.component.css',
 })
 export class ItemManagementComponent {
-  logChange(index: unknown) {
-    console.log(index);
+  cartService = inject(CartService);
+  logChange(index: unknown) {}
+
+  constructor() {}
+
+  addItem() {
+    this.cartService.addToCart({ name: 'sm', price: 17.09 });
   }
 }
