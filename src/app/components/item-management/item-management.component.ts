@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CartService } from '../../cart.service';
+import { CartService } from '../../store/cart.service';
 @Component({
   selector: 'app-item-management',
   standalone: true,

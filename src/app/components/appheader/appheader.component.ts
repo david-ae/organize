@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../../cart.service';
+import { CartService } from '../../store/cart.service';
 import { map } from 'rxjs';
 
 @Component({

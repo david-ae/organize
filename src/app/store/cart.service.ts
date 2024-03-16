@@ -1,6 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { Cart } from './store/models/cart';
-import { Item } from './store/models/item';
+import { Cart } from './models/cart';
+import { Item } from './models/item';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

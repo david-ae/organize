@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { AppheaderComponent } from '../../components/appheader/appheader.component';
-import { CartService } from '../../cart.service';
+import { CartService } from '../cart.service';
 import { ItemManagementComponent } from '../../components/item-management/item-management.component';
 import { CheckoutComponent } from '../checkout/checkout.component';
 

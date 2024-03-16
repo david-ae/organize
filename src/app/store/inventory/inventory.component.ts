@@ -3,7 +3,7 @@ import { ItemManagementComponent } from '../../components/item-management/item-m
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { SearchComponent } from '../../components/search/search.component';
-import { CartService } from '../../cart.service';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-inventory',
