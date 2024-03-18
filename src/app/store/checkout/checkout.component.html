@@ -1,8 +1,6 @@
 <!-- <div class="bg-gray-300 flex justify-center items-center h-screen"> -->
 <div class="bg-white p-10 rounded-lg shadow-md">
-  <div class="justify-center">
-    <h1 class="text-xl font-bold m-auto">Organize</h1>
-  </div>
+  @if(cart$ | async; as cart){
   <div class="flex flex-col">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -20,9 +18,14 @@
               </tr>
             </thead>
             <tbody>
+              @for (cartItem of cart?.cartItems; track $index) {
               <tr class="border-b border-neutral-200 dark:border-white/10">
-                <td class="whitespace-nowrap px-6 py-4">Mark</td>
-                <td class="whitespace-nowrap px-6 py-4">Otto</td>
+                <td class="whitespace-nowrap px-6 py-4">
+                  {{ cartItem.getItem().name }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4">
+                  {{ cartItem.getItem().price }}
+                </td>
                 <td class="whitespace-nowrap px-6 py-4">
                   <input
                     class="shadow appearance-none border rounded w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -31,9 +34,10 @@
                   />
                 </td>
                 <td class="whitespace-nowrap px-6 py-4">
-                  <button mat-raised-button color="primary">Sell</button>
+                  <button mat-raised-button color="primary">Add to Cart</button>
                 </td>
               </tr>
+              }
             </tbody>
           </table>
         </div>
@@ -62,11 +66,14 @@
       Sell
     </button>
   </div>
-  <!-- <h3 class="text-xs uppercase">Current lesson:</h3>
-      <h2 class="tracking-wide">
-        Object in JavaScript
-        <br />
-        (Challenge)
-      </h2> -->
+  }@else{
+  <div class="grid grid-cols-1">
+    <img
+      class="w-36 h-36"
+      [src]="'assets/images/shopping_cart.png'"
+      alt="Shopping cart image"
+    />
+    <h1>Cart is empty</h1>
+  </div>
+  }
 </div>
-<!-- </div> -->

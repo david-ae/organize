@@ -1,5 +1,5 @@
 import { CartItem } from './cartItem';
-import { Item } from './item';
+import { Item } from './domain/item';
 
 export class Cart {
   cartItems!: CartItem[];

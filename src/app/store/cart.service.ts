@@ -1,13 +1,13 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Cart } from './models/cart';
-import { Item } from './models/item';
+import { Item } from './models/domain/item';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  cart$ = new BehaviorSubject<Cart>(new Cart());
+  cart$ = new BehaviorSubject<Cart | undefined>(undefined);
   cart = new Cart();
 
   constructor() {}

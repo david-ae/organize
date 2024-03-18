@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { SearchComponent } from '../../components/search/search.component';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,7 +19,6 @@ import { CheckoutComponent } from '../checkout/checkout.component';
     MatGridListModule,
     MatListModule,
     RouterModule,
-    SearchComponent,
     RouterOutlet,
     MatSidenavModule,
     MatIconModule,

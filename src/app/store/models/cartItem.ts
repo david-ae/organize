@@ -1,4 +1,4 @@
-import { Item } from './item';
+import { Item } from './domain/item';
 
 export class CartItem {
   item!: Item;

@@ -4,10 +4,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { routes } from './store.routes';
 import { CartService } from './cart.service';
-import { ItemManagementComponent } from '../components/item-management/item-management.component';
-import { AppheaderComponent } from '../components/appheader/appheader.component';
-import { CheckoutComponent } from './checkout/checkout.component';
-
+import { StoreModule as NgrxStoreModule } from '@ngrx/store';
+import { appReducer } from '../app-store/reducers/app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { ItemEffects } from '../app-store/effects/item.effects';
 @NgModule({
   declarations: [],
   imports: [
@@ -15,6 +15,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
     RouterModule,
     RouterModule.forChild(routes),
     MatToolbarModule,
+    NgrxStoreModule.forRoot({ store: appReducer }),
+    EffectsModule.forRoot([ItemEffects]),
   ],
   providers: [CartService],
 })

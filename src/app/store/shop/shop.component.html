@@ -1,0 +1,26 @@
+<div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+  <div [formGroup]="shopForm" class="grid grid-cols-1 m-10">
+    <input
+      class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      formControlName="searchItems"
+      (keyup)="onChange($event)"
+      type="text"
+      placeholder="Search for item"
+    />
+  </div>
+  @if(item$ | async; as item){
+  <div class="flex items-center justify-between p-3 mb-2 rounded m-5">
+    <span class="p-2 bg-white rounded-lg">
+      <img [src]="'assets/images/clothing.png'" width="20" height="20" />
+    </span>
+    <div class="flex items-center justify-between w-full ml-2">
+      <p>{{ item.name }}</p>
+      <p>{{ item.price }}</p>
+      <p>{{ item.quantity }}</p>
+      <button mat-raised-button>Edit</button>
+    </div>
+  </div>
+  }@else {
+  <div></div>
+  }
+</div>

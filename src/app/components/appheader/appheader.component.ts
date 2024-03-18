@@ -18,7 +18,10 @@ export class AppheaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.cart$
-      .pipe(map((cart) => cart.getNumberOfItems()))
-      .subscribe((numberOfItems) => (this.numberOfItems = numberOfItems));
+      .pipe(map((cart) => {
+        if(cart){
+          this.numberOfItems = cart.getNumberOfItems();
+        }
+      }));
   }
 }

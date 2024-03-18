@@ -13,7 +13,5 @@ import { CartService } from '../cart.service';
 export class UsersComponent {
   cartService = inject(CartService);
 
-  constructor() {
-    this.cartService.addToCart({ name: 'dfdfs', price: 17.09 });
-  }
+  constructor() {}
 }
