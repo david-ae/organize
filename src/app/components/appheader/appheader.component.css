@@ -1,11 +1,12 @@
+mat-toolbar {
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+}
+
 .navbar {
   justify-content: space-between;
-  position: fixed;
   top: 0%;
   width: 100%;
   z-index: 100;
-}
-
-span {
-  padding-right: 1rem;
 }

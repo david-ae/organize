@@ -8,6 +8,7 @@ import {
   filter,
   from,
   map,
+  mergeMap,
   of,
   switchMap,
 } from 'rxjs';
@@ -26,7 +27,7 @@ export class ShopComponent {
   shopForm!: FormGroup;
   storeService = inject(StoreService);
 
-  item$ = new BehaviorSubject<Item | undefined>(undefined);
+  items$ = new BehaviorSubject<Item[]>([]);
 
   ngOnInit(): void {
     this.shopForm = new FormGroup({
@@ -42,14 +43,10 @@ export class ShopComponent {
         debounceTime(1000),
         distinctUntilChanged(),
         filter((item) => !!item),
-        switchMap((i) =>
-          i
-            ? from(this.storeService.getItems(i))
-            : from(Promise.resolve(undefined))
-        )
+        switchMap((i) => (i ? of(this.storeService.getItems(i)) : of([])))
       )
-      .subscribe((item) => {
-        this.item$.next(item);
+      .subscribe((items) => {
+        this.items$.next(items);
       });
   }
 }

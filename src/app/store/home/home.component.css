@@ -1,37 +1,4 @@
-@media screen and (min-width: 960px) {
-  mat-toolbar {
-    z-index: 50;
-  }
-}
-
-@media screen and (max-width: 599px) {
-  mat-toolbar {
-    z-index: 0;
-  }
-}
-
-@media screen and (max-width: 599px) {
-  .main-content {
-    padding-top: 4rem;
-  }
-  .main-sidenav-container {
-    width: 100%;
-    height: calc(100vh - 56px);
-    z-index: 100;
-  }
-}
-
-@media screen and (min-width: 600px) {
-  .main-content {
-    padding-top: 4rem;
-  }
-  .main-sidenav-container {
-    width: 100%;
-    height: calc(100vh - 64px);
-  }
-}
-
-.container {
-  height: -webkit-fill-available;
-  width: -webkit-fill-available;
+.RouterOutlet {
+  padding-top: 4rem;
+  margin: auto;
 }
