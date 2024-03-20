@@ -1,22 +1,9 @@
-<mat-grid-list cols="1" rowHeight="100%">
-  <mat-grid-tile rowspan="1">
-    <mat-list>
-      <mat-list-item>
-        <button mat-raised-button color="warn">
-          <a
-            [routerLink]="['/store/inventory']"
-            routerLinkActive="router-link-active"
-          >
-            Login with Google</a
-          >
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-raised-button color="accent">Login with Instagram</button>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-raised-button color="primary">Login with Facebook</button>
-      </mat-list-item>
-    </mat-list>
-  </mat-grid-tile>
-</mat-grid-list>
+<div class="flex h-screen">
+  <div class="m-auto">
+    <button mat-raised-button color="warn">
+      <a [routerLink]="['/store/shop']" routerLinkActive="router-link-active">
+        Login with Google</a
+      >
+    </button>
+  </div>
+</div>

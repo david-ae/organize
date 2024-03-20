@@ -9,7 +9,6 @@ import { CartService } from '../../store/cart.service';
   selector: 'app-signin',
   standalone: true,
   imports: [MatGridListModule, MatListModule, MatButtonModule, RouterModule],
-  providers: [CartService],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css',
 })
