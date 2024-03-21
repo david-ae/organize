@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Cart } from './models/cart';
-import { Item } from './models/domain/item';
+import { Cart } from '../models/cart';
+import { Item } from '../models/domain/item';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

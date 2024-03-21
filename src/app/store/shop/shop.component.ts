@@ -1,4 +1,10 @@
-import { Component, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { StoreService } from '../services/store.service';
 import {
@@ -24,8 +30,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './shop.component.css',
 })
 export class ShopComponent {
+
   shopForm!: FormGroup;
   storeService = inject(StoreService);
+  input!: HTMLElement;
 
   items$ = new BehaviorSubject<Item[]>([]);
 
@@ -34,6 +42,7 @@ export class ShopComponent {
       searchItems: new FormControl(''),
     });
   }
+  
   onChange(event: any) {
     const target = event.target;
 

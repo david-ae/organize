@@ -1,4 +1,9 @@
-<app-appheader></app-appheader>
-<div class="w-5/6 h-screen items-center pt-20 m-auto">
-  <router-outlet></router-outlet>
-</div>
+<app-appheader [sideNav]="sideNav"></app-appheader>
+<mat-drawer-container class="mat-container">
+  <app-sidenav (sideNavId)="onMatSideNav($event)"></app-sidenav>
+  <mat-sidenav-content class="">
+    <div class="w-5/6 h-screen items-center pt-20 m-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-drawer-container>

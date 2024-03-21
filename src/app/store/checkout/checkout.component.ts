@@ -1,5 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
-import { CartService } from './../cart.service';
+import { CartService } from '../services/cart.service';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';

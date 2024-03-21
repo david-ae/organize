@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CartService } from '../../store/cart.service';
+import { CartService } from '../../store/services/cart.service';
 import {
   FormControl,
   FormGroup,
@@ -14,14 +14,18 @@ import { UpdateItemComponent } from './update-item/update-item.component';
 @Component({
   selector: 'app-item-management',
   standalone: true,
-  imports: [MatTabsModule, MatButtonModule, ReactiveFormsModule, AddItemComponent, UpdateItemComponent],
+  imports: [
+    MatTabsModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    AddItemComponent,
+    UpdateItemComponent,
+  ],
   templateUrl: './item-management.component.html',
   styleUrl: './item-management.component.css',
 })
 export class ItemManagementComponent implements OnInit {
-
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

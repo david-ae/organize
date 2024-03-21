@@ -3,7 +3,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../../store/cart.service';
+import { CartService } from '../../store/services/cart.service';
 
 @Component({
   selector: 'app-signin',
