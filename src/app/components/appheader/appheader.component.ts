@@ -1,12 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
@@ -41,7 +33,6 @@ export class AppheaderComponent implements OnInit {
 
   toggleNav() {
     const button = this.sideNav as MatSidenav;
-    console.log(button);
     button.toggle();
   }
 }

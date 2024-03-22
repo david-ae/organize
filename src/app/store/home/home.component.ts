@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, inject } from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, RouterOutlet } from '@angular/router';
@@ -37,7 +44,7 @@ import { UtilitiesService } from '../services/utilities.service';
   providers: [CartService, MatSidenavContainer],
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements AfterContentChecked {
   mode = 'side';
   opened = false;
   layoutGap = '64';
@@ -46,10 +53,13 @@ export class HomeComponent implements AfterViewInit {
 
   sideNav!: MatSidenav;
 
-  ngAfterViewInit(): void {}
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
+  ngAfterContentChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
 
   onMatSideNav(event: MatSidenav) {
-    console.log(event);
     this.sideNav = event;
   }
 }
