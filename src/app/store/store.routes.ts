@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ShopComponent } from './shop/shop.component';
+import { DashboardComponent } from '../components/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,7 @@ export const routes: Routes = [
       { path: 'users', component: UsersComponent },
       { path: 'checkout', component: CheckoutComponent },
       { path: 'shop', component: ShopComponent },
+      { path: 'dashboard', component: DashboardComponent },
     ],
   },
 ];
