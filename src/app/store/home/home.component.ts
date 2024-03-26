@@ -1,9 +1,7 @@
 import {
   AfterContentChecked,
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   inject,
 } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';

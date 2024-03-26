@@ -1,16 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CartService } from '../../store/services/cart.service';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { StoreService } from '../../store/services/store.service';
-import { AddItemComponent } from './add-item/add-item.component';
-import { UpdateItemComponent } from './update-item/update-item.component';
+import { MatTableModule } from '@angular/material/table';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AddItemComponent } from '../dialogs/add-item/add-item.component';
+import { Observable } from 'rxjs';
+import { Item } from '../../store/models/domain/item';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-item-management',
   standalone: true,
@@ -19,13 +15,23 @@ import { UpdateItemComponent } from './update-item/update-item.component';
     MatButtonModule,
     ReactiveFormsModule,
     AddItemComponent,
-    UpdateItemComponent,
+    CommonModule,
+    MatTableModule,
   ],
   templateUrl: './item-management.component.html',
   styleUrl: './item-management.component.css',
 })
 export class ItemManagementComponent implements OnInit {
+  inventoryForm!: FormGroup;
+  items$!: Observable<Item[]>;
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.inventoryForm = new FormGroup({
+      searchInventory: new FormControl(''),
+    });
+  }
+
+  onChange(event: any) {}
 }
