@@ -1,32 +1,35 @@
-<mat-toolbar class="mat-elevation-z6 navbar" color="accent">
-  <div class="grid grid-cols-2">
-    <button (click)="toggleNav()" mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-    <div>Organize</div>
-  </div>
-  <div class="">
-    <span class="m-3"
-      ><a [routerLink]="'/store/shop'">
-        <mat-icon>shopping_bag</mat-icon>
-      </a></span
-    >
-    <span class="m-3"
-      ><a [routerLink]="'/store/checkout'" class="link">
-        <mat-icon
-          ><span class="material-symbols-outlined">
-            shopping_cart_checkout
-          </span>
-        </mat-icon>
-        {{ numberOfItems }}
-      </a>
-    </span>
-    <span class="m-3"
-      ><a [routerLink]="['/signin']" class="link">
-        <mat-icon
-          ><span class="material-symbols-outlined"> logout </span></mat-icon
-        ></a
-      >
-    </span>
-  </div>
-</mat-toolbar>
+
+  <mat-toolbar class="mat-elevation-z6 navbar" color="accent">
+    <mat-toolbar-row class="toolbar-row">
+      <div class="grid grid-cols-2">
+        <button (click)="toggleNav()" mat-icon-button>
+          <mat-icon>menu</mat-icon>
+        </button>
+        <div>Organize</div>
+      </div>
+      <div class="">
+        <span class="m-3"
+          ><a [routerLink]="'/store/shop'">
+            <mat-icon>shopping_bag</mat-icon>
+          </a></span
+        >
+        <span class="m-3"
+          ><a [routerLink]="'/store/checkout'" class="link">
+            <mat-icon
+              ><span class="material-symbols-outlined">
+                shopping_cart_checkout
+              </span>
+            </mat-icon>
+            {{ numberOfItems }}
+          </a>
+        </span>
+        <span class="m-3"
+          ><a [routerLink]="['/signin']" class="link">
+            <mat-icon
+              ><span class="material-symbols-outlined"> logout </span></mat-icon
+            ></a
+          >
+        </span>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>

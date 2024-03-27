@@ -10,3 +10,9 @@
 .mat-drawer-content {
   background-color: white;
 }
+
+.toolbar-container {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}

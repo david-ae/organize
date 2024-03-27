@@ -7,6 +7,7 @@ import { AddItemComponent } from '../dialogs/add-item/add-item.component';
 import { Observable } from 'rxjs';
 import { Item } from '../../store/models/domain/item';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-item-management',
   standalone: true,
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
     AddItemComponent,
     CommonModule,
     MatTableModule,
+    MatIconModule
   ],
   templateUrl: './item-management.component.html',
   styleUrl: './item-management.component.css',

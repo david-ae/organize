@@ -5,8 +5,12 @@ mat-toolbar {
 }
 
 .navbar {
-  justify-content: space-between;
   top: 0%;
   width: 100%;
   z-index: 100;
+}
+
+.toolbar-row {
+  justify-content: space-between;
+  flex: 0 1 auto;
 }

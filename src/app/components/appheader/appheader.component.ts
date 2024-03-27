@@ -33,6 +33,7 @@ export class AppheaderComponent implements OnInit {
 
   toggleNav() {
     const button = this.sideNav as MatSidenav;
+    console.log(button);
     button.toggle();
   }
 }
