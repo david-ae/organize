@@ -1,1 +1,4 @@
 <app-item-management></app-item-management>
+@if(storeDetails$ | async; as details){
+<p>{{ details }}</p>
+}

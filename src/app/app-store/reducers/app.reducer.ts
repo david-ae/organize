@@ -1,4 +1,8 @@
-import { createReducer } from '@ngrx/store';
-import { initialAppState } from '../../app.state';
+import { combineReducers } from '@ngrx/store';
+import { storeReducer } from './store.reducer';
+import { saleReducer } from './sale.reducer';
 
-export const appReducer = createReducer(initialAppState);
+export const reducer = combineReducers({
+  store: storeReducer,
+  sale: saleReducer,
+});

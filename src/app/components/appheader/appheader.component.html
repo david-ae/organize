@@ -6,19 +6,23 @@
       </button>
       <div>Organize</div>
     </div>
+    <span class="m-3 cursor-pointer">
+      <a (click)="addSale()" routerLinkActive="text-white">
+        <mat-icon>library_add</mat-icon>
+      </a>
+    </span>
     <div class="">
-      <span class="m-3"
-        ><a [routerLink]="'/store/shop'" routerLinkActive="active">
-          <mat-icon>library_add</mat-icon>
-        </a></span
-      >
-      <span class="m-3"
-        ><a [routerLink]="'/store/shop'">
-          <mat-icon>shopping_bag</mat-icon>
-        </a></span
-      >
-      <span class="m-3"
-        ><a [routerLink]="'/store/checkout'" class="link">
+      <span class="m-3 cursor-pointer">
+        <a [routerLink]="'/store/dashboard'" routerLinkActive="text-white">
+          <mat-icon>home_app_logo</mat-icon>
+        </a>
+      </span>
+      <span class="m-3 cursor-pointer"
+        ><a
+          [routerLink]="'/store/checkout'"
+          class="link"
+          routerLinkActive="text-white"
+        >
           <mat-icon
             ><span class="material-symbols-outlined">
               shopping_cart_checkout
@@ -27,8 +31,12 @@
           {{ numberOfItems }}
         </a>
       </span>
-      <span class="m-3"
-        ><a [routerLink]="['/signin']" class="link">
+      <span class="m-3 cursor-pointer"
+        ><a
+          [routerLink]="['/signin']"
+          routerLinkActive="text-white"
+          class="link"
+        >
           <mat-icon
             ><span class="material-symbols-outlined"> logout </span></mat-icon
           ></a

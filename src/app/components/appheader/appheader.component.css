@@ -15,6 +15,9 @@ mat-toolbar {
   flex: 0 1 auto;
 }
 
-.active {
-  background: "white";
+.small-button {
+  width: 36px;
+  height: 36px;
+  min-width: 38px !important;
+  padding: 0px !important;
 }
