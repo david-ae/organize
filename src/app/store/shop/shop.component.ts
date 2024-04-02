@@ -42,8 +42,8 @@ export class ShopComponent {
         map((i) => i.value),
         debounceTime(1000),
         distinctUntilChanged(),
-        filter((item) => !!item),
-        switchMap((i) => (i ? of(this.storeService.getItems(i)) : of([])))
+        filter((item) => !!item)
+        // switchMap((i) => (i ? of(this.storeService.getItems(i)) : of([])))
       )
       .subscribe((items) => {
         this.items$.next(items);

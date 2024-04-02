@@ -10,11 +10,18 @@ import * as storeActions from '../actions/store.actions';
 
 export interface StoreState {
   stores: Store[];
-  store: Store | undefined;
+  store: Store;
 }
 
 export const initialStoreState: StoreState = {
-  store: undefined,
+  store: {
+    email: '',
+    inventory: [],
+    phoneNumber: '',
+    storename: '',
+    categories: [],
+    users: [],
+  },
   stores: [],
 };
 

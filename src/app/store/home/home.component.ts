@@ -16,7 +16,6 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { AppheaderComponent } from '../../components/appheader/appheader.component';
 import { CartService } from '../services/cart.service';
-import { ItemManagementComponent } from '../../components/item-management/item-management.component';
 import { CheckoutComponent } from '../checkout/checkout.component';
 import { SidenavComponent } from '../../components/sidenav/sidenav.component';
 import { UtilitiesService } from '../services/utilities.service';
@@ -34,7 +33,6 @@ import { UtilitiesService } from '../services/utilities.service';
     MatSidenavModule,
     MatIconModule,
     AppheaderComponent,
-    ItemManagementComponent,
     CheckoutComponent,
     SidenavComponent,
     MatSidenavModule,

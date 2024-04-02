@@ -1,4 +1,7 @@
-<div [formGroup]="itemForm" class="">
+@if(store$ | async; as store){
+<div [formGroup]="itemForm" class="bg-white p-5">
+  <h1 class="">Add New Item</h1>
+  @if(store.categories.length > 0){
   <div class="grid grid-cols-1 m-5">
     <div class="relative h-10 w-full min-w-[200px]">
       <select
@@ -40,4 +43,10 @@
       Add Item
     </button>
   </div>
+
+  }@else {
+  <h1>Add an item Category to continue</h1>
+  }
 </div>
+
+}
