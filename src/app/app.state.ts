@@ -1,11 +1,9 @@
-import { Store } from './store/models/domain/store';
+import { SaleState } from './app-store/reducers/sale.reducer';
+import { StoreState } from './app-store/reducers/store.reducer';
+import { UserState } from './app-store/reducers/user.reducer';
 
 export interface AppState {
-  store: Store | null;
-  sales: any[];
+  store: StoreState;
+  // user: UserState;
+  sale: SaleState;
 }
-
-export const initialAppState: AppState = {
-  store: null,
-  sales: [],
-};

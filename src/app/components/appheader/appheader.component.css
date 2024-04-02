@@ -1,12 +1,23 @@
 mat-toolbar {
   display: flex;
   position: fixed;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .navbar {
-  justify-content: space-between;
   top: 0%;
   width: 100%;
   z-index: 100;
+}
+
+.toolbar-row {
+  justify-content: space-between;
+  flex: 0 1 auto;
+}
+
+.small-button {
+  width: 36px;
+  height: 36px;
+  min-width: 38px !important;
+  padding: 0px !important;
 }

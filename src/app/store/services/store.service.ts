@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Store, items } from '../models/domain/store';
 import { Item } from '../models/domain/item';
-
-let store: Store = {
-  storename: 'Tiktok & Sons',
-  email: 'tiktok@gmail.com',
-  phoneNumber: '08131344751',
-  inventory: items,
-};
+import { environment } from './../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { BaseService } from '../../base.service';
+import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StoreService {
-  constructor() {}
+export class StoreService extends BaseService {
+  private readonly apiUrl = `${environment.Stores}`;
 
-  getStore(): Store {
-    return store;
-  }
-  getItems(text: string): Item[] {
-    return store.inventory.filter((i) => i.name.includes(text));
+  constructor(private httpClient: HttpClient) {
+    super();
   }
 
-  addItem(item: Item) {
-    store.inventory.push(item);
+  getStore(id: string) {
+    return this.httpClient
+      .get(`${this.apiUrl}/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  createStore(store: Store) {
+    return this.httpClient
+      .post(`${this.apiUrl}`, store)
+      .pipe(catchError(this.handleError));
   }
 }
