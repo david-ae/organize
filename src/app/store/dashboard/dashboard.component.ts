@@ -29,22 +29,5 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  spanishMessage() {
-    const existingCategories = ['Clothing', 'Poultry'];
-    const inventories: Item[] = [
-      { category: 'Clothing', name: 'Trousers', price: 67.9, quantity: 1000 },
-      { category: 'Clothing', name: 'Shirts', price: 1267.9, quantity: 10000 },
-      { category: 'Clothing', name: 'Socks', price: 20.0, quantity: 1000 },
-      { category: 'Clothing', name: 'Blazer', price: 100.9, quantity: 100 },
-    ];
-    const st: Bank = {
-      email: 'david@yahoo.com',
-      storename: 'Chinedu',
-      phoneNumber: '09096232',
-      inventory: inventories,
-      categories: existingCategories,
-      users: [],
-    };
-    this.store.dispatch(storeActions.createStore({ store: st }));
-  }
+  spanishMessage() {}
 }
