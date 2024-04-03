@@ -31,6 +31,8 @@ export class InventoryComponent implements OnInit {
   inventoryForm!: FormGroup;
   store$!: Observable<Bank>;
 
+  customerStore!: Bank;
+
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class InventoryComponent implements OnInit {
 
   addItem() {
     const dialogRef = this.dialog.open(AddItemComponent, {
-      data: { name: '' },
+      data: { categories: this.customerStore.categories },
       panelClass: 'dialog',
     });
   }

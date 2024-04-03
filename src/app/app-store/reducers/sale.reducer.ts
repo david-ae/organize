@@ -6,7 +6,6 @@ import {
   on,
 } from '@ngrx/store';
 import { Sale } from '../../store/models/domain/sale';
-import { getAllStore } from './store.reducer';
 import * as SaleActions from './../actions/sale.actions';
 
 export interface SaleState {

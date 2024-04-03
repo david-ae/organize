@@ -18,7 +18,7 @@ export class StoreService extends BaseService {
 
   getStore(id: string) {
     return this.httpClient
-      .get(`${this.apiUrl}/${id}`)
+      .get<Store>(`${this.apiUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
 

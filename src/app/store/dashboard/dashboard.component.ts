@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
 import { MatButton } from '@angular/material/button';
@@ -15,13 +15,18 @@ import { Item } from '../models/domain/item';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   private store = inject(Store<AppState>);
 
   message$!: Observable<string>;
 
   constructor() {
     this.message$ = this.store.select('store');
+  }
+  ngOnInit(): void {
+    this.store.dispatch(
+      storeActions.loadStore({ id: '660441206767efafba73bc2e' })
+    );
   }
 
   spanishMessage() {

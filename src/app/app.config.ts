@@ -11,6 +11,7 @@ import { provideStore } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { HttpClientModule } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
+import { StoreEffects } from './app-store/effects/store.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideStore(reducers, { metaReducers }),
-    provideEffects([]),
+    provideEffects([StoreEffects]),
   ],
 };

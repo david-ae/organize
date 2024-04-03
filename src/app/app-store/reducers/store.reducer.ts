@@ -56,6 +56,12 @@ export const storeFeature = createFeature({
       return {
         ...state,
       };
+    }),
+    on(storeActions.storeLoaded, (state, action) => {
+      return {
+        ...state,
+        store: action.payload,
+      };
     })
   ),
 });
