@@ -1,16 +1,21 @@
+import { AppState } from './../../app.state';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../store/services/cart.service';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UtilitiesService } from '../../store/services/utilities.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { SellItemComponent } from '../dialogs/sell-item/sell-item.component';
 import { SaleComponent } from '../sale/sale.component';
-
+import { select, Store } from '@ngrx/store';
+import * as userActions from './../../app-store/actions/user.actions';
+import { getStoreDetails } from '../../app-store/reducers/store.reducer';
+import { Store as Bank } from './../../store/models/domain/store';
+import { BaseService } from '../../base.service';
+import { AppUserDto } from '../../app-user.dto';
 @Component({
   selector: 'app-appheader',
   standalone: true,
@@ -20,7 +25,15 @@ import { SaleComponent } from '../sale/sale.component';
 })
 export class AppheaderComponent implements OnInit {
   @Input() sideNav!: MatSidenav;
+
   utilitiesService = inject(UtilitiesService);
+  private store = inject(Store<AppState>);
+  private router = inject(Router);
+  private baseService = inject(BaseService);
+
+  store$!: Observable<Bank>;
+  currentStoreUser!: AppUserDto;
+  key = this.baseService.key;
 
   constructor(public dialog: MatDialog) {}
 
@@ -35,6 +48,11 @@ export class AppheaderComponent implements OnInit {
         }
       })
     );
+    this.store$ = this.store.pipe(select(getStoreDetails));
+    this.store$.subscribe(
+      (store) =>
+        (this.currentStoreUser = { email: store.email, id: store.id as string })
+    );
   }
 
   toggleNav() {
@@ -48,5 +66,18 @@ export class AppheaderComponent implements OnInit {
       panelClass: 'dialog',
     });
     dialogRef.afterOpened().subscribe((result) => {});
+  }
+
+  logout() {
+    if (this.currentStoreUser) {
+      this.handleLocalStorageOnLogout();
+    }
+    this.store.dispatch(userActions.logoutAction());
+    this.router.navigate(['/signin']);
+  }
+
+  private handleLocalStorageOnLogout() {
+    this.baseService.removeItemFromLocalStorage(this.key);
+    this.baseService.saveToLocalStorage(this.key, this.currentStoreUser);
   }
 }

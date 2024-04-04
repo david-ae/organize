@@ -26,6 +26,11 @@ export const loadStore = createAction(
   props<{ id: string }>()
 );
 
+export const loadStoreByEmail = createAction(
+  '[Load Store] Store',
+  props<{ email: string }>()
+);
+
 export const storeLoaded = createAction(
   '[Store Loaded] Store',
   props<{ payload: Bank }>()

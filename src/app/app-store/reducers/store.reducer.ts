@@ -16,7 +16,7 @@ export interface StoreState {
 export const initialStoreState: StoreState = {
   store: {
     email: '',
-    inventory: [],
+    inventories: [],
     phoneNumber: '',
     storename: '',
     categories: [],
