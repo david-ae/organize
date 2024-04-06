@@ -8,7 +8,7 @@ import { environment } from './environments/environment';
 })
 export class BaseService {
   protected readonly storeApiUrl = `${environment.Stores}`;
-  key = 'storeUserEmail';
+  key = 'storeUser';
   constructor() {}
 
   public handleError(error: HttpErrorResponse) {

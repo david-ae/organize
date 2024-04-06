@@ -40,7 +40,7 @@ export class SigninComponent implements OnInit, OnDestroy {
   signinForm!: FormGroup;
   buttonText = 'Login';
   key = this.baseService.key;
-  userEmail = '';
+  userDetails: AppUserDto = { email: '', id: '' };
 
   unsubscribe$ = new Subject<void>();
 
@@ -55,19 +55,23 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.signinForm = new FormGroup({
       email: new FormControl('', [Validators.required]),
     });
-    const storeUserEmail = this.baseService.getItemFromLocalStorage(
+    const storeUser = this.baseService.getItemFromLocalStorage(
       this.key
     ) as string;
-    console.log(storeUserEmail);
-    // if (storeUserEmail !== null) {
-    //   this.userEmail = storeUserEmail;
-    //   this.buttonText = this.buttonText + ` as ${storeUserEmail}`;
-    // }
+    this.userDetails = JSON.parse(storeUser);
+    if (this.userDetails !== null) {
+      this.buttonText = this.buttonText + ` as ${this.userDetails.email}`;
+    }
   }
 
   signin() {
-    const email = this.signinForm.get('email')?.value;
+    if (!this.userDetails) {
+      const email = this.signinForm.get('email')?.value;
+      this.getStoreAndRedirect(email);
+    } else this.getStoreAndRedirect(this.userDetails.email);
+  }
 
+  private getStoreAndRedirect(email: string) {
     this.authService
       .getStoreByEmail(email)
       .pipe(takeUntil(this.unsubscribe$))

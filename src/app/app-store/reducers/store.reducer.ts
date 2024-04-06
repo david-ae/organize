@@ -32,6 +32,11 @@ export const getStoreDetails = createSelector(
   (state) => state.store
 );
 
+export const getStoreInventory = createSelector(
+  storeFeatureState,
+  (state) => state.store.inventories
+);
+
 export const getAllStore = createSelector(
   storeFeatureState,
   (state) => state.stores

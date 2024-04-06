@@ -1,7 +1,7 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { mergeMap, map, catchError, of } from 'rxjs';
+import { mergeMap, map, catchError, of, exhaustMap } from 'rxjs';
 import {
   loadStoreByEmail,
   storeLoaded,
@@ -18,7 +18,7 @@ export class AuthEffects {
   getStoreByEmail$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadStoreByEmail),
-      mergeMap((action) =>
+      exhaustMap((action) =>
         this.authService.getStoreByEmail(action.email).pipe(
           map((store) => storeLoaded({ payload: store })),
           catchError(() => of(loadStoreException()))

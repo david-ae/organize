@@ -16,6 +16,7 @@ import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { Store as Bank } from './../../store/models/domain/store';
 import { BaseService } from '../../base.service';
 import { AppUserDto } from '../../app-user.dto';
+import { Item } from '../../store/models/domain/item';
 @Component({
   selector: 'app-appheader',
   standalone: true,
@@ -34,6 +35,7 @@ export class AppheaderComponent implements OnInit {
   store$!: Observable<Bank>;
   currentStoreUser!: AppUserDto;
   key = this.baseService.key;
+  inventories: Item[] = [];
 
   constructor(public dialog: MatDialog) {}
 
@@ -50,8 +52,10 @@ export class AppheaderComponent implements OnInit {
     );
     this.store$ = this.store.pipe(select(getStoreDetails));
     this.store$.subscribe(
-      (store) =>
+      (store) =>{
         (this.currentStoreUser = { email: store.email, id: store.id as string })
+        this.inventories = store.inventories;
+      }
     );
   }
 
@@ -62,14 +66,17 @@ export class AppheaderComponent implements OnInit {
 
   addSale() {
     let dialogRef = this.dialog.open(SaleComponent, {
-      data: { name: '' },
+      data: { inventories: this.inventories },
       panelClass: 'dialog',
     });
     dialogRef.afterOpened().subscribe((result) => {});
   }
 
   logout() {
-    if (this.currentStoreUser) {
+    if (
+      this.currentStoreUser.id !== undefined ||
+      this.currentStoreUser.email !== ''
+    ) {
       this.handleLocalStorageOnLogout();
     }
     this.store.dispatch(userActions.logoutAction());
@@ -78,6 +85,9 @@ export class AppheaderComponent implements OnInit {
 
   private handleLocalStorageOnLogout() {
     this.baseService.removeItemFromLocalStorage(this.key);
-    this.baseService.saveToLocalStorage(this.key, this.currentStoreUser);
+    this.baseService.saveToLocalStorage(
+      this.key,
+      JSON.stringify(this.currentStoreUser)
+    );
   }
 }
