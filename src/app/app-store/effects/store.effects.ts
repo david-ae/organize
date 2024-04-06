@@ -3,7 +3,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import {
   loadStore,
-  loadStoreByEmail,
   loadStoreException,
   storeLoaded,
 } from '../actions/store.actions';

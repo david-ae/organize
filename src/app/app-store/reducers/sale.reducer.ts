@@ -27,11 +27,17 @@ export const saleFeature = createFeature({
   name: saleFeatureState.name,
   reducer: createReducer(
     initialSaleStore,
-    on(SaleActions.createSale, (state, action) => {
+    on(SaleActions.salesLoaded, (state, action) => {
       return {
         ...state,
-        sales: [...state.sales, action.sale],
+        sales: action.payload,
       };
+    }),
+    on(SaleActions.saleLoaded, (state, action) =>{
+      return {
+        ...state,
+        sales: [...state.sales, action.payload]
+      }
     })
   ),
 });
