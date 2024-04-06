@@ -1,11 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
+import { environment } from './environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BaseService {
+  protected readonly storeApiUrl = `${environment.Stores}`;
+  key = 'storeUser';
   constructor() {}
 
   public handleError(error: HttpErrorResponse) {
@@ -22,5 +25,17 @@ export class BaseService {
     }
     // Return an observable with a user-facing error message.
     return throwError(() => new Error(error.error));
+  }
+
+  saveToLocalStorage(key: string, item: any) {
+    localStorage.setItem(key, item);
+  }
+
+  getItemFromLocalStorage(key: string) {
+    return localStorage.getItem(key);
+  }
+
+  removeItemFromLocalStorage(key: string) {
+    localStorage.removeItem(key);
   }
 }

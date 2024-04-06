@@ -16,7 +16,7 @@ export interface StoreState {
 export const initialStoreState: StoreState = {
   store: {
     email: '',
-    inventory: [],
+    inventories: [],
     phoneNumber: '',
     storename: '',
     categories: [],
@@ -30,6 +30,11 @@ const storeFeatureState = createFeatureSelector<StoreState>('store');
 export const getStoreDetails = createSelector(
   storeFeatureState,
   (state) => state.store
+);
+
+export const getStoreInventory = createSelector(
+  storeFeatureState,
+  (state) => state.store.inventories
 );
 
 export const getAllStore = createSelector(
@@ -55,6 +60,12 @@ export const storeFeature = createFeature({
     on(storeActions.getStore, (state, action) => {
       return {
         ...state,
+      };
+    }),
+    on(storeActions.storeLoaded, (state, action) => {
+      return {
+        ...state,
+        store: action.payload,
       };
     })
   ),

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { MatButton } from '@angular/material/button';
 import * as storeActions from './../../app-store/actions/store.actions';
-import { Store as Bank } from './../models//domain//store';
 import { AppState } from '../../app.state';
+import { Store as Bank } from './../../store/models/domain/store';
+import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { Item } from '../models/domain/item';
 
 @Component({
@@ -15,31 +16,25 @@ import { Item } from '../models/domain/item';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit, OnDestroy {
   private store = inject(Store<AppState>);
 
-  message$!: Observable<string>;
+  store$!: Observable<Bank>;
+  inventories!: Item[];
 
-  constructor() {
-    this.message$ = this.store.select('store');
+  unsubscribe$ = new Subject<void>();
+
+  constructor() {}
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
-  spanishMessage() {
-    const existingCategories = ['Clothing', 'Poultry'];
-    const inventories: Item[] = [
-      { category: 'Clothing', name: 'Trousers', price: 67.9, quantity: 1000 },
-      { category: 'Clothing', name: 'Shirts', price: 1267.9, quantity: 10000 },
-      { category: 'Clothing', name: 'Socks', price: 20.0, quantity: 1000 },
-      { category: 'Clothing', name: 'Blazer', price: 100.9, quantity: 100 },
-    ];
-    const st: Bank = {
-      email: 'david@yahoo.com',
-      storename: 'Chinedu',
-      phoneNumber: '09096232',
-      inventory: inventories,
-      categories: existingCategories,
-      users: [],
-    };
-    this.store.dispatch(storeActions.createStore({ store: st }));
+  ngOnInit(): void {
+    this.store$ = this.store.pipe(select(getStoreDetails), takeUntil(this.unsubscribe$));
+    this.store$.subscribe(store => this.inventories = store.inventories)
   }
+
+  spanishMessage() {}
 }
