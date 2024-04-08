@@ -1,5 +1,4 @@
-export interface Item {
-  id?: string;
+export interface ItemDto{
   name: string;
   price: number;
   quantity?: number;

@@ -9,7 +9,8 @@ import { environment } from './environments/environment';
 export class BaseService {
   protected readonly storeApiUrl = `${environment.Stores}`;
   protected readonly saleApiUrl = `${environment.Sales}`;
-  
+  protected readonly userApiUrl = `${environment.Users}`;
+
   key = 'storeUser';
   constructor() {}
 

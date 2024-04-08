@@ -1,0 +1,33 @@
+::ng-deep .mat-horizontal-content-container {
+  background-color: white;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 3px;
+}
+
+::ng-deep .mat-stepper-horizontal-line {
+  border: 1px solid black;
+  border-style: dashed !important;
+  border-top-width: 4px solid !important;
+}
+
+::ng-deep .mat-primary-mat-step-header {
+  background-color: white;
+}
+
+::ng-deep .mat-step-text-label {
+  color: black;
+}
+
+.mat-step-icon {
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  flex-shrink: 0;
+  position: relative;
+  color: var(--mat-stepper-header-icon-foreground-color);
+  background-color: grey;
+}

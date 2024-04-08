@@ -1,46 +1,42 @@
 <div class="w-1/2 ssm:w-5/6 xl:w-1/2 h-screen items-center pt-20 m-auto">
-  <mat-horizontal-stepper class="! text-black" linear>
-    <mat-step label="Store Owner" completed="true">
-      <div class="grid grid-cols-1 gap-4">
+  <mat-horizontal-stepper class="! text-black" color="primary" linear>
+    <mat-step label="Store Details" completed="true">
+      <div [formGroup]="storeForm" class="grid grid-cols-1 gap-4 pt-5">
         <input
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
-          placeholder="Enter firstname"
+          formControlName="name"
+          placeholder="Enter Store Name"
         />
         <input
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
-          placeholder="Enter lastname"
+          formControlName="email"
+          placeholder="Enter Store Email"
         />
         <input
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
-          placeholder="Enter email"
+          formControlName="address"
+          placeholder="Enter Store Address"
         />
         <input
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
-          placeholder="Enter phone number"
+          formControlName="storePhonenumber"
+          placeholder="Enter Store Phone Number"
         />
       </div>
-      <div>
-        <button mat-button matStepperNext>Next</button>
+      <div class="pt-5 justify-between space-x-4">
+        <button mat-raised-button matStepperNext>Next</button>
       </div>
     </mat-step>
-    <mat-step label="Store Details" completed="false" optional>
-      <p>Billing Address</p>
+    <mat-step label="Categories" completed="false" optional>
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>
       </div>
     </mat-step>
-    <!-- <mat-step label="Categories" completed="false" optional>
-      <p>Categories</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </mat-step> -->
     <mat-step label="Welcome" completed="false">
       <div>
         <button mat-button matStepperPrevious>Back</button>

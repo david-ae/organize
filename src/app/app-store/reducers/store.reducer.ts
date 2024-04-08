@@ -18,9 +18,9 @@ export const initialStoreState: StoreState = {
     email: '',
     inventories: [],
     phoneNumber: '',
-    storename: '',
+    name: '',
+    address: '',
     categories: [],
-    users: [],
   },
   stores: [],
 };
@@ -46,12 +46,6 @@ export const storeFeature = createFeature({
   name: storeFeatureState.name,
   reducer: createReducer(
     initialStoreState,
-    on(storeActions.createStore, (state, action) => {
-      return {
-        ...state,
-        store: action.store,
-      };
-    }),
     on(storeActions.updateStore, (state, action) => {
       return {
         ...state,

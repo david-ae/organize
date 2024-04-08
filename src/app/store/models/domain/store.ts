@@ -3,10 +3,10 @@ import { User } from './user';
 
 export interface Store {
   id?: string;
-  storename: string;
+  name: string;
   email: string;
+  address: string;
   phoneNumber: string;
-  users: User[];
   inventories: Item[];
   categories: string[];
 }

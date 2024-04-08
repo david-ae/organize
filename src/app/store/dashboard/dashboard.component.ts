@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   cartService = inject(CartService);
 
   store$!: Observable<Bank>;
-  inventories!: Item[];
+  inventories: Item[] = [];
 
   unsubscribe$ = new Subject<void>();
 

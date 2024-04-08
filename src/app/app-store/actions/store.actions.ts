@@ -1,14 +1,15 @@
 import { createAction, props, Store } from '@ngrx/store';
 import { Store as Bank } from '../../store/models/domain/store';
+import { StoreDto } from '../../store/models/valueobjects/store.dto';
 
 export const createStore = createAction(
   '[Create Store] Store',
-  props<{ store: Bank }>()
+  props<{ store: StoreDto }>()
 );
 
 export const storeCreated = createAction(
   '[Store Created] Store',
-  props<{ store: Bank }>()
+  props<{ store: Store }>()
 );
 
 export const loadStores = createAction('[Load Stores] Store');

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Store } from '../models/domain/store';
-import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../../base.service';
 import { catchError } from 'rxjs';
@@ -21,7 +20,7 @@ export class StoreService extends BaseService {
 
   createStore(store: Store) {
     return this.httpClient
-      .post(`${this.storeApiUrl}`, store)
+      .post<Store>(`${this.storeApiUrl}`, store)
       .pipe(catchError(this.handleError));
   }
 }
