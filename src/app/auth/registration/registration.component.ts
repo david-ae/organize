@@ -1,6 +1,7 @@
 import { AppState } from './../../app.state';
 import { Component, inject, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -11,10 +12,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { select, Store } from '@ngrx/store';
 import * as storeActions from './../../app-store/actions/store.actions';
-import * as userActions from './../../app-store/actions/user.actions';
 import { Observable } from 'rxjs';
 import { Store as Bank } from './../../store/models/domain/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
+import { NumberRestrictionDirective } from '../../directives/number-restriction.directive';
 
 @Component({
   selector: 'app-registration',
@@ -24,6 +25,7 @@ import { getStoreDetails } from '../../app-store/reducers/store.reducer';
     MatButtonModule,
     ReactiveFormsModule,
     MatButtonToggleModule,
+    NumberRestrictionDirective
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css',
@@ -36,15 +38,12 @@ export class RegistrationComponent implements OnInit {
   newStore$!: Observable<Bank>;
 
   ngOnInit(): void {
-    this.userForm = new FormGroup({
-      firstname: new FormControl(''),
-      lastname: new FormControl(''),
-      email: new FormControl(''),
-      phonenumber: new FormControl(''),
-    });
     this.storeForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, this.customRequiredValidator]),
+      email: new FormControl('', [
+        Validators.required,
+        this.customEmailValidator,
+      ]),
       address: new FormControl(''),
       storePhonenumber: new FormControl(''),
     });
@@ -52,12 +51,34 @@ export class RegistrationComponent implements OnInit {
     this.newStore$ = this.store.pipe(select(getStoreDetails));
   }
 
-  register() {
-    const firstname = this.userForm.get('firstname')?.value;
-    const lastname = this.userForm.get('lastname')?.value;
-    const userEmail = this.userForm.get('email')?.value;
-    const userPhonenumber = this.userForm.get('phonenumber')?.value;
+  getError(control: any): string {
+    if (control.errors?.required && control.tounched) {
+      return 'This field is required';
+    } else if (control.errors?.emailError && control.touched) {
+      return 'Please enter a valid email address';
+    } else return '';
+  }
 
+  customEmailValidator(control: AbstractControl) {
+    const pattern = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/g;
+    const value = control.value;
+    if (!pattern.test(value) && control.touched) {
+      return {
+        emailError: true,
+      };
+    } else return null;
+  }
+
+  customRequiredValidator(control: AbstractControl) {
+    const value = control.value;
+    if (value === '' && control.touched) {
+      return {
+        requiredError: true,
+      };
+    } else return null;
+  }
+
+  register() {
     const name = this.storeForm.get('name')?.value as string;
     const storeEmail = this.storeForm.get('email')?.value as string;
     const address = this.storeForm.get('address')?.value as string;
@@ -76,21 +97,5 @@ export class RegistrationComponent implements OnInit {
         },
       })
     );
-
-    // this.newStore$.subscribe((newStore) => {
-    //   console.log(newStore);
-    //   if (newStore) {
-    //     this.store.dispatch(
-    //       userActions.createUser({
-    //         user: {
-    //           storeId: newStore.id,
-    //           email: userEmail,
-    //           name: `${firstname} ${lastname}`,
-    //           phoneNumber: userPhonenumber,
-    //         },
-    //       })
-    //     );
-    //   }
-    // });
   }
 }
