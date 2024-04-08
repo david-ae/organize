@@ -4,19 +4,22 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { routes } from './store.routes';
 import { CartService } from './services/cart.service';
-import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AppheaderComponent } from '../components/appheader/appheader.component';
+import { SaleComponent } from '../components/sale/sale.component';
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [],
   imports: [
-    DashboardComponent,
     CommonModule,
     RouterModule,
     RouterModule.forChild(routes),
     MatToolbarModule,
     MatSidenavModule,
+    HomeComponent,
+    AppheaderComponent,
+    SaleComponent,
   ],
   providers: [CartService],
 })

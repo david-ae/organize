@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -9,7 +9,7 @@ import { StoreService } from '../../../store/services/store.service';
 import { MatButtonModule } from '@angular/material/button';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { getStoreDetails } from '../../../app-store/reducers/store.reducer';
 import { Store as Bank } from './../../../store/models/domain/store';
 import { CommonModule } from '@angular/common';
@@ -28,15 +28,22 @@ import { NumberRestrictionDirective } from '../../../directives/number-restricti
   templateUrl: './add-item.component.html',
   styleUrl: './add-item.component.css',
 })
-export class AddItemComponent {
+export class AddItemComponent implements OnInit, OnDestroy {
   store = inject(Store<AppState>);
   storeServcie = inject(StoreService);
 
   itemForm!: FormGroup;
   store$!: Observable<Bank>;
-  categories = [];
+  categories: string[] = [];
+
+  unsubscriber$ = new Subject<void>();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+
+  ngOnDestroy(): void {
+    this.unsubscriber$.next();
+    this.unsubscriber$.complete();
+  }
 
   ngOnInit(): void {
     this.itemForm = new FormGroup({
@@ -46,8 +53,11 @@ export class AddItemComponent {
       itemCategory: new FormControl('', [Validators.required]),
     });
 
-    this.store$ = this.store.pipe(select(getStoreDetails));
-    this.categories = this.data.categories;
+    this.store$ = this.store.pipe(
+      select(getStoreDetails),
+      takeUntil(this.unsubscriber$)
+    );
+    this.store$.subscribe((store) => (this.categories = store.categories));
   }
 
   addItem() {

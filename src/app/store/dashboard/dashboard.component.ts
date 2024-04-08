@@ -8,6 +8,7 @@ import { AppState } from '../../app.state';
 import { Store as Bank } from './../../store/models/domain/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { Item } from '../models/domain/item';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,7 @@ import { Item } from '../models/domain/item';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private store = inject(Store<AppState>);
+  cartService = inject(CartService);
 
   store$!: Observable<Bank>;
   inventories!: Item[];
@@ -32,8 +34,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store$ = this.store.pipe(select(getStoreDetails), takeUntil(this.unsubscribe$));
-    this.store$.subscribe(store => this.inventories = store.inventories)
+    this.store$ = this.store.pipe(
+      select(getStoreDetails),
+      takeUntil(this.unsubscribe$)
+    );
+    this.store$.subscribe((store) => (this.inventories = store.inventories));
   }
 
   spanishMessage() {}

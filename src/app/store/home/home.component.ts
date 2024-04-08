@@ -37,7 +37,7 @@ import { UtilitiesService } from '../services/utilities.service';
     SidenavComponent,
     MatSidenavModule,
   ],
-  providers: [CartService, MatSidenavContainer],
+  providers: [MatSidenavContainer],
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements AfterContentChecked {
@@ -46,6 +46,7 @@ export class HomeComponent implements AfterContentChecked {
   layoutGap = '64';
 
   utilitiesService = inject(UtilitiesService);
+  cartService = inject(CartService);
 
   sideNav!: MatSidenav;
 

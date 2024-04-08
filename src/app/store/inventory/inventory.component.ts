@@ -31,7 +31,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   inventoryForm!: FormGroup;
   store$!: Observable<Bank>;
-  inventories:Item[] = [];
+  inventories: Item[] = [];
 
   customerStore!: Bank;
 
@@ -61,7 +61,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   addItem() {
     const dialogRef = this.dialog.open(AddItemComponent, {
-      data: { categories: this.customerStore.categories },
+      data: {},
       panelClass: 'dialog',
     });
   }

@@ -24,6 +24,12 @@ export class SalesService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
+  createSales(sales: Sale[]) {
+    return this.httpClient
+      .post<Sale>(`${this.saleApiUrl}/mutiple`, sales)
+      .pipe(catchError(this.handleError));
+  }
+
   updateStatus(id: string, status: string) {
     return this.httpClient
       .patch(`${this.saleApiUrl}/${id}/updateStatus`, status)

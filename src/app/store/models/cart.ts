@@ -15,12 +15,11 @@ export class Cart {
   addItem(item: Item) {
     let newItem = true;
     for (let cartItem of this.cartItems) {
-      if (cartItem.getItem().name === item.name) {
+      if (cartItem.getItem().id === item.id) {
         newItem = false;
         cartItem.incrementQuantity();
       }
     }
-
     if (newItem) {
       let cartItem = new CartItem(item);
       this.cartItems.push(cartItem);
@@ -36,7 +35,7 @@ export class Cart {
       let cartItem = null;
 
       for (let sCartItem of this.cartItems) {
-        if (sCartItem.getItem().name === item.name) {
+        if (sCartItem.getItem().id === item.id) {
           if (qty != 0) {
             sCartItem.setQuantity(qty);
           } else {
@@ -48,7 +47,7 @@ export class Cart {
 
       if (item != null) {
         for (let sCartItem of this.cartItems) {
-          if (sCartItem.getItem().name == item.name) {
+          if (sCartItem.getItem().id == item.id) {
             var index = this.cartItems.indexOf(sCartItem);
             this.cartItems.slice(index, 1);
           }

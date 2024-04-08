@@ -10,6 +10,7 @@ import { AppState } from '../app.state';
 import { saleReducer } from '../app-store/reducers/sale.reducer';
 import { storeReducer } from '../app-store/reducers/store.reducer';
 import { LOGOUT } from '../app-store/actions/user.actions';
+import { categoryReducer } from '../app-store/reducers/category.reducer';
 
 export interface State {}
 
@@ -27,6 +28,7 @@ export function clearStateMetaReducer<AppState extends {}>(
 export const reducers: ActionReducerMap<AppState> = {
   sale: saleReducer,
   store: storeReducer,
+  category: categoryReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = isDevMode() ? [] : [];

@@ -27,10 +27,10 @@ import { Item } from '../../store/models/domain/item';
 export class AppheaderComponent implements OnInit {
   @Input() sideNav!: MatSidenav;
 
-  utilitiesService = inject(UtilitiesService);
   private store = inject(Store<AppState>);
   private router = inject(Router);
   private baseService = inject(BaseService);
+  protected cartService = inject(CartService);
 
   store$!: Observable<Bank>;
   currentStoreUser!: AppUserDto;
@@ -39,24 +39,19 @@ export class AppheaderComponent implements OnInit {
 
   constructor(public dialog: MatDialog) {}
 
-  cartService = inject(CartService);
   numberOfItems: number = 0;
 
   ngOnInit(): void {
-    this.cartService.cart$.pipe(
-      map((cart) => {
-        if (cart) {
-          this.numberOfItems = cart.getNumberOfItems();
-        }
-      })
-    );
-    this.store$ = this.store.pipe(select(getStoreDetails));
-    this.store$.subscribe(
-      (store) =>{
-        (this.currentStoreUser = { email: store.email, id: store.id as string })
-        this.inventories = store.inventories;
+    this.cartService.currentCart.subscribe((cart) => {
+      if (cart) {
+        this.numberOfItems = cart.getNumberOfItems();
       }
-    );
+    });
+    this.store$ = this.store.pipe(select(getStoreDetails));
+    this.store$.subscribe((store) => {
+      this.currentStoreUser = { email: store.email, id: store.id as string };
+      this.inventories = store.inventories;
+    });
   }
 
   toggleNav() {
