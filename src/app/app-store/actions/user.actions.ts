@@ -1,4 +1,3 @@
-import { UserDto } from '../../store/models/valueobjects/user.dto';
 import { User } from './../../store/models/domain/user';
 import { createAction, props } from '@ngrx/store';
 
@@ -7,7 +6,7 @@ export const logoutAction = createAction('[App] Logout');
 
 export const createUser = createAction(
   '[User Create] User',
-  props<{ user: UserDto }>()
+  props<{ user: User }>()
 );
 
 export const getUser = createAction('[User Get] User', props<{ id: string }>());

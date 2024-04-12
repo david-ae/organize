@@ -1,10 +1,11 @@
 import { Item } from './item';
 
 export interface Sale {
+  id?: string;
   storeId: string;
-  item: Item;
+  itemId: string;
+  itemName: string;
   expectedAmount: number;
   actualAmount: number;
-  transactionDate: Date;
   processedBy: string;
 }

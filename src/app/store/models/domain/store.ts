@@ -7,6 +7,6 @@ export interface Store {
   email: string;
   address: string;
   phoneNumber: string;
-  inventories: Item[];
+  inventory: Item[];
   categories: string[];
 }

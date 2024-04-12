@@ -1,4 +1,3 @@
-@if(categories.length > 0){
 <div [formGroup]="categoryForm" class="bg-white p-5">
   <h1 class="text-xl font-bold">Add New Store Catgory</h1>
   <input
@@ -10,86 +9,54 @@
   />
   <div
     id="Projects"
-    class="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-3 justify-items-center gap-5 justify-center mt-5 mb-5"
+    class="grid grid-cols-1 justify-items-center gap-5 justify-center mt-5 mb-5"
   >
-    @for(item of categories$| async; track $index){
+    @if(filteredCategories$ | async; as filteredCategories){
+    @if(filteredCategories.length > 0){
+    <div class="flex flex-col">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table
+              class="min-w-full text-center text-sm font-light text-surface dark:text-white"
+            >
+              <thead
+                class="border-b border-neutral-200 font-medium dark:border-white/10 text-white bg-slate-800"
+              >
+                <tr>
+                  <th scope="col" class="px-6 py-4">Name</th>
+                  <th scope="col" class="px-6 py-4">Selected Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(item of filteredCategories; track $index){
+                <tr class="border-b border-primary-200 bg-gray-400 text-white">
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">
+                    {{ item.name }}
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">
+                    <mat-checkbox
+                      [checked]="item.checked"
+                      (change)="item.checked = !item.checked"
+                    ></mat-checkbox>
+                  </td>
+                </tr>
 
-    <div class="relative w-48 gap-2 p-4 m-auto shadow-lg rounded-2xl">
-      <div class="w-full h-full text-center">
-        <div class="grid grid-cols-2 justify-between h-full">
-          <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-          <svg
-            fill="#000000"
-            width="100px"
-            height="100px"
-            viewBox="0 0 32 32"
-            class="w-20 h-20 m-auto mt-4 text-black"
-            id="icon"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <style>
-                .cls-1 {
-                  fill: none;
                 }
-              </style>
-            </defs>
-            <path
-              d="M27,22.1414V18a2,2,0,0,0-2-2H17V12h2a2.0023,2.0023,0,0,0,2-2V4a2.0023,2.0023,0,0,0-2-2H13a2.002,2.002,0,0,0-2,2v6a2.002,2.002,0,0,0,2,2h2v4H7a2,2,0,0,0-2,2v4.1421a4,4,0,1,0,2,0V18h8v4.142a4,4,0,1,0,2,0V18h8v4.1414a4,4,0,1,0,2,0ZM13,4h6l.001,6H13ZM8,26a2,2,0,1,1-2-2A2.0023,2.0023,0,0,1,8,26Zm10,0a2,2,0,1,1-2-2A2.0027,2.0027,0,0,1,18,26Zm8,2a2,2,0,1,1,2-2A2.0023,2.0023,0,0,1,26,28Z"
-            />
-            <rect
-              id="_Transparent_Rectangle_"
-              data-name="&lt;Transparent Rectangle&gt;"
-              class="cls-1"
-              width="32"
-              height="32"
-            />
-          </svg>
-
-          <div>
-            <p class="mt-4 text-lg text-black">
-              {{ item.name }}
-            </p>
-            <button mat-raised-button class="w-full" color="primary">
-              Add
-            </button>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
-    }
+    <button
+      mat-raised-button
+      class="w-full"
+      color="primary"
+      (click)="addCategoriesToStore(filteredCategories)"
+    >
+      Add To Store
+    </button>
+    } }
   </div>
-  <div class="grid grid-cols-1 m-5 button-wrapper"></div>
 </div>
-} @else {
-<div class="m-auto grid grid-cols-1 p-5 bg-white">
-  <svg
-    fill="#000000"
-    width="100px"
-    height="100px"
-    viewBox="0 0 32 32"
-    class="w-20 h-20 m-auto mt-4 text-black"
-    id="icon"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <style>
-        .cls-1 {
-          fill: none;
-        }
-      </style>
-    </defs>
-    <path
-      d="M27,22.1414V18a2,2,0,0,0-2-2H17V12h2a2.0023,2.0023,0,0,0,2-2V4a2.0023,2.0023,0,0,0-2-2H13a2.002,2.002,0,0,0-2,2v6a2.002,2.002,0,0,0,2,2h2v4H7a2,2,0,0,0-2,2v4.1421a4,4,0,1,0,2,0V18h8v4.142a4,4,0,1,0,2,0V18h8v4.1414a4,4,0,1,0,2,0ZM13,4h6l.001,6H13ZM8,26a2,2,0,1,1-2-2A2.0023,2.0023,0,0,1,8,26Zm10,0a2,2,0,1,1-2-2A2.0027,2.0027,0,0,1,18,26Zm8,2a2,2,0,1,1,2-2A2.0023,2.0023,0,0,1,26,28Z"
-    />
-    <rect
-      id="_Transparent_Rectangle_"
-      data-name="&lt;Transparent Rectangle&gt;"
-      class="cls-1"
-      width="32"
-      height="32"
-    />
-  </svg>
-  <h1>No Categories on the app</h1>
-</div>
-}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
 import { loadStoreException, storeLoaded } from '../actions/store.actions';
 import { StoreService } from '../../store/services/store.service';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ export class StoreEffects {
   getStore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(storeActions.loadStore),
-      mergeMap((action) =>
+      exhaustMap((action) =>
         this.storeService.getStore(action.id).pipe(
           map((store) => storeActions.storeLoaded({ payload: store })),
           catchError(() => of(loadStoreException()))
@@ -32,6 +32,32 @@ export class StoreEffects {
         this.storeService.createStore(action.store).pipe(
           map((store) => storeActions.storeLoaded({ payload: store })),
           catchError(() => of(storeActions.loadStoreException()))
+        )
+      )
+    )
+  );
+
+  addCategorieToStore$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(storeActions.addCategoriesToStore),
+      mergeMap((action) =>
+        this.storeService
+          .addCategoriesToStore(action.id, action.categories)
+          .pipe(
+            map((store) => storeActions.storeLoaded({ payload: store })),
+            catchError(() => of(loadStoreException()))
+          )
+      )
+    )
+  );
+
+  addItemToStoreInventory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(storeActions.addItemToStoreInventory),
+      mergeMap((action) =>
+        this.storeService.addItemToStoreInventory(action.id, action.item).pipe(
+          map((store) => storeActions.storeLoaded({ payload: store })),
+          catchError(() => of(loadStoreException()))
         )
       )
     )

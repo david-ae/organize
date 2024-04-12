@@ -13,11 +13,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { Category } from '../models/domain/category';
 import { getCategories } from '../../app-store/reducers/category.reducer';
 import { AddCategoryToStoreComponent } from '../../components/dialogs/add-category-to-store/add-category-to-store.component';
+import * as categoryActions from './../../app-store/actions/category.actions';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatIconModule, MatButtonModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    NgxPaginationModule,
+  ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css',
 })
@@ -29,6 +37,8 @@ export class CategoriesComponent {
   category$!: Observable<Category[]>;
   categories: string[] = [];
   categriesFromStore: Category[] = [];
+
+  p:number = 1;
 
   customerStore!: Bank;
 
@@ -56,9 +66,13 @@ export class CategoriesComponent {
     );
 
     this.store$.subscribe((store) => (this.categories = store.categories));
-    this.category$.subscribe(
-      (catgories) => (this.categriesFromStore = catgories)
-    );
+    this.category$.subscribe((categories) => {
+      if (categories.length > 0) {
+        this.categriesFromStore = categories;
+      } else {
+        this.store.dispatch(categoryActions.getCategories());
+      }
+    });
   }
 
   onChange(event: any) {}

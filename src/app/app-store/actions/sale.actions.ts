@@ -3,7 +3,12 @@ import { Sale } from '../../store/models/domain/sale';
 
 export const createSale = createAction(
   '[Create Sale] Sale',
-  props<{ sale: Sale }>()
+  props<{ id: string; sale: Sale }>()
+);
+
+export const createSales = createAction(
+  '[Create Sale] Sale',
+  props<{ id: string; sales: Sale[] }>()
 );
 
 export const getSales = createAction(
@@ -20,4 +25,4 @@ export const saleLoaded = createAction(
   props<{ payload: Sale }>()
 );
 
-export const loadSaleException = createAction('[Load Store] Store');
+export const loadSaleException = createAction('[Load Sale] Sale');

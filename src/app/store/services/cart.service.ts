@@ -38,4 +38,12 @@ export class CartService {
   getTotal() {
     return this.cart.getTotal();
   }
+
+  clearCart() {
+    this.cart.clear();
+  }
+
+  getNewCart() {
+    return new Cart();
+  }
 }

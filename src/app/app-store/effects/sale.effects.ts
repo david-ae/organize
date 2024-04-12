@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, of, tap } from 'rxjs';
+import { mergeMap, map, catchError, of, tap, exhaustMap } from 'rxjs';
 import { StoreService } from '../../store/services/store.service';
 import * as saleActions from './../actions/sale.actions';
 import { SalesService } from '../../store/services/sales.service';
@@ -15,8 +15,20 @@ export class SaleEffects {
     this.actions$.pipe(
       ofType(saleActions.createSale),
       mergeMap((action) =>
-        this.saleService.createSale(action.sale).pipe(
+        this.saleService.createSale(action.id, action.sale).pipe(
           map((sale) => saleActions.saleLoaded({ payload: sale })),
+          catchError(() => of(loadSaleException()))
+        )
+      )
+    )
+  );
+
+  createSales$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(saleActions.createSales),
+      exhaustMap((action) =>
+        this.saleService.createSales(action.id, action.sales).pipe(
+          map((sale) => saleActions.salesLoaded({ payload: sale })),
           catchError(() => of(loadSaleException()))
         )
       )

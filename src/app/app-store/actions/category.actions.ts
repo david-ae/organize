@@ -11,6 +11,8 @@ export const getCategory = createAction(
   props<{ id: string }>()
 );
 
+export const getCategories = createAction('[Get Categories] Category');
+
 export const categoriesLoaded = createAction(
   '[Categories Loaded] Category',
   props<{ payload: Category[] }>()

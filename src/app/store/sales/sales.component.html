@@ -24,8 +24,6 @@
             <tr>
               <th scope="col" class="px-6 py-4">Name</th>
               <th scope="col" class="px-6 py-4">Price</th>
-              <th scope="col" class="px-6 py-4">Quantity</th>
-              <th scope="col" class="px-6 py-4">Category</th>
             </tr>
           </thead>
           <tbody>
@@ -33,13 +31,10 @@
             <tr
               class="border-b border-primary-200 bg-primary-100 text-neutral-800"
             >
-              <td class="whitespace-nowrap px-6 py-4 font-medium">
-                {{ sale.item }}
+              <td class="whitespace-nowrap px-6 py-4">{{ sale.itemName }}</td>
+              <td class="whitespace-nowrap px-6 py-4">
+                {{ sale.actualAmount }}
               </td>
-              <td class="whitespace-nowrap px-6 py-4">{{ sale.item }}</td>
-              <td class="whitespace-nowrap px-6 py-4">{{ sale.expectedAmount }}</td>
-              <td class="whitespace-nowrap px-6 py-4">{{ sale.actualAmount }}</td>
-              <td class="whitespace-nowrap px-6 py-4">{{ sale.transactionDate }}</td>
             </tr>
 
             }

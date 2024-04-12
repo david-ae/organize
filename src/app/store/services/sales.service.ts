@@ -18,15 +18,15 @@ export class SalesService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
-  createSale(sale: Sale) {
+  createSale(id: string,sale: Sale) {
     return this.httpClient
-      .post<Sale>(`${this.saleApiUrl}`, sale)
+      .post<Sale>(`${this.saleApiUrl}/${id}/single`, sale)
       .pipe(catchError(this.handleError));
   }
 
-  createSales(sales: Sale[]) {
+  createSales(id: string, sales: Sale[]) {
     return this.httpClient
-      .post<Sale>(`${this.saleApiUrl}/mutiple`, sales)
+      .post<Sale[]>(`${this.saleApiUrl}/${id}/mutiple`, sales)
       .pipe(catchError(this.handleError));
   }
 

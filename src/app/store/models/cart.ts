@@ -94,7 +94,18 @@ export class Cart {
     return this.total;
   }
 
+  removeItem(item: Item) {
+    if (item != null) {
+      for (let sCartItem of this.cartItems) {
+        if (sCartItem.getItem().id == item.id) {
+          var index = this.cartItems.indexOf(sCartItem);
+          this.cartItems.splice(index, 1);
+        }
+      }
+    }
+  }
+
   clear() {
-    this.cartItems.slice(this.cartItems.length);
+    this.cartItems.splice(this.cartItems.length);
   }
 }

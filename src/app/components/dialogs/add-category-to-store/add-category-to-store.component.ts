@@ -19,22 +19,42 @@ import {
 import { getCategories } from '../../../app-store/reducers/category.reducer';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { Store as Bank } from './../../../store/models/domain/store';
+import { getStoreDetails } from '../../../app-store/reducers/store.reducer';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import * as categoryActions from './../../../app-store/actions/category.actions';
+import * as storeActions from './../../../app-store/actions/store.actions';
+export interface CategoryForUI {
+  name: string;
+  checked: boolean;
+}
 
 @Component({
   selector: 'app-add-category-to-store',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatButtonModule,
+  ],
   templateUrl: './add-category-to-store.component.html',
   styleUrl: './add-category-to-store.component.css',
 })
 export class AddCategoryToStoreComponent {
   store = inject(Store<AppState>);
 
-  inventories$ = new BehaviorSubject<Category[]>([]);
+  filteredCategories$ = new BehaviorSubject<CategoryForUI[]>([]);
 
   categoryForm!: FormGroup;
   categories: Category[] = [];
   categories$!: Observable<Category[]>;
+  store$!: Observable<Bank>;
+  categoriesFromStore: string[] = [];
+  categoriesAvaliable = false;
+  currentStore!: Bank;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
@@ -54,7 +74,21 @@ export class AddCategoryToStoreComponent {
       takeUntil(this.unsubscriber$)
     );
 
-    this.categories$.subscribe((categories) => (this.categories = categories));
+    this.store$ = this.store.pipe(
+      select(getStoreDetails),
+      takeUntil(this.unsubscriber$)
+    );
+
+    this.store$.subscribe((store) => {
+      this.categoriesFromStore = store.categories;
+      this.currentStore = store;
+    });
+
+    this.categories$.subscribe((categories) => {
+      if (categories.length > 0) {
+        this.categories = categories;
+      }
+    });
   }
 
   onChange(event: any) {
@@ -70,7 +104,43 @@ export class AddCategoryToStoreComponent {
         )
       )
       .subscribe((items) => {
-        this.inventories$.next(items);
+        const setOfCategoriesFromStore = new Set(this.categoriesFromStore);
+        const newCategories = items.filter(
+          (x) => !setOfCategoriesFromStore.has(x.name)
+        );
+        this.filteredCategories$.next(this.FromCategory(newCategories));
       });
+  }
+
+  private FromCategory(categories: Category[]): CategoryForUI[] {
+    let uiCategories = [];
+    for (let category of categories) {
+      const newCategory: CategoryForUI = {
+        name: category.name,
+        checked: false,
+      };
+      uiCategories.push(newCategory);
+    }
+
+    return uiCategories;
+  }
+
+  addCategoriesToStore(filteredCategories: CategoryForUI[]) {
+    let categoriesToCreate: string[] = [];
+
+    filteredCategories
+      .filter((c) => c.checked === true)
+      .map((category) => categoriesToCreate.push(category.name));
+
+    if (categoriesToCreate.length > 0 && this.currentStore) {
+      this.store.dispatch(
+        storeActions.addCategoriesToStore({
+          id: this.currentStore.id as string,
+          categories: categoriesToCreate,
+        })
+      );
+    } else {
+      //alert error
+    }
   }
 }

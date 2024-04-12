@@ -1,6 +1,6 @@
-export interface ItemDto{
-  name: string;
-  price: number;
-  quantity?: number;
-  category: string;
-}
+// export interface ItemDto{
+//   name: string;
+//   price: number;
+//   quantity?: number;
+//   category: string;
+// }

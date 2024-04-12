@@ -1,10 +1,10 @@
 import { createAction, props, Store } from '@ngrx/store';
 import { Store as Bank } from '../../store/models/domain/store';
-import { StoreDto } from '../../store/models/valueobjects/store.dto';
+import { Item } from '../../store/models/domain/item';
 
 export const createStore = createAction(
   '[Create Store] Store',
-  props<{ store: StoreDto }>()
+  props<{ store: Bank }>()
 );
 
 export const storeCreated = createAction(
@@ -12,7 +12,20 @@ export const storeCreated = createAction(
   props<{ store: Store }>()
 );
 
+export const addCategoriesToStore = createAction(
+  '[Add Category To Store] Store',
+  props<{ id: string; categories: string[] }>()
+);
+export const addItemToStoreInventory = createAction(
+  '[Add Item to Store Inventory] Store',
+  props<{ id: string; item: Item }>()
+);
+
 export const loadStores = createAction('[Load Stores] Store');
+export const loadSpinner = createAction(
+  '[Load Spinner] Store',
+  props<{ isLoaded: boolean }>()
+);
 
 export const storesLoaded = createAction(
   '[Stores Loaded] Store',

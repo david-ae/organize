@@ -11,6 +11,7 @@ import { saleReducer } from '../app-store/reducers/sale.reducer';
 import { storeReducer } from '../app-store/reducers/store.reducer';
 import { LOGOUT } from '../app-store/actions/user.actions';
 import { categoryReducer } from '../app-store/reducers/category.reducer';
+import { userReducer } from '../app-store/reducers/user.reducer';
 
 export interface State {}
 
@@ -29,6 +30,7 @@ export const reducers: ActionReducerMap<AppState> = {
   sale: saleReducer,
   store: storeReducer,
   category: categoryReducer,
+  user: userReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = isDevMode() ? [] : [];

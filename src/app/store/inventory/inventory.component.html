@@ -29,22 +29,33 @@
             </tr>
           </thead>
           <tbody>
-            @for(item of inventories; track $index){
+            @for(item of inventories | paginate: {itemsPerPage: 10, currentPage:
+            p, totalItems: inventories.length}; track $index){
             <tr
               class="border-b border-primary-200 bg-primary-100 text-neutral-800"
             >
               <td class="whitespace-nowrap px-6 py-4 font-medium">
                 {{ item.name }}
               </td>
-              <td class="whitespace-nowrap px-6 py-4">{{ item.price }}</td>
+              <td class="whitespace-nowrap px-6 py-4">
+                {{ item.price }}
+              </td>
               <td class="whitespace-nowrap px-6 py-4">{{ item.quantity }}</td>
               <td class="whitespace-nowrap px-6 py-4">{{ item.category }}</td>
+              <td class="whitespace-nowrap px-6 py-4">
+                <button mat-button>
+                  Edit
+                </button>
+              </td>
             </tr>
 
             }
           </tbody>
         </table>
       </div>
+      @if(inventories.length > 10){
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      }
     </div>
   </div>
 </div>

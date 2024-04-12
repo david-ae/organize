@@ -35,6 +35,7 @@ export class SaleComponent implements OnInit, OnDestroy {
   cartService = inject(CartService);
 
   inventories$ = new BehaviorSubject<Item[]>([]);
+  cart$ = this.cartService.currentCart;
 
   saleForm!: FormGroup;
   inventories: Item[] = [];
@@ -58,7 +59,7 @@ export class SaleComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscriber$)
     );
 
-    this.store$.subscribe((store) => (this.inventories = store.inventories));
+    this.store$.subscribe((store) => (this.inventories = store.inventory));
   }
 
   onChange(event: any) {

@@ -26,7 +26,8 @@
             </tr>
           </thead>
           <tbody>
-            @for(item of categories; track $index){
+            @for(item of categories | paginate: {itemsPerPage:10, currentPage:
+            p, totalItems: categories.length}; track $index){
             <tr
               class="border-b border-primary-200 bg-primary-100 text-neutral-800"
             >
@@ -39,6 +40,9 @@
           </tbody>
         </table>
       </div>
+      @if(categories.length > 10){
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      }
     </div>
   </div>
 </div>

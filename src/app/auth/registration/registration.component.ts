@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { Store as Bank } from './../../store/models/domain/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { NumberRestrictionDirective } from '../../directives/number-restriction.directive';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -25,7 +26,8 @@ import { NumberRestrictionDirective } from '../../directives/number-restriction.
     MatButtonModule,
     ReactiveFormsModule,
     MatButtonToggleModule,
-    NumberRestrictionDirective
+    RouterModule,
+    NumberRestrictionDirective,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css',
@@ -39,7 +41,10 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.storeForm = new FormGroup({
-      name: new FormControl('', [Validators.required, this.customRequiredValidator]),
+      name: new FormControl('', [
+        Validators.required,
+        this.customRequiredValidator,
+      ]),
       email: new FormControl('', [
         Validators.required,
         this.customEmailValidator,
@@ -84,7 +89,7 @@ export class RegistrationComponent implements OnInit {
     const address = this.storeForm.get('address')?.value as string;
     const storePhonenumber = this.storeForm.get('storePhonenumber')
       ?.value as string;
-
+    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
     this.store.dispatch(
       storeActions.createStore({
         store: {
@@ -93,7 +98,7 @@ export class RegistrationComponent implements OnInit {
           phoneNumber: storePhonenumber,
           address: address,
           categories: [],
-          inventories: [],
+          inventory: [],
         },
       })
     );

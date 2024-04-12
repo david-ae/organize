@@ -34,13 +34,27 @@
         />
       </div>
       <div class="pt-5 justify-between space-x-4">
-        <button mat-raised-button [disabled]="!storeForm.valid" matStepperNext>
+        <a
+          [routerLink]="['/signin']"
+          routerLinkActive="router-link-active"
+          mat-raised-button
+        >
+          Sign In
+        </a>
+        <button
+          class="float-right"
+          mat-raised-button
+          [disabled]="!storeForm.valid"
+          (click)="register()"
+          matStepperNext
+        >
           Next
         </button>
       </div>
     </mat-step>
     <mat-step label="Welcome" completed="false">
       <div>
+        <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperPrevious>Back</button>
       </div>
     </mat-step>

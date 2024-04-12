@@ -15,7 +15,8 @@ import { Store as Bank } from './../../../store/models/domain/store';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NumberRestrictionDirective } from '../../../directives/number-restriction.directive';
-
+import { Item } from '../../../store/models/domain/item';
+import * as storeActions from './../../../app-store/actions/store.actions';
 @Component({
   selector: 'app-add-item',
   standalone: true,
@@ -35,6 +36,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
   itemForm!: FormGroup;
   store$!: Observable<Bank>;
   categories: string[] = [];
+  currentStore!: Bank;
 
   unsubscriber$ = new Subject<void>();
 
@@ -57,7 +59,10 @@ export class AddItemComponent implements OnInit, OnDestroy {
       select(getStoreDetails),
       takeUntil(this.unsubscriber$)
     );
-    this.store$.subscribe((store) => (this.categories = store.categories));
+    this.store$.subscribe((store) => {
+      this.categories = store.categories;
+      this.currentStore = store;
+    });
   }
 
   addItem() {
@@ -66,6 +71,18 @@ export class AddItemComponent implements OnInit, OnDestroy {
     const itemQuantity = parseInt(this.itemForm.get('itemQuantity')?.value);
     const itemCategory = this.itemForm.get('itemCategory')?.value;
 
-    // console.log(itemName, itemPrice, itemCategory, itemQuantity);
+    const item: Item = {
+      category: itemCategory,
+      name: itemName,
+      price: itemPrice,
+      quantity: itemQuantity,
+    };
+
+    this.store.dispatch(
+      storeActions.addItemToStoreInventory({
+        id: this.currentStore.id as string,
+        item: item,
+      })
+    );
   }
 }

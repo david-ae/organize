@@ -4,7 +4,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'registration', pathMatch: 'full' },
+  { path: '', redirectTo: 'signin', pathMatch: 'full' },
   {
     path: 'store',
     loadChildren: () => import('./store/store.routes').then((r) => r.routes),

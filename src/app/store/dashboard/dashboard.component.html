@@ -1,9 +1,9 @@
-@if(inventories.length > 0){
+@if(inventory.length > 0){
 <div
   id="Projects"
   class="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-3 justify-items-center gap-5 justify-center mt-5 mb-5"
 >
-  @for(item of inventories; track $index){
+  @for(item of inventory; track $index){
 
   <div class="relative w-48 gap-2 p-4 m-auto shadow-lg rounded-2xl">
     <div class="w-full h-full text-center">
@@ -31,7 +31,6 @@
   </div>
   }
 </div>
-
 }@else {
 <div class="grid grid-cols-1">
   <svg
@@ -48,6 +47,14 @@
   </svg>
   <div class="m-auto text-black">
     <h1>Store Inventory is empty</h1>
+    <button
+      mat-raised-button
+      (click)="addItem()"
+      color="primary"
+      class="w-full"
+    >
+      Add New Item
+    </button>
   </div>
 </div>
 }

@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Subject, takeUntil } from 'rxjs';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-signin',
@@ -26,6 +27,7 @@ import { Subject, takeUntil } from 'rxjs';
     MatButtonModule,
     RouterModule,
     ReactiveFormsModule,
+    LoadingSpinnerComponent,
   ],
   providers: [BaseService, AuthService],
   templateUrl: './signin.component.html',
@@ -65,6 +67,7 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   signin() {
+    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
     if (!this.userDetails) {
       const email = this.signinForm.get('email')?.value;
       this.getStoreAndRedirect(email);

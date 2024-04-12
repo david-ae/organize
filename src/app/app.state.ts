@@ -6,6 +6,6 @@ import { UserState } from './app-store/reducers/user.reducer';
 export interface AppState {
   store: StoreState;
   category: CategoryState,
-  // user: UserState;
+  user: UserState;
   sale: SaleState;
 }

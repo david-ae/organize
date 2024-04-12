@@ -3,6 +3,7 @@ import { Store } from '../models/domain/store';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../../base.service';
 import { catchError } from 'rxjs';
+import { Item } from '../models/domain/item';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,18 @@ export class StoreService extends BaseService {
   createStore(store: Store) {
     return this.httpClient
       .post<Store>(`${this.storeApiUrl}`, store)
+      .pipe(catchError(this.handleError));
+  }
+
+  addCategoriesToStore(id: string, categories: string[]) {
+    return this.httpClient
+      .patch<Store>(`${this.storeApiUrl}/${id}/categories`, categories)
+      .pipe(catchError(this.handleError));
+  }
+
+  addItemToStoreInventory(id: string, item: Item) {
+    return this.httpClient
+      .patch<Store>(`${this.storeApiUrl}/${id}/inventory`, item)
       .pipe(catchError(this.handleError));
   }
 }

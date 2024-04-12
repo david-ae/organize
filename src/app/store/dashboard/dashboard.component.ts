@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { MatButton } from '@angular/material/button';
 import * as storeActions from './../../app-store/actions/store.actions';
 import { AppState } from '../../app.state';
@@ -9,6 +9,8 @@ import { Store as Bank } from './../../store/models/domain/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { Item } from '../models/domain/item';
 import { CartService } from '../services/cart.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddItemComponent } from '../../components/dialogs/add-item/add-item.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,11 +24,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   cartService = inject(CartService);
 
   store$!: Observable<Bank>;
-  inventories: Item[] = [];
+  inventory: Item[] = [];
 
   unsubscribe$ = new Subject<void>();
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -38,8 +40,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       select(getStoreDetails),
       takeUntil(this.unsubscribe$)
     );
-    this.store$.subscribe((store) => (this.inventories = store.inventories));
+    this.store$.subscribe((store) => (this.inventory = store.inventory));
   }
 
-  spanishMessage() {}
+  addItem() {
+    const dialogRef = this.dialog.open(AddItemComponent, {
+      data: {},
+      panelClass: 'dialog',
+    });
+  }
 }

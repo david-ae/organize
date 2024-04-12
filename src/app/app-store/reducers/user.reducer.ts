@@ -9,11 +9,13 @@ import { User } from '../../store/models/domain/user';
 import * as userActions from './../actions/user.actions';
 
 export interface UserState {
+  isLoading: boolean;
   currentUser: User | undefined;
   users: User[];
 }
 
 export const initialUserState: UserState = {
+  isLoading: false,
   currentUser: undefined,
   users: [],
 };
@@ -35,6 +37,11 @@ export const getAllUsers = createSelector(
   (state) => state.users
 );
 
+export const getUserisLoadingState = createSelector(
+  userFeatureState,
+  state => state.isLoading
+)
+
 export const userFeature = createFeature({
   name: userFeatureState.name,
   reducer: createReducer(
@@ -42,6 +49,7 @@ export const userFeature = createFeature({
     on(userActions.userLoaded, (state, action) => {
       return {
         ...state,
+        isLoading: false,
         store: action.payload,
       };
     })
@@ -53,4 +61,5 @@ export const {
   reducer: userReducer,
   selectCurrentUser,
   selectUsers,
+  selectIsLoading
 } = userFeature;

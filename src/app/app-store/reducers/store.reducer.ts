@@ -9,14 +9,16 @@ import { Store } from '../../store/models/domain/store';
 import * as storeActions from '../actions/store.actions';
 
 export interface StoreState {
+  isLoading: boolean;
   stores: Store[];
   store: Store;
 }
 
 export const initialStoreState: StoreState = {
+  isLoading: false,
   store: {
     email: '',
-    inventories: [],
+    inventory: [],
     phoneNumber: '',
     name: '',
     address: '',
@@ -34,12 +36,17 @@ export const getStoreDetails = createSelector(
 
 export const getStoreInventory = createSelector(
   storeFeatureState,
-  (state) => state.store.inventories
+  (state) => state.store.inventory
 );
 
 export const getAllStore = createSelector(
   storeFeatureState,
   (state) => state.stores
+);
+
+export const getStoreIsLoadingState = createSelector(
+  storeFeatureState,
+  (state) => state.isLoading
 );
 
 export const storeFeature = createFeature({
@@ -49,17 +56,26 @@ export const storeFeature = createFeature({
     on(storeActions.updateStore, (state, action) => {
       return {
         ...state,
+        isLoading: false,
       };
     }),
     on(storeActions.getStore, (state, action) => {
       return {
         ...state,
+        isLoading: false,
       };
     }),
     on(storeActions.storeLoaded, (state, action) => {
       return {
         ...state,
+        isLoading: false,
         store: action.payload,
+      };
+    }),
+    on(storeActions.loadSpinner, (state, action) => {
+      return {
+        ...state,
+        isLoading: action.isLoaded,
       };
     })
   ),
@@ -70,4 +86,5 @@ export const {
   reducer: storeReducer,
   selectStore,
   selectStores,
+  selectIsLoading,
 } = storeFeature;

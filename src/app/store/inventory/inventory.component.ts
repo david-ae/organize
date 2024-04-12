@@ -2,7 +2,17 @@ import { AppState } from './../../app.state';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +22,7 @@ import { select, Store } from '@ngrx/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { Store as Bank } from './../models/domain/store';
 import { Item } from '../models/domain/item';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-inventory',
@@ -22,6 +33,7 @@ import { Item } from '../models/domain/item';
     MatIconModule,
     CommonModule,
     ReactiveFormsModule,
+    NgxPaginationModule,
   ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css',
@@ -32,10 +44,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
   inventoryForm!: FormGroup;
   store$!: Observable<Bank>;
   inventories: Item[] = [];
+  inventories$!: Observable<Item[]>;
 
   customerStore!: Bank;
 
   unsubscribe$ = new Subject<void>();
+
+  p: number = 1;
 
   constructor(public dialog: MatDialog) {}
 
@@ -54,7 +69,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     );
 
-    this.store$.subscribe((store) => (this.inventories = store.inventories));
+    this.store$.subscribe((store) => (this.inventories = store.inventory));
   }
 
   onChange(event: any) {}
