@@ -1,0 +1,18 @@
+.RouterOutlet {
+  padding-top: 4rem;
+  margin: auto;
+}
+
+.mat-container {
+  flex: 1 1 auto;
+}
+
+.mat-drawer-content {
+  background-color: white;
+}
+
+.toolbar-container {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}

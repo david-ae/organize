@@ -1,0 +1,62 @@
+<div class="w-1/2 ssm:w-5/6 xl:w-1/2 h-screen items-center pt-20 m-auto">
+  <mat-horizontal-stepper class="! text-black" color="primary" linear>
+    <mat-step class="custom-mat-icon" label="Store Details" completed="true">
+      <div [formGroup]="storeForm" class="grid grid-cols-1 gap-4 pt-5">
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          formControlName="name"
+          placeholder="Enter Store Name"
+        />
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          formControlName="email"
+          placeholder="Enter Store Email"
+        />
+        @if(getError(storeForm.get('email'))){
+        <label class="text-red-600">
+          {{ getError(storeForm.get("email")) }}
+        </label>
+        }
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          formControlName="address"
+          placeholder="Enter Store Address"
+        />
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          formControlName="storePhonenumber"
+          placeholder="Enter Store Phone Number"
+          restrictNumbers
+        />
+      </div>
+      <div class="pt-5 justify-between space-x-4">
+        <a
+          [routerLink]="['/signin']"
+          routerLinkActive="router-link-active"
+          mat-raised-button
+        >
+          Sign In
+        </a>
+        <button
+          class="float-right"
+          mat-raised-button
+          [disabled]="!storeForm.valid"
+          (click)="register()"
+          matStepperNext
+        >
+          Next
+        </button>
+      </div>
+    </mat-step>
+    <mat-step label="Welcome" completed="false">
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperPrevious>Back</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

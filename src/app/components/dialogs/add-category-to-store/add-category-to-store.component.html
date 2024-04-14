@@ -1,0 +1,62 @@
+<div [formGroup]="categoryForm" class="bg-white p-5">
+  <h1 class="text-xl font-bold">Add New Store Catgory</h1>
+  <input
+    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    formControlName="searchCategories"
+    (keyup)="onChange($event)"
+    type="text"
+    placeholder="Search for category"
+  />
+  <div
+    id="Projects"
+    class="grid grid-cols-1 justify-items-center gap-5 justify-center mt-5 mb-5"
+  >
+    @if(filteredCategories$ | async; as filteredCategories){
+    @if(filteredCategories.length > 0){
+    <div class="flex flex-col">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table
+              class="min-w-full text-center text-sm font-light text-surface dark:text-white"
+            >
+              <thead
+                class="border-b border-neutral-200 font-medium dark:border-white/10 text-white bg-slate-800"
+              >
+                <tr>
+                  <th scope="col" class="px-6 py-4">Name</th>
+                  <th scope="col" class="px-6 py-4">Selected Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(item of filteredCategories; track $index){
+                <tr class="border-b border-primary-200 bg-gray-400 text-white">
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">
+                    {{ item.name }}
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">
+                    <mat-checkbox
+                      [checked]="item.checked"
+                      (change)="item.checked = !item.checked"
+                    ></mat-checkbox>
+                  </td>
+                </tr>
+
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      mat-raised-button
+      class="w-full"
+      color="primary"
+      (click)="addCategoriesToStore(filteredCategories)"
+    >
+      Add To Store
+    </button>
+    } }
+  </div>
+</div>
