@@ -13,19 +13,14 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { getStoreDetails } from '../../../app-store/reducers/store.reducer';
 import { Store as Bank } from './../../../store/models/domain/store';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NumberRestrictionDirective } from '../../../directives/number-restriction.directive';
 import { Item } from '../../../store/models/domain/item';
 import * as storeActions from './../../../app-store/actions/store.actions';
 @Component({
   selector: 'app-add-item',
   standalone: true,
-  imports: [
-    MatButtonModule,
-    ReactiveFormsModule,
-    CommonModule,
-    NumberRestrictionDirective,
-  ],
+  imports: [MatButtonModule, ReactiveFormsModule, CommonModule],
   templateUrl: './add-item.component.html',
   styleUrl: './add-item.component.css',
 })
@@ -40,7 +35,10 @@ export class AddItemComponent implements OnInit, OnDestroy {
 
   unsubscriber$ = new Subject<void>();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialogRef<AddItemComponent>
+  ) {}
 
   ngOnDestroy(): void {
     this.unsubscriber$.next();
@@ -84,5 +82,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
         item: item,
       })
     );
+
+    this.dialog.close();
   }
 }

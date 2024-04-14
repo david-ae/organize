@@ -11,24 +11,24 @@ import { loadSaleException } from './../actions/sale.actions';
 export class SaleEffects {
   constructor(private actions$: Actions, private saleService: SalesService) {}
 
-  createSale$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(saleActions.createSale),
-      mergeMap((action) =>
-        this.saleService.createSale(action.id, action.sale).pipe(
-          map((sale) => saleActions.saleLoaded({ payload: sale })),
-          catchError(() => of(loadSaleException()))
-        )
-      )
-    )
-  );
+  // createSale$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(saleActions.createSale),
+  //     mergeMap((action) =>
+  //       this.saleService.createSale(action.id, action.sale).pipe(
+  //         map((sale) => saleActions.saleLoaded({ payload: sale })),
+  //         catchError(() => of(loadSaleException()))
+  //       )
+  //     )
+  //   )
+  // );
 
   createSales$ = createEffect(() =>
     this.actions$.pipe(
       ofType(saleActions.createSales),
       exhaustMap((action) =>
-        this.saleService.createSales(action.id, action.sales).pipe(
-          map((sale) => saleActions.salesLoaded({ payload: sale })),
+        this.saleService.createSales(action.sales).pipe(
+          map(() => saleActions.salesCreated()),
           catchError(() => of(loadSaleException()))
         )
       )

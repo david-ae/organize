@@ -37,7 +37,19 @@ export class StoreEffects {
     )
   );
 
-  addCategorieToStore$ = createEffect(() =>
+  updateStoreInventory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(storeActions.updateStoreInventory),
+      mergeMap((action) =>
+        this.storeService.updateStoreInventory(action.id, action.store).pipe(
+          map((store) => storeActions.storeLoaded({ payload: store })),
+          catchError(() => of(storeActions.loadStoreException()))
+        )
+      )
+    )
+  );
+
+  addCategoriesToStore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(storeActions.addCategoriesToStore),
       mergeMap((action) =>

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../../base.service';
 import { catchError } from 'rxjs';
 import { Item } from '../models/domain/item';
+import { UpdateStoreInventoryDto } from '../models/valueobjects/store.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,13 @@ export class StoreService extends BaseService {
 
   addItemToStoreInventory(id: string, item: Item) {
     return this.httpClient
-      .patch<Store>(`${this.storeApiUrl}/${id}/inventory`, item)
+      .patch<Store>(`${this.storeApiUrl}/${id}/inventory-item`, item)
+      .pipe(catchError(this.handleError));
+  }
+
+  updateStoreInventory(id: string, store: UpdateStoreInventoryDto) {
+    return this.httpClient
+      .patch<Store>(`${this.storeApiUrl}/${id}/inventory`, store)
       .pipe(catchError(this.handleError));
   }
 }

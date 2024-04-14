@@ -1,6 +1,7 @@
 import { createAction, props, Store } from '@ngrx/store';
 import { Store as Bank } from '../../store/models/domain/store';
 import { Item } from '../../store/models/domain/item';
+import { UpdateStoreInventoryDto } from '../../store/models/valueobjects/store.dto';
 
 export const createStore = createAction(
   '[Create Store] Store',
@@ -55,6 +56,11 @@ export const loadStoreException = createAction('[Load Store] Store');
 export const updateStore = createAction(
   '[Update Store] Store',
   props<{ id: string; store: Bank }>()
+);
+
+export const updateStoreInventory = createAction(
+  '[Update Store Inventory] Store',
+  props<{ id: string; store: UpdateStoreInventoryDto }>()
 );
 
 export const getStore = createAction(

@@ -59,6 +59,12 @@ export const storeFeature = createFeature({
         isLoading: false,
       };
     }),
+    on(storeActions.updateStoreInventory, (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }),
     on(storeActions.getStore, (state, action) => {
       return {
         ...state,

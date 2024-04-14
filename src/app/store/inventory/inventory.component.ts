@@ -23,6 +23,7 @@ import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { Store as Bank } from './../models/domain/store';
 import { Item } from '../models/domain/item';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UpdateItemComponent } from '../../components/dialogs/update-item/update-item.component';
 
 @Component({
   selector: 'app-inventory',
@@ -77,6 +78,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
   addItem() {
     const dialogRef = this.dialog.open(AddItemComponent, {
       data: {},
+      panelClass: 'dialog',
+    });
+  }
+
+  edit(id: string | undefined) {
+    const dialogRef = this.dialog.open(UpdateItemComponent, {
+      data: { id: id },
       panelClass: 'dialog',
     });
   }

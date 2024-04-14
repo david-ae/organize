@@ -27,8 +27,8 @@ export const getSales = createSelector(
 
 export const getSaleIsLoadingState = createSelector(
   saleFeatureState,
-  state => state.isLoading
-)
+  (state) => state.isLoading
+);
 
 export const saleFeature = createFeature({
   name: saleFeatureState.name,
@@ -41,12 +41,24 @@ export const saleFeature = createFeature({
         sales: action.payload,
       };
     }),
-    on(SaleActions.saleLoaded, (state, action) =>{
+    on(SaleActions.saleLoaded, (state, action) => {
       return {
         ...state,
         isLoading: false,
-        sales: [...state.sales, action.payload]
-      }
+        sales: [...state.sales, action.payload],
+      };
+    }),
+    on(SaleActions.salesCreated, (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }),
+    on(SaleActions.loadSpinner, (state, action) => {
+      return {
+        ...state,
+        isLoading: action.isLoaded,
+      };
     })
   ),
 });
@@ -55,5 +67,5 @@ export const {
   name: saleFeatureKey,
   reducer: saleReducer,
   selectSales,
-  selectIsLoading
+  selectIsLoading,
 } = saleFeature;

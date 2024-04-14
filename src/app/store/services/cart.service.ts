@@ -40,7 +40,8 @@ export class CartService {
   }
 
   clearCart() {
-    this.cart.clear();
+    this.cart = new Cart();
+    this.cart$.next(undefined);
   }
 
   getNewCart() {
