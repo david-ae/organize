@@ -1,8 +1,8 @@
 import { Environment } from './environment.interface';
 
 export const environment: Environment = {
-  Stores: 'http://localhost:3000/stores',
-  Users: 'http://localhost:3000/users',
-  Sales: 'http://localhost:3000/sales',
-  Categories: 'http://localhost:3000/categories',
+  Stores: 'https://proud-pink-giraffe.cyclic.app/stores',
+  Users: 'https://proud-pink-giraffe.cyclic.app/users',
+  Sales: 'https://proud-pink-giraffe.cyclic.app/sales',
+  Categories: 'https://proud-pink-giraffe.cyclic.app/categories',
 };
