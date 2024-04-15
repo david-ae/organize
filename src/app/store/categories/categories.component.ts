@@ -38,7 +38,7 @@ export class CategoriesComponent {
   categories: string[] = [];
   categriesFromStore: Category[] = [];
 
-  p:number = 1;
+  p: number = 1;
 
   customerStore!: Bank;
 
@@ -52,6 +52,7 @@ export class CategoriesComponent {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(categoryActions.loadSpinner({ isLoaded: true }));
     this.categoryForm = new FormGroup({
       searchCategories: new FormControl(''),
     });
@@ -70,6 +71,7 @@ export class CategoriesComponent {
       if (categories.length > 0) {
         this.categriesFromStore = categories;
       } else {
+        this.store.dispatch(categoryActions.loadSpinner({ isLoaded: false }));
         this.store.dispatch(categoryActions.getCategories());
       }
     });

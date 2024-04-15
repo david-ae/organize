@@ -16,4 +16,9 @@ export const userLoaded = createAction(
   props<{ payload: User }>()
 );
 
+export const loadSpinner = createAction(
+  '[Load Spinner] User',
+  props<{ isLoaded: boolean }>()
+);
+
 export const loadUserException = createAction('[Load User] User');

@@ -17,6 +17,8 @@ import {
 import { AuthService } from '../auth.service';
 import { Subject, takeUntil } from 'rxjs';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-signin',
@@ -28,6 +30,7 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
     RouterModule,
     ReactiveFormsModule,
     LoadingSpinnerComponent,
+    NgxSpinnerModule,
   ],
   providers: [BaseService, AuthService],
   templateUrl: './signin.component.html',

@@ -39,8 +39,8 @@ export const getAllUsers = createSelector(
 
 export const getUserisLoadingState = createSelector(
   userFeatureState,
-  state => state.isLoading
-)
+  (state) => state.isLoading
+);
 
 export const userFeature = createFeature({
   name: userFeatureState.name,
@@ -52,6 +52,12 @@ export const userFeature = createFeature({
         isLoading: false,
         store: action.payload,
       };
+    }),
+    on(userActions.loadSpinner, (state, action) => {
+      return {
+        ...state,
+        isLoading: action.isLoaded,
+      };
     })
   ),
 });
@@ -61,5 +67,5 @@ export const {
   reducer: userReducer,
   selectCurrentUser,
   selectUsers,
-  selectIsLoading
+  selectIsLoading,
 } = userFeature;

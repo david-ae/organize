@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, of } from 'rxjs';
+import { mergeMap, map, catchError, of, tap } from 'rxjs';
 import { UserService } from '../../store/services/user.service';
 import * as userActions from './../actions/user.actions';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private spinnerService: NgxSpinnerService
   ) {}
 
   getUser$ = createEffect(() =>
@@ -35,5 +37,14 @@ export class UserEffects {
         )
       )
     )
+  );
+
+  closeSpinner$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(userActions.userLoaded),
+        tap((action) => this.spinnerService.hide())
+      ),
+    { dispatch: false }
   );
 }

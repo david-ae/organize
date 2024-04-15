@@ -27,8 +27,8 @@ export const getCategories = createSelector(
 
 export const getCategoryIsLoadingState = createSelector(
   categoryFeatureState,
-  state => state.isLoading
-)
+  (state) => state.isLoading
+);
 
 export const categoryFeature = createFeature({
   name: categoryFeatureState.name,
@@ -47,6 +47,12 @@ export const categoryFeature = createFeature({
         isLoading: false,
         categories: [...state.categories, action.payload],
       };
+    }),
+    on(categoryAction.loadSpinner, (state, action) => {
+      return {
+        ...state,
+        isLoading: action.isLoaded,
+      };
     })
   ),
 });
@@ -55,5 +61,5 @@ export const {
   name: categoryFeatureKey,
   reducer: categoryReducer,
   selectCategories,
-  selectIsLoading
+  selectIsLoading,
 } = categoryFeature;

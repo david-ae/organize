@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import * as categoryActions from './../../app-store/actions/category.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, of } from 'rxjs';
+import { mergeMap, map, catchError, of, tap } from 'rxjs';
 import { loadSaleException } from '../actions/sale.actions';
 import { CategoriesService } from '../../store/services/categories.service';
 import * as storeActions from './../../app-store/actions/store.actions';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { loadCategoryException } from './../../app-store/actions/category.actions';
 
 @Injectable()
 export class CategoryEffects {
   constructor(
     private actions$: Actions,
-    private categoryService: CategoriesService
+    private categoryService: CategoriesService,
+    private spinnerService: NgxSpinnerService
   ) {}
 
   createCategory$ = createEffect(() =>
@@ -35,7 +38,7 @@ export class CategoryEffects {
           map((categories) =>
             categoryActions.categoriesLoaded({ payload: categories })
           ),
-          catchError(() => of(loadSaleException()))
+          catchError(() => of(loadCategoryException()))
         )
       )
     )
@@ -53,5 +56,14 @@ export class CategoryEffects {
         )
       )
     )
+  );
+
+  closeSpinner$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(categoryActions.categoryLoaded),
+        tap((action) => this.spinnerService.hide())
+      ),
+    { dispatch: false }
   );
 }

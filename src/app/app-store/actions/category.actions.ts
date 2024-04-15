@@ -11,7 +11,14 @@ export const getCategory = createAction(
   props<{ id: string }>()
 );
 
+export const loadSpinner = createAction(
+  '[Load Spinner] Category',
+  props<{ isLoaded: boolean }>()
+);
+
 export const getCategories = createAction('[Get Categories] Category');
+
+export const loadCategoryException = createAction('[Load Sale] Sale');
 
 export const categoriesLoaded = createAction(
   '[Categories Loaded] Category',

@@ -102,7 +102,7 @@ export class UpdateItemComponent implements OnInit, OnDestroy {
     let storeInventory: UpdateStoreInventoryDto = {
       inventories: inventory,
     };
-
+    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
     this.store.dispatch(
       storeActions.updateStoreInventory({
         id: this.currentStore.id as string,

@@ -11,11 +11,12 @@ import { Item } from '../models/domain/item';
 import { CartService } from '../services/cart.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddItemComponent } from '../../components/dialogs/add-item/add-item.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatButton],
+  imports: [CommonModule, MatButton, MatGridListModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
