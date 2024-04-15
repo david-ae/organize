@@ -5,12 +5,14 @@ import { loadStoreException, storeLoaded } from '../actions/store.actions';
 import { StoreService } from '../../store/services/store.service';
 import { Router } from '@angular/router';
 import * as storeActions from './../actions/store.actions';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Injectable()
 export class StoreEffects {
   constructor(
     private actions$: Actions,
     private storeService: StoreService,
-    private router: Router
+    private router: Router,
+    private spinnerService: NgxSpinnerService
   ) {}
 
   getStore$ = createEffect(() =>
@@ -80,6 +82,15 @@ export class StoreEffects {
       this.actions$.pipe(
         ofType(storeActions.storeLoaded),
         tap((action) => this.router.navigate(['/store/dashboard']))
+      ),
+    { dispatch: false }
+  );
+
+  closeSpinner$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(storeActions.storeLoaded),
+        tap((action) => this.spinnerService.hide())
       ),
     { dispatch: false }
   );

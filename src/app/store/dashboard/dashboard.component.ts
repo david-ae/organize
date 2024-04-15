@@ -11,17 +11,20 @@ import { Item } from '../models/domain/item';
 import { CartService } from '../services/cart.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddItemComponent } from '../../components/dialogs/add-item/add-item.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatButton],
+  imports: [CommonModule, MatButton, MatGridListModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private store = inject(Store<AppState>);
   cartService = inject(CartService);
+  private router = inject(Router);
 
   store$!: Observable<Bank>;
   inventory: Item[] = [];
@@ -41,6 +44,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     );
     this.store$.subscribe((store) => (this.inventory = store.inventory));
+  }
+
+  navigate(route: string) {
+    this.router.navigate([`/store/${route}`]);
   }
 
   addItem() {

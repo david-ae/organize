@@ -1,62 +1,65 @@
 <div class="w-1/2 ssm:w-5/6 xl:w-1/2 h-screen items-center pt-20 m-auto">
-  <mat-horizontal-stepper class="! text-black" color="primary" linear>
-    <mat-step class="custom-mat-icon" label="Store Details" completed="true">
-      <div [formGroup]="storeForm" class="grid grid-cols-1 gap-4 pt-5">
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="name"
-          placeholder="Enter Store Name"
-        />
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="email"
-          placeholder="Enter Store Email"
-        />
-        @if(getError(storeForm.get('email'))){
-        <label class="text-red-600">
-          {{ getError(storeForm.get("email")) }}
-        </label>
-        }
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="address"
-          placeholder="Enter Store Address"
-        />
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="storePhonenumber"
-          placeholder="Enter Store Phone Number"
-          restrictNumbers
-        />
-      </div>
-      <div class="pt-5 justify-between space-x-4">
-        <a
-          [routerLink]="['/signin']"
-          routerLinkActive="router-link-active"
-          mat-raised-button
-        >
-          Sign In
-        </a>
-        <button
-          class="float-right"
-          mat-raised-button
-          [disabled]="!storeForm.valid"
-          (click)="register()"
-          matStepperNext
-        >
-          Next
-        </button>
-      </div>
-    </mat-step>
-    <mat-step label="Welcome" completed="false">
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperPrevious>Back</button>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-20 h-20 m-auto text-black mb-10"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"
+    />
+  </svg>
+  <div [formGroup]="storeForm" class="grid grid-cols-1 gap-4 pt-5">
+    <input
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      type="text"
+      formControlName="name"
+      placeholder="Enter Store Name"
+    />
+    <input
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      type="text"
+      formControlName="email"
+      placeholder="Enter Store Email"
+    />
+    @if(getError(storeForm.get('email'))){
+    <label class="text-red-600">
+      {{ getError(storeForm.get("email")) }}
+    </label>
+    }
+    <input
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      type="text"
+      formControlName="address"
+      placeholder="Enter Store Address"
+    />
+    <input
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      type="text"
+      formControlName="storePhonenumber"
+      placeholder="Enter Store Phone Number"
+      restrictNumbers
+    />
+  </div>
+  <div class="justify-between pt-5">
+    <a
+      [routerLink]="'/signin'"
+      class="float-left"
+      mat-raised-button
+      color="primary"
+      >Back to Sign In</a
+    >
+    <button
+      class="float-right"
+      mat-raised-button
+      (click)="register()"
+      color="primary"
+    >
+      Sign up
+    </button>
+  </div>
 </div>

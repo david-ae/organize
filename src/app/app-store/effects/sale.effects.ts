@@ -6,10 +6,11 @@ import { StoreService } from '../../store/services/store.service';
 import * as saleActions from './../actions/sale.actions';
 import { SalesService } from '../../store/services/sales.service';
 import { loadSaleException } from './../actions/sale.actions';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable()
 export class SaleEffects {
-  constructor(private actions$: Actions, private saleService: SalesService) {}
+  constructor(private actions$: Actions, private saleService: SalesService, private spinnerService: NgxSpinnerService) {}
 
   // createSale$ = createEffect(() =>
   //   this.actions$.pipe(
@@ -45,5 +46,14 @@ export class SaleEffects {
         )
       )
     )
+  );
+
+  closeSpinner$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(saleActions.salesCreated, saleActions.salesLoaded),
+        tap((action) => this.spinnerService.hide())
+      ),
+    { dispatch: false }
   );
 }

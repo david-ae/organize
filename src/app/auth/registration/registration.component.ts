@@ -89,7 +89,6 @@ export class RegistrationComponent implements OnInit {
     const address = this.storeForm.get('address')?.value as string;
     const storePhonenumber = this.storeForm.get('storePhonenumber')
       ?.value as string;
-    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
     this.store.dispatch(
       storeActions.createStore({
         store: {

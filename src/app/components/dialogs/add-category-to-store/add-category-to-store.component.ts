@@ -133,6 +133,7 @@ export class AddCategoryToStoreComponent {
       .map((category) => categoriesToCreate.push(category.name));
 
     if (categoriesToCreate.length > 0 && this.currentStore) {
+      this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
       this.store.dispatch(
         storeActions.addCategoriesToStore({
           id: this.currentStore.id as string,

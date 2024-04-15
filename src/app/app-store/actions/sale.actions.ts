@@ -26,7 +26,7 @@ export const saleLoaded = createAction(
 );
 
 export const loadSpinner = createAction(
-  '[Load Spinner] Store',
+  '[Load Spinner] Sale',
   props<{ isLoaded: boolean }>()
 );
 

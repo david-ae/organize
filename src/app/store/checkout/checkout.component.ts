@@ -107,8 +107,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.cartService.clearCart();
   }
 
-  onChange(item: CartItem) {
-  }
+  onChange(item: CartItem) {}
 
   addSale() {
     // this.store.dispatch(saleActions.loadSpinner({ isLoaded: true }));
@@ -128,6 +127,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         count--;
       }
     });
+    this.store.dispatch(saleActions.loadSpinner({ isLoaded: true }));
     this.store.dispatch(saleActions.createSales({ sales: sales }));
     this.clearCart();
   }

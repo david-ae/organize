@@ -75,7 +75,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
       price: itemPrice,
       quantity: itemQuantity,
     };
-
+    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
     this.store.dispatch(
       storeActions.addItemToStoreInventory({
         id: this.currentStore.id as string,

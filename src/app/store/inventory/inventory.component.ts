@@ -44,7 +44,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   inventoryForm!: FormGroup;
   store$!: Observable<Bank>;
-  inventories: Item[] = [];
+  inventory: Item[] = [];
   inventories$!: Observable<Item[]>;
 
   customerStore!: Bank;
@@ -70,7 +70,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     );
 
-    this.store$.subscribe((store) => (this.inventories = store.inventory));
+    this.store$.subscribe((store) => (this.inventory = store.inventory));
   }
 
   onChange(event: any) {}
