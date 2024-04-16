@@ -16,79 +16,98 @@
   </svg>
   <h1 class="text-black col-span-1">Store Categories</h1>
 </div>
-<div [formGroup]="categoryForm" class="grid gap-4 grid-cols-4 text-center">
+<div [formGroup]="categoryForm" class="grid grid-cols-1 text-center">
   <input
     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline col-span-3"
     formControlName="searchCategories"
     (keyup)="onChange($event)"
     type="text"
-    placeholder="Search for item"
+    placeholder="Search for categories"
   />
-  <button mat-raised-button (click)="addItem()" class="primary px-2 py-4">
-    <mat-icon>add</mat-icon>
-  </button>
 </div>
-<div class="flex flex-col">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div class="overflow-hidden">
-        <table
-          class="min-w-full text-center text-sm font-light text-surface dark:text-white"
+<div
+  id="Projects"
+  class="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-3 ssm:grid-cols-2 justify-items-center gap-5 justify-center mt-5 mb-5"
+>
+  @for(item of categories; track $index; let first = $first){ @if(first){
+  <div
+    (click)="addItem()"
+    class="relative w-48 gap-2 p-4 m-auto ssm:w-40 shadow-lg rounded-2xl hover:cursor-pointer"
+  >
+    <div class="w-full h-full text-center">
+      <div class="grid grid-cols-1 justify-between h-full">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-20 h-20 m-auto text-black mb-10"
         >
-          <thead
-            class="border-b border-neutral-200 font-medium dark:border-white/10 text-black"
-          >
-            <tr>
-              <th scope="col" class="px-6 py-4">Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(item of categories | paginate: {itemsPerPage:10, currentPage:
-            p, totalItems: categories.length}; track $index){
-            <tr
-              class="border-b border-primary-200 bg-primary-100 text-neutral-800"
-            >
-              <td class="whitespace-nowrap px-6 py-4 font-medium">
-                {{ item }}
-              </td>
-            </tr>
-
-            }
-          </tbody>
-        </table>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+        <p class="mt-4 text-sm font-bold text-black italic">Add Category</p>
       </div>
-      @if(categories.length > 10){
-      <pagination-controls (pageChange)="p = $event"></pagination-controls>
-      }
+    </div>
+  </div>
+  }
+  <div
+    class="relative w-48 gap-2 p-4 ssm:w-40 m-auto shadow-lg rounded-2xl hover:cursor-pointer"
+  >
+    <div class="w-full h-full text-center">
+      <div class="grid grid-cols-1 justify-between h-full">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-20 h-20 m-auto mt-4 text-black dark:text-black col-span-1"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+          />
+        </svg>
+        <p class="mt-4 text-lg font-bold text-black italic">
+          {{ item }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+</div>
+}@else {
+<div
+  (click)="addItem()"
+  class="relative w-48 gap-2 p-4 m-auto shadow-lg rounded-2xl hover:cursor-pointer"
+>
+  <div class="w-full h-full text-center">
+    <div class="grid grid-cols-1 justify-between h-full">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-20 h-20 m-auto mt-4 text-black dark:text-black col-span-1"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+        />
+      </svg>
+      <p class="mt-4 text-lg font-bold text-black italic">Add Item</p>
     </div>
   </div>
 </div>
-}@else {
-<div class="grid grid-cols-1">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke-width="1.5"
-    stroke="currentColor"
-    class="w-20 h-20 m-auto mt-4 text-black dark:text-black"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
-    />
-  </svg>
-  <div class="m-auto text-black">
-    <h1>No Categories in your store</h1>
-    <button
-      mat-raised-button
-      (click)="addItem()"
-      color="primary"
-      class="w-full"
-    >
-      Add New Category
-    </button>
-  </div>
+<div class="grid grid-cols-1 text-center m-auto mt-4">
+  <h1 class="text-black">Store not categorized</h1>
 </div>
 }

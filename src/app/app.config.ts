@@ -14,6 +14,7 @@ import { UserEffects } from './app-store/effects/user.effects';
 import { SaleEffects } from './app-store/effects/sale.effects';
 import { CartService } from './store/services/cart.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { provideToastr, ToastrModule } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(routes),
     provideAnimationsAsync(),
+    provideToastr({ timeOut: 1000, positionClass: 'toast-center-center' }),
     provideStore(reducers, { metaReducers: [clearStateMetaReducer] }),
     provideEffects([StoreEffects, CategoryEffects, UserEffects, SaleEffects]),
     CartService,

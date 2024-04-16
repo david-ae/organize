@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 import * as categoryActions from './../../app-store/actions/category.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError, of, tap } from 'rxjs';
-import { loadSaleException } from '../actions/sale.actions';
 import { CategoriesService } from '../../store/services/categories.service';
-import * as storeActions from './../../app-store/actions/store.actions';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { loadCategoryException } from './../../app-store/actions/category.actions';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class CategoryEffects {
   constructor(
     private actions$: Actions,
     private categoryService: CategoriesService,
-    private spinnerService: NgxSpinnerService
+    private spinnerService: NgxSpinnerService,
+    private toasterService: ToastrService
   ) {}
 
   createCategory$ = createEffect(() =>
@@ -24,7 +23,13 @@ export class CategoryEffects {
           map((category) =>
             categoryActions.categoryLoaded({ payload: category })
           ),
-          catchError(() => of(loadSaleException()))
+          tap(() => this.toasterService.success('Category created')),
+          catchError(() => {
+            this.toasterService.error(
+              'Create Category Failed. Please try again'
+            );
+            return of(categoryActions.loadCategoryException());
+          })
         )
       )
     )
@@ -38,7 +43,12 @@ export class CategoryEffects {
           map((categories) =>
             categoryActions.categoriesLoaded({ payload: categories })
           ),
-          catchError(() => of(loadCategoryException()))
+          catchError(() => {
+            this.toasterService.error(
+              'Unable to retrieve Categories. Please try again'
+            );
+            return of(categoryActions.loadCategoryException());
+          })
         )
       )
     )
@@ -52,7 +62,10 @@ export class CategoryEffects {
           map((category) =>
             categoryActions.categoryLoaded({ payload: category })
           ),
-          catchError(() => of(loadSaleException()))
+          catchError(() => {
+            this.toasterService.error('Unable to retireve Category');
+            return of(categoryActions.loadCategoryException());
+          })
         )
       )
     )
@@ -61,7 +74,10 @@ export class CategoryEffects {
   closeSpinner$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(categoryActions.categoryLoaded),
+        ofType(
+          categoryActions.categoryLoaded,
+          categoryActions.loadCategoryException
+        ),
         tap((action) => this.spinnerService.hide())
       ),
     { dispatch: false }
