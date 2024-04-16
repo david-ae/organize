@@ -7,10 +7,16 @@ import * as saleActions from './../actions/sale.actions';
 import { SalesService } from '../../store/services/sales.service';
 import { loadSaleException } from './../actions/sale.actions';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class SaleEffects {
-  constructor(private actions$: Actions, private saleService: SalesService, private spinnerService: NgxSpinnerService) {}
+  constructor(
+    private actions$: Actions,
+    private saleService: SalesService,
+    private spinnerService: NgxSpinnerService,
+    private toastrService: ToastrService
+  ) {}
 
   // createSale$ = createEffect(() =>
   //   this.actions$.pipe(
@@ -30,7 +36,13 @@ export class SaleEffects {
       exhaustMap((action) =>
         this.saleService.createSales(action.sales).pipe(
           map(() => saleActions.salesCreated()),
-          catchError(() => of(loadSaleException()))
+          tap(() => this.toastrService.success('Sale(s) created successfully')),
+          catchError(() => {
+            this.toastrService.error(
+              'Unable to create sale(s). Please try again'
+            );
+            return of(saleActions.loadSaleException());
+          })
         )
       )
     )
@@ -42,7 +54,10 @@ export class SaleEffects {
       mergeMap((action) =>
         this.saleService.getSales(action.storeId).pipe(
           map((sales) => saleActions.salesLoaded({ payload: sales })),
-          catchError(() => of(loadSaleException()))
+          catchError(() => {
+            this.toastrService.error('Unable to retrieve sales');
+            return of(saleActions.loadSaleException());
+          })
         )
       )
     )
@@ -51,7 +66,11 @@ export class SaleEffects {
   closeSpinner$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(saleActions.salesCreated, saleActions.salesLoaded),
+        ofType(
+          saleActions.salesCreated,
+          saleActions.salesLoaded,
+          saleActions.loadSaleException
+        ),
         tap((action) => this.spinnerService.hide())
       ),
     { dispatch: false }

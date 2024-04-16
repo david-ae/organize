@@ -3,7 +3,11 @@ import { AppState } from '../../../app.state';
 import { select, Store } from '@ngrx/store';
 import { Category } from '../../../store/models/domain/category';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import {
   BehaviorSubject,
   Observable,
@@ -25,6 +29,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import * as categoryActions from './../../../app-store/actions/category.actions';
 import * as storeActions from './../../../app-store/actions/store.actions';
+import { ToastrService } from 'ngx-toastr';
 export interface CategoryForUI {
   name: string;
   checked: boolean;
@@ -56,7 +61,11 @@ export class AddCategoryToStoreComponent {
   categoriesAvaliable = false;
   currentStore!: Bank;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private toastrService: ToastrService,
+    private dialog: MatDialogRef<AddCategoryToStoreComponent>
+  ) {}
 
   unsubscriber$ = new Subject<void>();
 
@@ -140,8 +149,10 @@ export class AddCategoryToStoreComponent {
           categories: categoriesToCreate,
         })
       );
+
+      this.dialog.close();
     } else {
-      //alert error
+      this.toastrService.error('Something went wrong. Please try again');
     }
   }
 }
