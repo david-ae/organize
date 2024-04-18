@@ -78,6 +78,13 @@ export const storeFeature = createFeature({
         store: action.payload,
       };
     }),
+    on(storeActions.storeCreated, (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        store: action.payload,
+      };
+    }),
     on(storeActions.loadSpinner, (state, action) => {
       return {
         ...state,

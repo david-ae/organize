@@ -5,13 +5,15 @@ import { mergeMap, map, catchError, of, tap } from 'rxjs';
 import { CategoriesService } from '../../store/services/categories.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-
+import * as storeActions from './../actions/store.actions';
+import { StoreService } from '../../store/services/store.service';
 @Injectable()
 export class CategoryEffects {
   constructor(
     private actions$: Actions,
     private categoryService: CategoriesService,
     private spinnerService: NgxSpinnerService,
+    private storeService: StoreService,
     private toasterService: ToastrService
   ) {}
 
@@ -67,6 +69,26 @@ export class CategoryEffects {
             return of(categoryActions.loadCategoryException());
           })
         )
+      )
+    )
+  );
+
+  addCategoriesToStore$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(storeActions.addCategoriesToStore),
+      mergeMap((action) =>
+        this.storeService
+          .addCategoriesToStore(action.id, action.categories)
+          .pipe(
+            map((store) => storeActions.storeLoaded({ payload: store })),
+            tap(() =>
+              this.toasterService.success('Categories added to your store')
+            ),
+            catchError(() => {
+              this.toasterService.error('Categories not added to your store');
+              return of(storeActions.loadStoreException());
+            })
+          )
       )
     )
   );

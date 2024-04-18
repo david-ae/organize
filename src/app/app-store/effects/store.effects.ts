@@ -17,30 +17,13 @@ export class StoreEffects {
     private toastrService: ToastrService
   ) {}
 
-  getStore$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(storeActions.loadStore),
-      exhaustMap((action) =>
-        this.storeService.getStore(action.id).pipe(
-          map((store) => storeActions.storeLoaded({ payload: store })),
-          catchError(() => {
-            this.toastrService.error('Unable to retrieve your store');
-            return of(storeActions.loadStoreException());
-          })
-        )
-      )
-    )
-  );
-
   createStore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(storeActions.createStore),
       mergeMap((action) =>
         this.storeService.createStore(action.store).pipe(
-          map((store) => storeActions.storeLoaded({ payload: store })),
-          tap(() =>
-            this.toastrService.success('Your has be created. Congratulations')
-          ),
+          map((store) => storeActions.storeCreated({ payload: store })),
+          tap(() => this.router.navigate(['/store/dashboard'])),
           catchError(() => {
             this.toastrService.error(
               'Unable to create your store. Please try again'
@@ -59,7 +42,9 @@ export class StoreEffects {
         this.storeService.updateStoreInventory(action.id, action.store).pipe(
           map((store) => storeActions.storeLoaded({ payload: store })),
           tap(() =>
-            this.toastrService.success('Your was updated successfully')
+            this.toastrService.success(
+              'Your inventory was updated successfully'
+            )
           ),
           catchError(() => {
             this.toastrService.error(
@@ -72,35 +57,15 @@ export class StoreEffects {
     )
   );
 
-  addCategoriesToStore$ = createEffect(() =>
+  getStoreByEmail$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(storeActions.addCategoriesToStore),
-      mergeMap((action) =>
-        this.storeService
-          .addCategoriesToStore(action.id, action.categories)
-          .pipe(
-            map((store) => storeActions.storeLoaded({ payload: store })),
-            tap(() =>
-              this.toastrService.success('Categories added to your store')
-            ),
-            catchError(() => {
-              this.toastrService.error('Categories not added to your store');
-              return of(storeActions.loadStoreException());
-            })
-          )
-      )
-    )
-  );
-
-  addItemToStoreInventory$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(storeActions.addItemToStoreInventory),
-      mergeMap((action) =>
-        this.storeService.addItemToStoreInventory(action.id, action.item).pipe(
-          map((store) => storeActions.storeLoaded({ payload: store })),
-          tap(() => this.toastrService.success('Item added to your store')),
+      ofType(storeActions.loadStoreByEmail),
+      exhaustMap((action) =>
+        this.storeService.getStoreByEmail(action.email).pipe(
+          map((store) => storeActions.signedIn({ payload: store })),
+          tap(() => this.router.navigate(['/store/dashboard'])),
           catchError(() => {
-            this.toastrService.error('Unable to add item to your store');
+            this.toastrService.error('Unable to retrieve your store');
             return of(storeActions.loadStoreException());
           })
         )
@@ -108,19 +73,15 @@ export class StoreEffects {
     )
   );
 
-  loginRedirect$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(storeActions.storeLoaded),
-        tap((action) => this.router.navigate(['/store/dashboard']))
-      ),
-    { dispatch: false }
-  );
-
   closeSpinner$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(storeActions.storeLoaded, storeActions.loadStoreException),
+        ofType(
+          storeActions.storeLoaded,
+          storeActions.loadStoreException,
+          storeActions.signedIn,
+          storeActions.storeCreated
+        ),
         tap((action) => this.spinnerService.hide())
       ),
     { dispatch: false }

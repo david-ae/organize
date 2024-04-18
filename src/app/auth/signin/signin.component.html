@@ -1,4 +1,4 @@
-<div class="flex h-screen">
+<div class="flex flex-col min-h-screen">
   <div class="m-auto mt-auto">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,11 +16,18 @@
     </svg>
 
     @if(buttonText !== 'Login'){
-    <button mat-raised-button color="warn">
-      <a (click)="signin()" routerLinkActive="router-link-active">
-        {{ buttonText }}</a
-      >
-    </button>
+    <div class="grid grid-cols-1 gap-4">
+      <button mat-raised-button color="warn">
+        <a (click)="signin()" routerLinkActive="router-link-active">
+          {{ buttonText }}</a
+        >
+      </button>
+      <button mat-raised-button color="accent">
+        <a (click)="removeAccount()" routerLinkActive="router-link-active">
+          Remove Account</a
+        >
+      </button>
+    </div>
     }@else {
     <div [formGroup]="signinForm" class="grid grid-cols-1 gap-4">
       <input
@@ -37,11 +44,12 @@
       >
         {{ buttonText }}
       </button>
-      <a mat-raised-button [routerLink]="'/registration'" color="accent"
+      <a mat-raised-button [routerLink]="'/onboarding'" color="accent"
         >Create an account</a
       >
     </div>
     }
   </div>
+  <app-footer></app-footer>
 </div>
 <app-loading-spinner></app-loading-spinner>
