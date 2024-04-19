@@ -55,6 +55,7 @@
     >
     <button
       class="float-right"
+      [disabled]="!storeForm.valid"
       mat-raised-button
       (click)="register()"
       color="primary"
@@ -63,3 +64,4 @@
     </button>
   </div>
 </div>
+<app-loading-spinner></app-loading-spinner>

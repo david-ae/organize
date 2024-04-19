@@ -15,11 +15,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-signin',
@@ -32,6 +34,8 @@ import { ToastrService } from 'ngx-toastr';
     ReactiveFormsModule,
     LoadingSpinnerComponent,
     NgxSpinnerModule,
+    CommonModule,
+    FooterComponent,
   ],
   providers: [BaseService, AuthService],
   templateUrl: './signin.component.html',
@@ -39,12 +43,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SigninComponent implements OnInit, OnDestroy {
   private baseService = inject(BaseService);
-  private authService = inject(AuthService);
-  private router = inject(Router);
   store = inject(Store<AppState>);
 
   signinForm!: FormGroup;
-  buttonText = 'Login';
+  buttonText$ = new BehaviorSubject('Login');
+  btnText$ = this.buttonText$.asObservable();
+  buttonText = '';
   key = this.baseService.key;
   userDetails: AppUserDto = { email: '', id: '' };
 
@@ -61,12 +65,15 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.signinForm = new FormGroup({
       email: new FormControl('', [Validators.required]),
     });
+    this.btnText$.subscribe((text) => (this.buttonText = text));
     const storeUser = this.baseService.getItemFromLocalStorage(
       this.key
     ) as string;
     this.userDetails = JSON.parse(storeUser);
+
     if (this.userDetails !== null) {
       this.buttonText = this.buttonText + ` as ${this.userDetails.email}`;
+      this.buttonText$.next(this.buttonText);
     }
   }
 
@@ -79,14 +86,11 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   private getStoreAndRedirect(email: string) {
-    this.authService
-      .getStoreByEmail(email)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((store) => {
-        if (store) {
-          this.store.dispatch(storeActions.storeLoaded({ payload: store }));
-          this.router.navigate(['/store/dashboard']);
-        }
-      });
+    this.store.dispatch(storeActions.loadStoreByEmail({ email: email }));
+  }
+
+  removeAccount() {
+    this.baseService.removeItemFromLocalStorage(this.key);
+    this.buttonText$.next('Login');
   }
 }

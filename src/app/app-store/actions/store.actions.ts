@@ -10,7 +10,7 @@ export const createStore = createAction(
 
 export const storeCreated = createAction(
   '[Store Created] Store',
-  props<{ store: Store }>()
+  props<{ payload: Bank }>()
 );
 
 export const addCategoriesToStore = createAction(
@@ -47,6 +47,10 @@ export const loadStoreByEmail = createAction(
 );
 
 export const storeLoaded = createAction(
+  '[Store Loaded] Store',
+  props<{ payload: Bank }>()
+);
+export const signedIn = createAction(
   '[Store Loaded] Store',
   props<{ payload: Bank }>()
 );

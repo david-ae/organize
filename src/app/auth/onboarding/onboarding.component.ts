@@ -1,4 +1,4 @@
-import { AppState } from './../../app.state';
+import { AppState } from '../../app.state';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -11,15 +11,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { select, Store } from '@ngrx/store';
-import * as storeActions from './../../app-store/actions/store.actions';
+import * as storeActions from '../../app-store/actions/store.actions';
 import { Observable } from 'rxjs';
-import { Store as Bank } from './../../store/models/domain/store';
+import { Store as Bank } from '../../store/models/domain/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { NumberRestrictionDirective } from '../../directives/number-restriction.directive';
 import { RouterModule } from '@angular/router';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
-  selector: 'app-registration',
+  selector: 'app-onboarding',
   standalone: true,
   imports: [
     MatStepperModule,
@@ -27,12 +28,12 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     MatButtonToggleModule,
     RouterModule,
-    NumberRestrictionDirective,
+    LoadingSpinnerComponent,
   ],
-  templateUrl: './registration.component.html',
-  styleUrl: './registration.component.css',
+  templateUrl: './onboarding.component.html',
+  styleUrl: './onboarding.component.css',
 })
-export class RegistrationComponent implements OnInit {
+export class OnboardingComponent implements OnInit {
   store = inject(Store<AppState>);
   userForm!: FormGroup;
   storeForm!: FormGroup;
@@ -41,10 +42,7 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.storeForm = new FormGroup({
-      name: new FormControl('', [
-        Validators.required,
-        this.customRequiredValidator,
-      ]),
+      name: new FormControl('', [Validators.required]),
       email: new FormControl('', [
         Validators.required,
         this.customEmailValidator,
@@ -57,9 +55,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   getError(control: any): string {
-    if (control.errors?.required && control.tounched) {
-      return 'This field is required';
-    } else if (control.errors?.emailError && control.touched) {
+    if (control.errors?.emailError && control.touched) {
       return 'Please enter a valid email address';
     } else return '';
   }
@@ -84,6 +80,8 @@ export class RegistrationComponent implements OnInit {
   }
 
   register() {
+    // this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
+
     const name = this.storeForm.get('name')?.value as string;
     const storeEmail = this.storeForm.get('email')?.value as string;
     const address = this.storeForm.get('address')?.value as string;
