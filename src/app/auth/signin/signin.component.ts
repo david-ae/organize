@@ -50,7 +50,7 @@ export class SigninComponent implements OnInit, OnDestroy {
   btnText$ = this.buttonText$.asObservable();
   buttonText = '';
   key = this.baseService.key;
-  userDetails: AppUserDto = { email: '', id: '' };
+  userDetails!: AppUserDto | null;
 
   unsubscribe$ = new Subject<void>();
 
@@ -91,6 +91,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
   removeAccount() {
     this.baseService.removeItemFromLocalStorage(this.key);
+    this.userDetails = null;
     this.buttonText$.next('Login');
   }
 }

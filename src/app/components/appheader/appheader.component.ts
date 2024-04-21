@@ -68,6 +68,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   addSale() {
     let dialogRef = this.dialog.open(SaleComponent, {
       data: { inventories: this.inventories },
+      width: '80%',
       panelClass: 'dialog',
     });
     dialogRef.afterOpened().subscribe((result) => {});
