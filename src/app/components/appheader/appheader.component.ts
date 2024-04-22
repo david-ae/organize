@@ -34,7 +34,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   store$!: Observable<Bank>;
   currentStoreUser!: AppUserDto;
   key = this.baseService.key;
-  inventories: Item[] = [];
+  inventory: Item[] = [];
 
   unsubriber$ = new Subject<void>();
 
@@ -56,7 +56,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
     this.store$ = this.store.pipe(select(getStoreDetails));
     this.store$.subscribe((store) => {
       this.currentStoreUser = { email: store.email, id: store.id as string };
-      this.inventories = store.inventory;
+      this.inventory = store.inventory;
     });
   }
 
@@ -67,7 +67,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
 
   addSale() {
     let dialogRef = this.dialog.open(SaleComponent, {
-      data: { inventories: this.inventories },
+      data: { inventories: this.inventory },
       width: '80%',
       panelClass: 'dialog',
     });

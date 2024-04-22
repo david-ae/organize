@@ -13,11 +13,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddItemComponent } from '../../components/dialogs/add-item/add-item.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { Router } from '@angular/router';
+import { SaleComponent } from '../../components/sale/sale.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatButton, MatGridListModule],
+  imports: [CommonModule, MatButton, MatGridListModule, MatIconModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -55,5 +57,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       data: {},
       panelClass: 'dialog',
     });
+  }
+
+  addSale() {
+    let dialogRef = this.dialog.open(SaleComponent, {
+      data: { inventories: this.inventory },
+      width: '80%',
+      panelClass: 'dialog',
+    });
+    dialogRef.afterOpened().subscribe((result) => {});
   }
 }

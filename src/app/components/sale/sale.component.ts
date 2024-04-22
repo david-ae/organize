@@ -72,7 +72,11 @@ export class SaleComponent implements OnInit, OnDestroy {
         filter((item) => !!item),
         switchMap((i: string) =>
           i
-            ? of(this.inventories?.filter((s: Item) => s.name.includes(i)))
+            ? of(
+                this.inventories?.filter((s: Item) =>
+                  s.name.toLowerCase().includes(i.toLowerCase())
+                )
+              )
             : of([])
         )
       )
