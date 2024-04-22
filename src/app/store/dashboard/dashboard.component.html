@@ -3,6 +3,32 @@
   class="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 ssm:grid-cols-2 justify-items-center gap-5 justify-center mt-5 mb-5 pb-10"
 >
   <div
+    (click)="addSale()"
+    class="relative w-32 lg:w-48 p-2 lg:p-3 m-auto shadow-lg rounded-2xl hover:cursor-pointer"
+  >
+    <div class="w-full h-full text-center">
+      <div class="grid grid-cols-1 justify-between h-full">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-10 lg:w-20 h-20 m-auto mt-4 text-black dark:text-black"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+        <p class="mt-4 text-xs lg:text-lg font-bold text-black italic">
+          New Sale
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
     class="relative w-32 lg:w-48 p-2 lg:p-3 m-auto shadow-lg rounded-2xl hover:cursor-pointer"
     (click)="navigate('categories')"
   >
