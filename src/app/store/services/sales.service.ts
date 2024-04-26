@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Sale } from '../models/domain/sale';
 import { BaseService } from '../../base.service';
 import { catchError } from 'rxjs';
+import { SaleSearchRequest } from './models/sales-search-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,14 @@ export class SalesService extends BaseService {
   getSales(storeId: string) {
     return this.httpClient
       .get<Sale[]>(`${this.saleApiUrl}/${storeId}/storeSales`)
+      .pipe(catchError(this.handleError));
+  }
+
+  getSalesByQuery(storeId: string, query: SaleSearchRequest) {
+    return this.httpClient
+      .get<Sale[]>(
+        `${this.saleApiUrl}/${storeId}/storeSalesByQuery?${query.sort}`
+      )
       .pipe(catchError(this.handleError));
   }
 

@@ -3,7 +3,6 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { MatButton } from '@angular/material/button';
-import * as storeActions from './../../app-store/actions/store.actions';
 import { AppState } from '../../app.state';
 import { Store as Bank } from './../../store/models/domain/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
@@ -15,6 +14,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { Router } from '@angular/router';
 import { SaleComponent } from '../../components/sale/sale.component';
 import { MatIconModule } from '@angular/material/icon';
+import { Category } from '../models/domain/category';
+import { getCategories } from '../../app-store/reducers/category.reducer';
+import * as categoryActions from './../../app-store/actions/category.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,11 +26,12 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  private store = inject(Store<AppState>);
+  store = inject(Store<AppState>);
   cartService = inject(CartService);
   private router = inject(Router);
 
   store$!: Observable<Bank>;
+  category$!: Observable<Category[]>;
   inventory: Item[] = [];
 
   unsubscribe$ = new Subject<void>();
@@ -41,10 +44,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(categoryActions.loadSpinner({ isLoaded: false }));
+    this.store.dispatch(categoryActions.getCategories());
+
     this.store$ = this.store.pipe(
       select(getStoreDetails),
       takeUntil(this.unsubscribe$)
     );
+
+    this.category$ = this.store.pipe(
+      select(getCategories),
+      takeUntil(this.unsubscribe$)
+    );
+
     this.store$.subscribe((store) => (this.inventory = store.inventory));
   }
 

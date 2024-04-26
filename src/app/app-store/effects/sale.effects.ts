@@ -18,17 +18,22 @@ export class SaleEffects {
     private toastrService: ToastrService
   ) {}
 
-  // createSale$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(saleActions.createSale),
-  //     mergeMap((action) =>
-  //       this.saleService.createSale(action.id, action.sale).pipe(
-  //         map((sale) => saleActions.saleLoaded({ payload: sale })),
-  //         catchError(() => of(loadSaleException()))
-  //       )
-  //     )
-  //   )
-  // );
+  getSalesByQuery$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(saleActions.getSalesByQuery),
+      mergeMap((action) =>
+        this.saleService.getSalesByQuery(action.storeId, action.query).pipe(
+          map((sales) => saleActions.salesLoaded({ payload: sales })),
+          catchError(() => {
+            this.toastrService.error(
+              'Unable to retrieve sales. Please try again'
+            );
+            return of(saleActions.loadSaleException());
+          })
+        )
+      )
+    )
+  );
 
   createSales$ = createEffect(() =>
     this.actions$.pipe(

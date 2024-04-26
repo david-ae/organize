@@ -20,6 +20,8 @@ import { Item } from '../../../store/models/domain/item';
 import { MatButtonModule } from '@angular/material/button';
 import * as storeActions from './../../../app-store/actions/store.actions';
 import { UpdateStoreInventoryDto } from '../../../store/models/valueobjects/store.dto';
+import { Category } from '../../../store/models/domain/category';
+import { getCategories } from '../../../app-store/reducers/category.reducer';
 
 @Component({
   selector: 'app-update-item',
@@ -35,6 +37,7 @@ export class UpdateItemComponent implements OnInit, OnDestroy {
   updateItemForm!: FormGroup;
   store$!: Observable<Bank>;
   categories: string[] = [];
+  categories$!: Observable<Category[]>;
   currentStore!: Bank;
 
   currentItem!: Item;
@@ -64,8 +67,16 @@ export class UpdateItemComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscriber$)
     );
     this.store$.subscribe((store) => {
-      this.categories = store.categories;
       this.currentStore = store;
+    });
+
+    this.categories$ = this.store.pipe(
+      select(getCategories),
+      takeUntil(this.unsubscriber$)
+    );
+
+    this.categories$.subscribe((categories) => {
+      categories.map((c) => this.categories.push(c.name));
     });
 
     this.currentItem = this.currentStore.inventory.find(

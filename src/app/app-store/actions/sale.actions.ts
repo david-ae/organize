@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { CreateSale, Sale } from '../../store/models/domain/sale';
+import { SaleSearchRequest } from '../../store/services/models/sales-search-request.model';
 
 // export const createSale = createAction(
 //   '[Create Sale] Sale',
@@ -14,6 +15,11 @@ export const createSales = createAction(
 export const getSales = createAction(
   '[Get Sales] Sale',
   props<{ storeId: string }>()
+);
+
+export const getSalesByQuery = createAction(
+  '[Get Sales By Query] Sale',
+  props<{ storeId: string; query: SaleSearchRequest }>()
 );
 
 export const salesLoaded = createAction(

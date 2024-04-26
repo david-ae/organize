@@ -61,6 +61,7 @@ export class CategoriesComponent {
       select(getStoreDetails),
       takeUntil(this.unsubscribe$)
     );
+
     this.category$ = this.store.pipe(
       select(getCategories),
       takeUntil(this.unsubscribe$)
@@ -68,12 +69,7 @@ export class CategoriesComponent {
 
     this.store$.subscribe((store) => (this.categories = store.categories));
     this.category$.subscribe((categories) => {
-      if (categories.length > 0) {
-        this.categriesFromStore = categories;
-      } else {
-        this.store.dispatch(categoryActions.loadSpinner({ isLoaded: false }));
-        this.store.dispatch(categoryActions.getCategories());
-      }
+      this.categriesFromStore = categories;
     });
   }
 
