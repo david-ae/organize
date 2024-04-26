@@ -47,4 +47,16 @@ export class StoreService extends BaseService {
       .post<Store>(`${this.storeApiUrl}/details`, { email: email })
       .pipe(share());
   }
+
+  getStoreCategories(id: string) {
+    return this.httpClient
+      .get<Store>(`${this.storeApiUrl}/${id}/storeCategories`)
+      .pipe(share());
+  }
+
+  getStoreItemByCategory(id: string, category: string) {
+    return this.httpClient
+      .get<Store>(`${this.storeApiUrl}/${id}/storeItems?category=${category}`)
+      .pipe(share());
+  }
 }

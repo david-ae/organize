@@ -17,6 +17,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NumberRestrictionDirective } from '../../../directives/number-restriction.directive';
 import { Item } from '../../../store/models/domain/item';
 import * as storeActions from './../../../app-store/actions/store.actions';
+import { Category } from '../../../store/models/domain/category';
+import { getCategories } from '../../../app-store/reducers/category.reducer';
 @Component({
   selector: 'app-add-item',
   standalone: true,
@@ -31,6 +33,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
   itemForm!: FormGroup;
   store$!: Observable<Bank>;
   categories: string[] = [];
+  categories$!: Observable<Category[]>;
   currentStore!: Bank;
 
   unsubscriber$ = new Subject<void>();
@@ -58,8 +61,16 @@ export class AddItemComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscriber$)
     );
     this.store$.subscribe((store) => {
-      this.categories = store.categories;
       this.currentStore = store;
+    });
+
+    this.categories$ = this.store.pipe(
+      select(getCategories),
+      takeUntil(this.unsubscriber$)
+    );
+
+    this.categories$.subscribe((categories) => {
+      categories.map((c) => this.categories.push(c.name));
     });
   }
 
