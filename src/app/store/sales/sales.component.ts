@@ -18,6 +18,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { DatePickerComponent } from '../../components/date-picker/date-picker.component';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { SaleDto } from '../../app-store/models/sale.dto';
 
 const today = new Date();
 const month = today.getMonth();
@@ -34,6 +37,8 @@ const year = today.getFullYear();
     MatDatepickerModule,
     MatInputModule,
     DatePickerComponent,
+    PaginationComponent,
+    NgxPaginationModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './sales.component.html',
@@ -43,14 +48,17 @@ export class SalesComponent implements OnInit, OnDestroy {
   store = inject(Store<AppState>);
   salesForm!: FormGroup;
 
-  saleStore$!: Observable<Sale[]>;
+  saleStore$!: Observable<SaleDto[]>;
   store$!: Observable<Bank>;
-  sales: Sale[] = [];
+  sales: SaleDto[] = [];
   storeId!: string;
+
+  itemsPerPage = 10;
+  currentPage = 1;
 
   fields = ['itemName', 'status', 'transactionDate'];
 
-  categories:string[] = [];
+  categories: string[] = [];
 
   unsubscribe$ = new Subject<void>();
 
@@ -83,24 +91,34 @@ export class SalesComponent implements OnInit, OnDestroy {
       this.storeId = store.id as string;
     });
 
+    this.store.dispatch(
+      saleActions.getSalesByGroupQuery({
+        storeId: this.storeId as string,
+      })
+    );
+
     this.saleStore$.subscribe((sales) => {
       if (this.storeId) {
-        if (sales.length > 0) {
-          this.sales = sales;
-        } else
-          this.store.dispatch(
-            saleActions.getSalesByQuery({
-              storeId: this.storeId as string,
-              query: { sort: 'itemName=Polo' },
-            })
-          );
+        this.sales = sales;
       }
     });
+  }
+
+  get paginateData() {
+    this.currentPage--;
+    const start = this.currentPage + this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+
+    return this.sales.slice(start, end);
   }
 
   onChange(event: any) {}
 
   addSale() {
     const dialogRef = this.dialog.open(SaleComponent, { data: '' });
+  }
+
+  changePage(event: any) {
+    console.log(event);
   }
 }

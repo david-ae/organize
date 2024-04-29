@@ -4,6 +4,7 @@ import { Sale } from '../models/domain/sale';
 import { BaseService } from '../../base.service';
 import { catchError } from 'rxjs';
 import { SaleSearchRequest } from './models/sales-search-request.model';
+import { SaleDto } from '../../app-store/models/sale.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,12 @@ export class SalesService extends BaseService {
       .get<Sale[]>(
         `${this.saleApiUrl}/${storeId}/storeSalesByQuery?${query.sort}`
       )
+      .pipe(catchError(this.handleError));
+  }
+
+  getSalesByGroupQuery(storeId: string) {
+    return this.httpClient
+      .get<SaleDto[]>(`${this.saleApiUrl}/${storeId}/storeSalesByGroupQuery`)
       .pipe(catchError(this.handleError));
   }
 

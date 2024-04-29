@@ -7,10 +7,11 @@ import {
 } from '@ngrx/store';
 import { Sale } from '../../store/models/domain/sale';
 import * as SaleActions from './../actions/sale.actions';
+import { SaleDto } from '../models/sale.dto';
 
 export interface SaleState {
   isLoading: boolean;
-  sales: Sale[];
+  sales: SaleDto[];
 }
 
 export const initialSaleStore: SaleState = {
@@ -39,13 +40,6 @@ export const saleFeature = createFeature({
         ...state,
         isLoading: false,
         sales: action.payload,
-      };
-    }),
-    on(SaleActions.saleLoaded, (state, action) => {
-      return {
-        ...state,
-        isLoading: false,
-        sales: [...state.sales, action.payload],
       };
     }),
     on(SaleActions.salesCreated, (state, action) => {

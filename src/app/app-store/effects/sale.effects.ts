@@ -18,11 +18,11 @@ export class SaleEffects {
     private toastrService: ToastrService
   ) {}
 
-  getSalesByQuery$ = createEffect(() =>
+  getSalesByGroupQuery$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(saleActions.getSalesByQuery),
+      ofType(saleActions.getSalesByGroupQuery),
       mergeMap((action) =>
-        this.saleService.getSalesByQuery(action.storeId, action.query).pipe(
+        this.saleService.getSalesByGroupQuery(action.storeId).pipe(
           map((sales) => saleActions.salesLoaded({ payload: sales })),
           catchError(() => {
             this.toastrService.error(
@@ -46,21 +46,6 @@ export class SaleEffects {
             this.toastrService.error(
               'Unable to create sale(s). Please try again'
             );
-            return of(saleActions.loadSaleException());
-          })
-        )
-      )
-    )
-  );
-
-  getSales$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(saleActions.getSales),
-      mergeMap((action) =>
-        this.saleService.getSales(action.storeId).pipe(
-          map((sales) => saleActions.salesLoaded({ payload: sales })),
-          catchError(() => {
-            this.toastrService.error('Unable to retrieve sales');
             return of(saleActions.loadSaleException());
           })
         )
