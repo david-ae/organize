@@ -6,15 +6,26 @@
       </button> -->
       <!-- <div>Organize</div> -->
     </div>
-    <span class="m-3 cursor-pointer">
+    <!-- <span class="m-3 cursor-pointer">
       <a (click)="addSale()" routerLinkActive="text-white">
         <mat-icon>library_add</mat-icon>
       </a>
-    </span>
+    </span> -->
     <div class="">
       <span class="m-3 cursor-pointer">
         <a [routerLink]="'/store/dashboard'" routerLinkActive="text-white">
           <mat-icon>home_app_logo</mat-icon>
+        </a>
+      </span>
+      <span class="m-3 cursor-pointer"
+        ><a
+          [routerLink]="'/store/shop'"
+          class="link"
+          routerLinkActive="text-white"
+        >
+          <mat-icon
+            ><span class="material-symbols-outlined"> shopping_bag </span>
+          </mat-icon>
         </a>
       </span>
       <span class="m-3 cursor-pointer"

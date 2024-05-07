@@ -1,7 +1,11 @@
-.add{
+.add {
   background-color: green;
 }
 
-.subtract{
+.subtract {
   background-color: red;
+}
+
+::ng-deep .mat-typography p {
+  margin: 0px 0px 0px;
 }
