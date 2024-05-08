@@ -18,7 +18,7 @@ import {
   getStoreDetails,
   StoreState,
 } from '../../app-store/reducers/store.reducer';
-import { BehaviorSubject, count, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { Store as Bank } from './../models/domain/store';
 import { Status } from '../models/enums/status.enum';
 import * as saleActions from './../../app-store/actions/sale.actions';
