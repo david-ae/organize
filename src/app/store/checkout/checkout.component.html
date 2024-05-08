@@ -1,7 +1,7 @@
 @if(cart$ | async; as cart){ @if(cart.cartItems.length > 0){
-<div [formGroup]="cartForm" class="flex flex-col">
-  <div class="grid grid-cols-1 mx-auto w-full lg:w-3/5 sm:w-3/4 h-4/5">
-    <div class="flow-root overflow-x-hidden overflow-y-auto h-full">
+<div [formGroup]="cartForm" class="">
+  <div class="grid grid-cols-1 mx-auto w-full lg:w-3/5 sm:w-3/4">
+    <div class="flow-root overflow-y-auto max-h-[100%]">
       <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
         @for(item of cart.cartItems; track $index){
         <li class="py-2 sm:py-2">
@@ -54,21 +54,19 @@
         }
       </ul>
     </div>
-    <div class="grid grid-cols-1 mb-2">
-      <p class="w-full items-center text-center text-black italic">
-        #{{ total$ | async }}
-      </p>
-      <button
-        class="bg-red-400 py-3 mt-4 rounded w-full text-sm font-semibold hover:bg-opacity-75"
-        (click)="clearCart()"
+    <div class="mb-2">
+      <p
+        class="w-full items-center text-center text-black italic text-base font-bold"
       >
+        Total: #{{ total$ | async }}
+      </p>
+    </div>
+    <div class="grid grid-cols-2 justify-between">
+      <button mat-raised-button color="primary" (click)="clearCart()">
         Clear Cart
       </button>
-      <button
-        class="bg-green-400 py-3 mt-4 rounded w-full text-sm font-semibold hover:bg-opacity-75"
-        (click)="addSale()"
-      >
-        Complete Sale
+      <button mat-raised-button color="accent" (click)="openConfirmDialog()">
+        Continue
       </button>
     </div>
   </div>

@@ -25,7 +25,7 @@
 </div>
 <div
   id="shop"
-  class="grid grid-cols-3 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 ssm:grid-cols-2 justify-items-center gap-5 justify-center mt-5 mb-5"
+  class="grid grid-cols-3 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 ssm:grid-cols-2 justify-items-center items-start gap-5 justify-center mt-5 mb-5 max-h-[75%] overflow-x-hidden overflow-y-auto"
 >
   @for(item of inventories$ | async;track $index){
   <div
@@ -58,7 +58,13 @@
         <p class="mt-2 text-xs lg:text-lg font-thin text-black">
           #{{ item.price }} - pcs
         </p>
-        <button mat-raised-button (click)="addToCart(item)">Select</button>
+        @if(item.quantity > 0){
+        <button mat-raised-button (click)="addToCart(item)">Add</button>
+        } @else{
+        <button mat-raised-button [disabled]="true" (click)="addToCart(item)">
+          Not Available
+        </button>
+        }
       </div>
     </div>
   </div>

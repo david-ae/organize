@@ -1,0 +1,13 @@
+.mdc-dialog__content,
+.mdc-dialog__title,
+.mat-mdc-button {
+  color: black;
+}
+
+button {
+  margin-right: 8px;
+}
+
+.mdc-button ~ .mdc-button {
+  margin-left: 10px;
+}

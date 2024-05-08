@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       HttpClientModule,
       BrowserAnimationsModule,
-      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
+      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     ),
     provideRouter(routes),
     provideAnimationsAsync(),

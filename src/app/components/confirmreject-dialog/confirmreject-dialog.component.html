@@ -1,0 +1,23 @@
+<div class="grid grid-cols-1 bg-white p-3">
+  <h2 mat-dialog-title class="text-black">{{ title }}</h2>
+  <mat-dialog-content class="text-black"> {{ message }} </mat-dialog-content>
+  <div class="justify-between">
+    <button
+      mat-raised-button
+      color="warn"
+      mat-dialog-close
+      class="text-black float-left"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="'confirm'"
+      class="text-black float-right"
+      cdkFocusInitial
+    >
+      Confirm
+    </button>
+  </div>
+</div>

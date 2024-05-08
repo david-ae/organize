@@ -21,11 +21,12 @@ import { Store as Bank } from './../../store/models/domain/store';
 import { AppState } from '../../app.state';
 import { CartService } from '../services/cart.service';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
+import { ItemsPipe } from '../pipes/items.pipe';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [ReactiveFormsModule, MatButtonModule, CommonModule],
+  imports: [ReactiveFormsModule, MatButtonModule, CommonModule, ItemsPipe],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css',
 })
@@ -62,7 +63,10 @@ export class ShopComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscriber$)
     );
 
-    this.store$.subscribe((store) => (this.inventories = store.inventory));
+    this.store$.subscribe((store) => {
+      this.inventories = store.inventory;
+      this.inventories$.next(this.inventories);
+    });
   }
 
   onChange(event: any) {
@@ -72,15 +76,14 @@ export class ShopComponent implements OnInit, OnDestroy {
         map((i) => i.value),
         debounceTime(1000),
         distinctUntilChanged(),
-        filter((item) => !!item),
         switchMap((i: string) =>
-          i
-            ? of(
+          i === ''
+            ? of(this.inventories)
+            : of(
                 this.inventories?.filter((s: Item) =>
                   s.name.toLowerCase().includes(i.toLowerCase())
                 )
               )
-            : of([])
         )
       )
       .subscribe((items) => {
