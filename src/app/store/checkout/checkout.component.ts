@@ -24,8 +24,7 @@ import { Status } from '../models/enums/status.enum';
 import * as saleActions from './../../app-store/actions/sale.actions';
 import { CheckoutBottomsheetComponent } from '../../components/checkout-bottomsheet/checkout-bottomsheet.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../components/dialogs/confirm-dialog/confirm-dialog.component';
-import { ConfirmrejectDialogComponent } from '../../components/confirmreject-dialog/confirmreject-dialog.component';
+import { ConfirmrejectDialogComponent } from '../../components/dialogs/confirmreject-dialog/confirmreject-dialog.component';
 
 @Component({
   selector: 'app-checkout',

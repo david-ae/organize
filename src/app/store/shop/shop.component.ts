@@ -21,12 +21,11 @@ import { Store as Bank } from './../../store/models/domain/store';
 import { AppState } from '../../app.state';
 import { CartService } from '../services/cart.service';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
-import { ItemsPipe } from '../pipes/items.pipe';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [ReactiveFormsModule, MatButtonModule, CommonModule, ItemsPipe],
+  imports: [ReactiveFormsModule, MatButtonModule, CommonModule,],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css',
 })
