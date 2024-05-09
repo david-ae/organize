@@ -22,11 +22,18 @@ import * as storeActions from './../../../app-store/actions/store.actions';
 import { UpdateStoreInventoryDto } from '../../../store/models/valueobjects/store.dto';
 import { Category } from '../../../store/models/domain/category';
 import { getCategories } from '../../../app-store/reducers/category.reducer';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ItemUpdate } from '../../../app-store/enum/item-update.enum';
 
 @Component({
   selector: 'app-update-item',
   standalone: true,
-  imports: [MatDialogModule, ReactiveFormsModule, MatButtonModule],
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatTabsModule,
+  ],
   templateUrl: './update-item.component.html',
   styleUrl: './update-item.component.css',
 })
@@ -35,6 +42,7 @@ export class UpdateItemComponent implements OnInit, OnDestroy {
   storeServcie = inject(StoreService);
 
   updateItemForm!: FormGroup;
+  restockItemForm!: FormGroup;
   store$!: Observable<Bank>;
   categories: string[] = [];
   categories$!: Observable<Category[]>;
@@ -57,9 +65,12 @@ export class UpdateItemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.updateItemForm = new FormGroup({
       itemName: new FormControl('', [Validators.required]),
+      itemCategory: new FormControl('', [Validators.required]),
+    });
+
+    this.restockItemForm = new FormGroup({
       itemPrice: new FormControl('', [Validators.required]),
       itemQuantity: new FormControl('', [Validators.required]),
-      itemCategory: new FormControl('', [Validators.required]),
     });
 
     this.store$ = this.store.pipe(
@@ -85,23 +96,51 @@ export class UpdateItemComponent implements OnInit, OnDestroy {
 
     this.updateItemForm.setValue({
       itemName: this.currentItem.name,
+      itemCategory: this.currentItem.category,
+    });
+    this.restockItemForm.setValue({
       itemPrice: this.currentItem.price,
       itemQuantity: this.currentItem.quantity,
-      itemCategory: this.currentItem.category,
     });
   }
 
   updateItem() {
     const itemName = this.updateItemForm.get('itemName')?.value;
-    const itemPrice = this.updateItemForm.get('itemPrice')?.value;
-    const itemQuantity = parseInt(
-      this.updateItemForm.get('itemQuantity')?.value
-    );
     const itemCategory = this.updateItemForm.get('itemCategory')?.value;
 
     const item: Item = {
       category: itemCategory,
       name: itemName,
+      price: this.currentItem.price,
+      quantity: this.currentItem.quantity,
+    };
+
+    const inventory = this.currentStore.inventory.map((i) =>
+      i.id == this.currentItem.id ? Object.assign({}, i, item) : i
+    );
+
+    let storeInventory: UpdateStoreInventoryDto = {
+      inventories: inventory,
+    };
+    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
+    this.store.dispatch(
+      storeActions.updateStoreInventory({
+        id: this.currentStore.id as string,
+        store: storeInventory,
+        updateType: ItemUpdate.UpdateItem,
+      })
+    );
+
+    this.dialog.close();
+  }
+
+  restockItem() {
+    const itemPrice = this.restockItemForm.get('itemPrice')?.value;
+    const itemQuantity = this.restockItemForm.get('itemQuantity')?.value;
+
+    const item: Item = {
+      category: this.currentItem.category,
+      name: this.currentItem.name,
       price: itemPrice,
       quantity: itemQuantity,
     };
@@ -118,6 +157,7 @@ export class UpdateItemComponent implements OnInit, OnDestroy {
       storeActions.updateStoreInventory({
         id: this.currentStore.id as string,
         store: storeInventory,
+        updateType: ItemUpdate.RestockItem,
       })
     );
 

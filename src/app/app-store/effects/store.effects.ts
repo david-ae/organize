@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import * as storeActions from './../actions/store.actions';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ItemUpdate } from '../enum/item-update.enum';
 @Injectable()
 export class StoreEffects {
   constructor(
@@ -41,15 +42,25 @@ export class StoreEffects {
       mergeMap((action) =>
         this.storeService.updateStoreInventory(action.id, action.store).pipe(
           map((store) => storeActions.storeLoaded({ payload: store })),
-          tap(() =>
-            this.toastrService.success(
-              'Your inventory was updated successfully'
-            )
-          ),
+          tap(() => {
+            if (action.updateType === ItemUpdate.UpdateItem) {
+              this.toastrService.success(
+                'Your inventory was updated successfully'
+              );
+            } else {
+              this.toastrService.success('Restock successful');
+            }
+          }),
           catchError(() => {
-            this.toastrService.error(
-              'Unable to update your store. Please try again'
-            );
+            if (action.updateType === ItemUpdate.UpdateItem) {
+              this.toastrService.error(
+                'Unable to update your store. Please try again'
+              );
+            } else {
+              this.toastrService.error(
+                'Unable to restock item. Please try again'
+              );
+            }
             return of(storeActions.loadStoreException());
           })
         )

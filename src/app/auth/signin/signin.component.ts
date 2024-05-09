@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { CartService } from '../../store/services/cart.service';
 
 @Component({
   selector: 'app-signin',
@@ -43,6 +44,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 })
 export class SigninComponent implements OnInit, OnDestroy {
   private baseService = inject(BaseService);
+  private cartService = inject(CartService);
   store = inject(Store<AppState>);
 
   signinForm!: FormGroup;
@@ -91,6 +93,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
   removeAccount() {
     this.baseService.removeItemFromLocalStorage(this.key);
+    this.cartService.clearCart();
     this.userDetails = null;
     this.buttonText$.next('Login');
   }

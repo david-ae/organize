@@ -2,6 +2,7 @@ import { createAction, props, Store } from '@ngrx/store';
 import { Store as Bank } from '../../store/models/domain/store';
 import { Item } from '../../store/models/domain/item';
 import { UpdateStoreInventoryDto } from '../../store/models/valueobjects/store.dto';
+import { ItemUpdate } from '../enum/item-update.enum';
 
 export const createStore = createAction(
   '[Create Store] Store',
@@ -64,7 +65,11 @@ export const updateStore = createAction(
 
 export const updateStoreInventory = createAction(
   '[Update Store Inventory] Store',
-  props<{ id: string; store: UpdateStoreInventoryDto }>()
+  props<{
+    id: string;
+    store: UpdateStoreInventoryDto;
+    updateType: ItemUpdate;
+  }>()
 );
 
 export const getStore = createAction(

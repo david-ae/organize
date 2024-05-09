@@ -1,87 +1,75 @@
 @if(cart$ | async; as cart){ @if(cart.cartItems.length > 0){
-<div [formGroup]="cartForm" class="flex flex-col">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div class="overflow-hidden">
-        <table
-          class="min-w-full text-center text-sm font-light text-surface dark:text-white"
-        >
-          <thead
-            class="border-b border-neutral-200 font-medium dark:border-white/10 text-black"
-          >
-            <tr>
-              <th scope="col" class="px-6 py-4">Item</th>
-              <th scope="col" class="px-6 py-4">Price</th>
-              <th scope="" class="px-6 py-4">Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(cartItem of cart.cartItems; track $index){
-            <tr
-              class="border-b border-primary-200 bg-primary-100 text-neutral-800"
-              (change)="(cartItem)"
-            >
-              <td class="whitespace-nowrap px-6 py-4 font-medium">
-                {{ cartItem.item.name }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4">
-                {{ cartItem.item.price }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4">
-                {{ cartItem.getQuantity() }}
-              </td>
-              <td>
-                <button
-                  class="add p-2"
-                  mat-button
-                  (click)="incrementQuantity(cartItem.item.id)"
-                >
-                  <mat-icon>add_box</mat-icon>
-                </button>
-              </td>
-              <td>
-                <button
-                  class="subtract p-2"
-                  mat-button
-                  (click)="decrementQuantity(cartItem.item.id)"
-                >
-                  -
-                </button>
-              </td>
-              <!-- <td>
-                <button
-                  class="subtract p-2"
-                  mat-button
-                  (click)="removeItem(cartItem.item)"
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td> -->
-            </tr>
-
-            }
-          </tbody>
-        </table>
-      </div>
+<div [formGroup]="cartForm" class="">
+  <div class="grid grid-cols-1 mx-auto w-full lg:w-3/5 sm:w-3/4">
+    <div class="flow-root overflow-y-auto max-h-[100%]">
+      <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+        @for(item of cart.cartItems; track $index){
+        <li class="py-2 sm:py-2">
+          <div class="flex items-center space-x-4">
+            <div class="flex-shrink-0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 -960 960 960"
+                fill="#000000"
+                class="w-10 lg:w-20 h-20 m-auto mt-4 text-black dark:text-black rounded-full"
+              >
+                <path
+                  d="M240-80q-33 0-56.5-23.5T160-160v-480q0-33 23.5-56.5T240-720h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800-640v480q0 33-23.5 56.5T720-80H240Zm0-80h480v-480h-80v80q0 17-11.5 28.5T600-520q-17 0-28.5-11.5T560-560v-80H400v80q0 17-11.5 28.5T360-520q-17 0-28.5-11.5T320-560v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480-800q-33 0-56.5 23.5T400-720ZM240-160v-480 480Z"
+                />
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-900 truncate">
+                {{ item.getItem().name }}
+              </p>
+              <p class="text-sm text-black truncate">
+                Price:
+                <span class="font-medium">#{{ item.getItem().price }}</span>
+              </p>
+              <p class="text-sm text-black truncate">
+                Quantity: {{ item.getQuantity() }}
+              </p>
+              <p class="text-sm text-black truncate">
+                Total: #{{ item.getItem().price * item.getQuantity() }}
+              </p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <button
+                mat-raised-button
+                color="accent"
+                (click)="incrementQuantity(item.getItem().id)"
+              >
+                +
+              </button>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="decrementQuantity(item.getItem().id)"
+              >
+                -
+              </button>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+    </div>
+    <div class="mb-2">
+      <p
+        class="w-full items-center text-center text-black italic text-base font-bold"
+      >
+        Total: #{{ total$ | async }}
+      </p>
+    </div>
+    <div class="grid grid-cols-2 justify-between">
+      <button mat-raised-button color="primary" (click)="clearCart()">
+        Clear Cart
+      </button>
+      <button mat-raised-button color="accent" (click)="openConfirmDialog()">
+        Continue
+      </button>
     </div>
   </div>
-</div>
-<div class="grid grid-cols-1 mb-2">
-  <p class="w-full items-center text-center text-black italic">
-    #{{ total$ | async }}
-  </p>
-  <button
-    class="bg-red-400 py-3 mt-4 rounded w-full text-sm font-semibold hover:bg-opacity-75"
-    (click)="clearCart()"
-  >
-    Clear Cart
-  </button>
-  <button
-    class="bg-green-400 py-3 mt-4 rounded w-full text-sm font-semibold hover:bg-opacity-75"
-    (click)="addSale()"
-  >
-    Complete Sale
-  </button>
 </div>
 }@else{
 <div class="grid grid-cols-1">

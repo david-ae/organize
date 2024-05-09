@@ -74,6 +74,12 @@ export class AddItemComponent implements OnInit, OnDestroy {
     });
   }
 
+  restrictNumbersOnly(event: any) {
+    var charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+    return true;
+  }
+
   addItem() {
     const itemName = this.itemForm.get('itemName')?.value;
     const itemPrice = this.itemForm.get('itemPrice')?.value;

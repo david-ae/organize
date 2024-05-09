@@ -1,53 +1,83 @@
-<div [formGroup]="updateItemForm" class="bg-white p-5">
-  <h1 class="">Update Item</h1>
-  <div class="grid grid-cols-1 m-5">
-    <div class="relative h-10 w-full min-w-[200px]">
-      <select
-        formControlName="itemCategory"
-        class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-      >
-        @for(option of categories; track $index){
-        <option [value]="option">{{ option }}</option>
-        }
-      </select>
-      <label
-        class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
-      >
-        Select a Category
-      </label>
+<mat-tab-group color="accent">
+  <mat-tab label="Restock Existing Item">
+    <div [formGroup]="restockItemForm" class="bg-white p-5">
+      <h1 class="">Restock Exsiting Item</h1>
+      <div class="grid grid-cols-1 m-5 gap-4">
+        <label class="block text-gray-700 text-sm font-bold" for="price">
+          Enter New Price
+        </label>
+        <input
+          formControlName="itemPrice"
+          class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="number"
+          placeholder="Price"
+          restrictNumbers
+        />
+        <label class="block text-gray-700 text-sm font-bold" for="quantity">
+          Enter New Quantity
+        </label>
+        <input
+          class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          formControlName="itemQuantity"
+          onkeypress="return /[0-9]/i.test(event.key)"
+          type="number"
+          placeholder="Quantity"
+          restrictNumbers
+        />
+      </div>
+      <div class="grid grid-cols-1 m-5 button-wrapper">
+        <button
+          mat-raised-button
+          [disabled]="!restockItemForm.valid"
+          class="w-full"
+          (click)="restockItem()"
+          color="primary"
+        >
+          Restock Item
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="grid m-5 gap-4 sm:grid-cols-3">
-    <input
-      class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      formControlName="itemName"
-      type="text"
-      placeholder="Item Name"
-    />
-    <input
-      formControlName="itemPrice"
-      class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      type="number"
-      placeholder="Price"
-      restrictNumbers
-    />
-    <input
-      class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      formControlName="itemQuantity"
-      type="number"
-      placeholder="Quantity"
-      restrictNumbers
-    />
-  </div>
-  <div class="grid grid-cols-1 m-5 button-wrapper">
-    <button
-      mat-raised-button
-      [disabled]="!updateItemForm.valid"
-      class="w-full"
-      (click)="updateItem()"
-      color="primary"
-    >
-      Update Item
-    </button>
-  </div>
-</div>
+  </mat-tab>
+  <mat-tab label="Update Existing Item">
+    <div [formGroup]="updateItemForm" class="bg-white p-5">
+      <h1 class="">Update Existing Item</h1>
+      <div class="grid grid-cols-1 m-5">
+        <div class="relative h-10 w-full min-w-[200px] mb-2">
+          <select
+            formControlName="itemCategory"
+            class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+          >
+            @for(option of categories; track $index){
+            <option [value]="option">{{ option }}</option>
+            }
+          </select>
+          <label
+            class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
+          >
+            Select a Category
+          </label>
+        </div>
+        <label class="block text-gray-700 text-sm font-bold" for="name">
+          Enter New Item Name
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          formControlName="itemName"
+          type="text"
+          placeholder="Item Name"
+        />
+      </div>
+      <div class="grid grid-cols-1 m-5 button-wrapper">
+        <button
+          mat-raised-button
+          [disabled]="!updateItemForm.valid"
+          class="w-full"
+          (click)="updateItem()"
+          color="primary"
+        >
+          Update Item
+        </button>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
