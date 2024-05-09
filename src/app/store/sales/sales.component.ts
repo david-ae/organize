@@ -21,6 +21,7 @@ import { DatePickerComponent } from '../../components/date-picker/date-picker.co
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SaleDto } from '../../app-store/models/sale.dto';
+import { CommonModule } from '@angular/common';
 
 const today = new Date();
 const month = today.getMonth();
@@ -39,6 +40,7 @@ const year = today.getFullYear();
     DatePickerComponent,
     PaginationComponent,
     NgxPaginationModule,
+    CommonModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './sales.component.html',
@@ -47,6 +49,11 @@ const year = today.getFullYear();
 export class SalesComponent implements OnInit, OnDestroy {
   store = inject(Store<AppState>);
   salesForm!: FormGroup;
+
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
 
   saleStore$!: Observable<SaleDto[]>;
   store$!: Observable<Bank>;
