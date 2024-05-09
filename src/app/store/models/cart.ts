@@ -17,7 +17,9 @@ export class Cart {
     for (let cartItem of this.cartItems) {
       if (cartItem.getItem().id === item.id) {
         newItem = false;
-        cartItem.incrementQuantity();
+        if (cartItem.getItem().quantity > cartItem.getQuantity()) {
+          cartItem.incrementQuantity();
+        }
       }
     }
     if (newItem) {

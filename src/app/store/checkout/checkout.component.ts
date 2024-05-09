@@ -22,9 +22,11 @@ import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { Store as Bank } from './../models/domain/store';
 import { Status } from '../models/enums/status.enum';
 import * as saleActions from './../../app-store/actions/sale.actions';
-import { CheckoutBottomsheetComponent } from '../../components/checkout-bottomsheet/checkout-bottomsheet.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmrejectDialogComponent } from '../../components/dialogs/confirmreject-dialog/confirmreject-dialog.component';
+import { CreateSalesDto } from '../models/valueobjects/sale.dto';
+import { UpdateStoreInventoryDto } from '../models/valueobjects/store.dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -50,6 +52,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   store$!: Observable<Bank>;
   currentStore!: Bank;
   cart!: Cart;
+  inventory: Item[] = [];
 
   cartForm!: FormGroup;
 
@@ -57,7 +60,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private _bottomSheet: MatBottomSheet,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnDestroy(): void {
@@ -79,11 +83,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubcriber$)
     );
     this.total$.next(this.total);
-    this.store$.subscribe((store) => (this.currentStore = store));
-  }
-
-  openCheckoutBottomSheet() {
-    this._bottomSheet.open(CheckoutBottomsheetComponent);
+    this.store$.subscribe((store) => {
+      this.currentStore = store;
+      this.inventory = store.inventory;
+    });
   }
 
   openConfirmDialog() {
@@ -105,10 +108,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       for (let cartItem of this.cart.cartItems) {
         if (cartItem.item.id === id) {
           const qty = cartItem.getQuantity() + 1;
-          this.cart.update(cartItem.item, qty.toString());
-          this.cart.calculateTotal(0);
-          this.total$.next(this.cart.getTotal());
-          this.cartService.cart$.next(this.cart);
+          if (cartItem.getItem().quantity >= qty) {
+            this.cart.update(cartItem.item, qty.toString());
+            this.cart.calculateTotal(0);
+            this.total$.next(this.cart.getTotal());
+            this.cartService.cart$.next(this.cart);
+          }
           break;
         }
       }
@@ -149,6 +154,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     let sales: Sale[] = [];
     this.cart.cartItems.map((item) => {
       let count = item.getQuantity();
+      this.updateInventory(item, count);
       while (count > 0) {
         const newSale: CreateSale = {
           storeId: this.currentStore.id as string,
@@ -162,8 +168,35 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         count--;
       }
     });
+
+    let storeInventory: UpdateStoreInventoryDto = {
+      inventories: this.inventory,
+    };
+
+    const saleRequest: CreateSalesDto = {
+      storeId: this.currentStore.id as string,
+      inventory: storeInventory,
+      sales: sales,
+    };
+
     this.store.dispatch(saleActions.loadSpinner({ isLoaded: true }));
-    this.store.dispatch(saleActions.createSales({ sales: sales }));
+    this.store.dispatch(saleActions.createSales({ salesRequest: saleRequest }));
     this.clearCart();
+
+    this.router.navigate(['/store/shop']);
+  }
+
+  private updateInventory(cartItem: CartItem, quantity: number) {
+    const item: Item = {
+      category: cartItem.getItem().category,
+      name: cartItem.getItem().name,
+      price: cartItem.getItem().price,
+      quantity: cartItem.getItem().quantity - quantity,
+    };
+
+    this.inventory = this.inventory.map((i) =>
+      i.id == cartItem.getItem().id ? Object.assign({}, i, item) : i
+    );
+    // console.log(this.inventory);
   }
 }

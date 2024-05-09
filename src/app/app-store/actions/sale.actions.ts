@@ -2,6 +2,8 @@ import { createAction, props } from '@ngrx/store';
 import { CreateSale, Sale } from '../../store/models/domain/sale';
 import { SaleSearchRequest } from '../../store/services/models/sales-search-request.model';
 import { SaleDto } from '../models/sale.dto';
+import { UpdateStoreInventoryDto } from '../../store/models/valueobjects/store.dto';
+import { CreateSalesDto } from '../../store/models/valueobjects/sale.dto';
 
 // export const createSale = createAction(
 //   '[Create Sale] Sale',
@@ -10,7 +12,9 @@ import { SaleDto } from '../models/sale.dto';
 
 export const createSales = createAction(
   '[Create Sale] Sale',
-  props<{ sales: CreateSale[] }>()
+  props<{
+    salesRequest:CreateSalesDto
+  }>()
 );
 
 export const getSales = createAction(

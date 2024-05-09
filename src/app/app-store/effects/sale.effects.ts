@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError, of, tap, exhaustMap } from 'rxjs';
 import { StoreService } from '../../store/services/store.service';
 import * as saleActions from './../actions/sale.actions';
+import * as storeActions from './../actions/store.actions';
 import { SalesService } from '../../store/services/sales.service';
 import { loadSaleException } from './../actions/sale.actions';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -39,8 +40,8 @@ export class SaleEffects {
     this.actions$.pipe(
       ofType(saleActions.createSales),
       exhaustMap((action) =>
-        this.saleService.createSales(action.sales).pipe(
-          map(() => saleActions.salesCreated()),
+        this.saleService.createSales(action.salesRequest).pipe(
+          map((store) => storeActions.storeLoaded({ payload: store })),
           tap(() => this.toastrService.success('Sale(s) created successfully')),
           catchError(() => {
             this.toastrService.error(

@@ -16,6 +16,7 @@ import { Store as Bank } from './../../store/models/domain/store';
 import { BaseService } from '../../base.service';
 import { AppUserDto } from '../../app-user.dto';
 import { Item } from '../../store/models/domain/item';
+import { LogoutdialogComponent } from '../dialogs/logoutdialog/logoutdialog.component';
 @Component({
   selector: 'app-appheader',
   standalone: true,
@@ -75,6 +76,17 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.dialog
+      .open(LogoutdialogComponent, {})
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === 'confirm') {
+          this.processLogout();
+        }
+      });
+  }
+
+  processLogout() {
     if (
       this.currentStoreUser.id !== undefined ||
       this.currentStoreUser.email !== ''

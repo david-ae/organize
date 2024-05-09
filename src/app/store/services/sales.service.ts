@@ -5,6 +5,9 @@ import { BaseService } from '../../base.service';
 import { catchError } from 'rxjs';
 import { SaleSearchRequest } from './models/sales-search-request.model';
 import { SaleDto } from '../../app-store/models/sale.dto';
+import { UpdateStoreInventoryDto } from '../models/valueobjects/store.dto';
+import { CreateSalesDto } from '../models/valueobjects/sale.dto';
+import { Store } from '../models/domain/store';
 
 @Injectable({
   providedIn: 'root',
@@ -40,9 +43,9 @@ export class SalesService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
-  createSales(sales: Sale[]) {
+  createSales(salesRequest: CreateSalesDto) {
     return this.httpClient
-      .post(`${this.saleApiUrl}/multiple`, sales)
+      .post<Store>(`${this.saleApiUrl}/multiple`, salesRequest)
       .pipe(catchError(this.handleError));
   }
 
