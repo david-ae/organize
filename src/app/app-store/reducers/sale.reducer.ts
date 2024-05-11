@@ -5,8 +5,7 @@ import {
   createSelector,
   on,
 } from '@ngrx/store';
-import { Sale } from '../../store/models/domain/sale';
-import * as SaleActions from './../actions/sale.actions';
+import * as saleActions from './../actions/sale.actions';
 import { SaleDto } from '../models/sale.dto';
 
 export interface SaleState {
@@ -35,20 +34,20 @@ export const saleFeature = createFeature({
   name: saleFeatureState.name,
   reducer: createReducer(
     initialSaleStore,
-    on(SaleActions.salesLoaded, (state, action) => {
+    on(saleActions.salesLoaded, (state, action) => {
       return {
         ...state,
         isLoading: false,
         sales: action.payload,
       };
     }),
-    on(SaleActions.salesCreated, (state, action) => {
+    on(saleActions.salesCreated, (state, action) => {
       return {
         ...state,
         isLoading: false,
       };
     }),
-    on(SaleActions.loadSpinner, (state, action) => {
+    on(saleActions.loadSpinner, (state, action) => {
       return {
         ...state,
         isLoading: action.isLoaded,

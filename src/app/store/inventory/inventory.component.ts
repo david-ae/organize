@@ -24,7 +24,7 @@ import { Store as Bank } from './../models/domain/store';
 import { Item } from '../models/domain/item';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UpdateItemComponent } from '../../components/dialogs/update-item/update-item.component';
-
+import * as storeActions from './../../app-store/actions/store.actions';
 @Component({
   selector: 'app-inventory',
   standalone: true,
@@ -64,6 +64,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.inventoryForm = new FormGroup({
       searchInventory: new FormControl(''),
     });
+
+    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
 
     this.store$ = this.store.pipe(
       select(getStoreDetails),

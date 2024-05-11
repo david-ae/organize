@@ -23,15 +23,17 @@ export class SaleEffects {
     this.actions$.pipe(
       ofType(saleActions.getSalesByGroupQuery),
       mergeMap((action) =>
-        this.saleService.getSalesByGroupQuery(action.storeId).pipe(
-          map((sales) => saleActions.salesLoaded({ payload: sales })),
-          catchError(() => {
-            this.toastrService.error(
-              'Unable to retrieve sales. Please try again'
-            );
-            return of(saleActions.loadSaleException());
-          })
-        )
+        this.saleService
+          .getSalesByGroupQuery(action.storeId, action.dateFrom, action.dateTo)
+          .pipe(
+            map((sales) => saleActions.salesLoaded({ payload: sales })),
+            catchError(() => {
+              this.toastrService.error(
+                'Unable to retrieve sales. Please try again'
+              );
+              return of(saleActions.loadSaleException());
+            })
+          )
       )
     )
   );

@@ -1,4 +1,3 @@
-@if(sales.length > 0){
 <div class="grid grid-cols-1 mx-auto w-full lg:w-3/5 sm:w-3/4">
   <div class="grid grid-cols-1 lg:grid-cols-2">
     <div class="">
@@ -26,11 +25,19 @@
         }
       </mat-form-field>
     </div>
-    <div class="w-full lg:w-1/2">
-      <button mat-raised-button color="accent" class="w-full">Search</button>
+    <div class="w-full lg:w-1/2 mb-4">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="searchSales()"
+        class="w-full"
+      >
+        Search
+      </button>
     </div>
   </div>
 </div>
+@if(sales.length > 0){
 <div class="grid grid-cols-1 m-auto">
   <table class="table-auto">
     <thead>
@@ -43,12 +50,17 @@
         <th
           class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
         >
-          No. of Items Sold
+          Quatity Sold
         </th>
         <th
           class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
         >
           Total
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Date
         </th>
       </tr>
     </thead>
@@ -60,17 +72,24 @@
           {{ sale._id }}
         </td>
         <td class="px-5 py-5 border-b border-gray-200 text-black text-sm">
-          {{ sale.count }}
+          {{ sale.count | number : "2.0-0" }}
         </td>
         <td class="px-5 py-5 border-b border-gray-200 text-black text-sm">
-          {{ sale.totalSaleAmount }}
+          #{{ sale.totalSaleAmount | number : "2.0-1" }}
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 text-black text-sm">
+          {{ sale.transactionDate | date : "dd/M/yy" }}
         </td>
       </tr>
 
       }
     </tbody>
   </table>
+  <div class="m-auto text-black text-lg mt-4">
+    Total: <span class="italic font-bold">#{{ total | number : "2.0-1" }}</span>
+  </div>
 </div>
+
 @if(sales.length > itemsPerPage){
 <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
 } } @else {

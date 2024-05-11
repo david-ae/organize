@@ -40,7 +40,7 @@ const year = today.getFullYear();
     DatePickerComponent,
     PaginationComponent,
     NgxPaginationModule,
-    CommonModule
+    CommonModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './sales.component.html',
@@ -59,6 +59,7 @@ export class SalesComponent implements OnInit, OnDestroy {
   store$!: Observable<Bank>;
   sales: SaleDto[] = [];
   storeId!: string;
+  total = 0;
 
   itemsPerPage = 10;
   currentPage = 1;
@@ -98,15 +99,10 @@ export class SalesComponent implements OnInit, OnDestroy {
       this.storeId = store.id as string;
     });
 
-    this.store.dispatch(
-      saleActions.getSalesByGroupQuery({
-        storeId: this.storeId as string,
-      })
-    );
-
     this.saleStore$.subscribe((sales) => {
       if (this.storeId) {
         this.sales = sales;
+        this.total = sales.reduce((acc, item) => acc + item.totalSaleAmount, 0);
       }
     });
   }
@@ -119,13 +115,23 @@ export class SalesComponent implements OnInit, OnDestroy {
     return this.sales.slice(start, end);
   }
 
+  searchSales() {
+    const dateFrom = this.range.get('start')?.value;
+    const dateTo = this.range.get('end')?.value;
+
+    this.store.dispatch(saleActions.loadSpinner({ isLoaded: true }));
+    this.store.dispatch(
+      saleActions.getSalesByGroupQuery({
+        storeId: this.storeId as string,
+        dateFrom: dateFrom?.toISOString() as string,
+        dateTo: dateTo?.toISOString() as string,
+      })
+    );
+  }
+
   onChange(event: any) {}
 
   addSale() {
     const dialogRef = this.dialog.open(SaleComponent, { data: '' });
-  }
-
-  changePage(event: any) {
-    console.log(event);
   }
 }

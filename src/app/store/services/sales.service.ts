@@ -31,9 +31,11 @@ export class SalesService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
-  getSalesByGroupQuery(storeId: string) {
+  getSalesByGroupQuery(storeId: string, dateFrom: string, dateTo: string) {
     return this.httpClient
-      .get<SaleDto[]>(`${this.saleApiUrl}/${storeId}/storeSalesByGroupQuery`)
+      .get<SaleDto[]>(
+        `${this.saleApiUrl}/${storeId}/storeSalesByGroupQuery/${dateFrom}/${dateTo}`
+      )
       .pipe(catchError(this.handleError));
   }
 
