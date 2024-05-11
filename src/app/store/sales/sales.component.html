@@ -9,9 +9,9 @@
             formControlName="start"
             placeholder="Start date"
           />
+          <mat-hint class="text-black">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
           <input matEndDate formControlName="end" placeholder="End date" />
         </mat-date-range-input>
-        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
           [for]="picker"
@@ -78,7 +78,7 @@
           #{{ sale.totalSaleAmount | number : "2.0-1" }}
         </td>
         <td class="px-5 py-5 border-b border-gray-200 text-black text-sm">
-          {{ sale.transactionDate | date : "dd/M/yy" }}
+          {{ sale.transactionDate | date : "dd/MM/yyyy" }}
         </td>
       </tr>
 
