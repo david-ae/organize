@@ -1,77 +1,117 @@
-@if(inventories.length > 0){
-<div [formGroup]="inventoryForm" class="grid gap-4 grid-cols-4 text-center">
-  <input
-    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline col-span-3"
-    formControlName="searchInventory"
-    (keyup)="onChange($event)"
-    type="text"
-    placeholder="Search for item"
-  />
-  <button mat-raised-button (click)="addItem()" class="primary px-2 py-4">
-    <mat-icon>add</mat-icon>
-  </button>
+@if(inventory.length > 0){
+<div class="grid -grid-cols-1 justify-center">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-5 h-5 m-auto mt-4 text-black dark:text-black"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+    />
+  </svg>
+  <div class="m-auto text-black">
+    <h1 class="">Store Inventory</h1>
+  </div>
 </div>
-<div class="flex flex-col">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div class="overflow-hidden">
-        <table
-          class="min-w-full text-center text-sm font-light text-surface dark:text-white"
+<div
+  id="Projects"
+  class="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-3 ssm:grid-cols-2 justify-items-center gap-5 justify-center mt-5 mb-5 pb-10"
+>
+  @for(item of inventory; track $index; let first = $first){ @if(first){
+  <div
+    (click)="addItem()"
+    class="relative w-32 lg:w-48 p-2 lg:p-3 m-auto shadow-lg rounded-2xl hover:cursor-pointer"
+  >
+    <div class="w-full h-full text-center">
+      <div class="grid grid-cols-1 justify-between h-full">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-10 lg:w-20 h-20 m-auto mt-4 text-black dark:text-black"
         >
-          <thead
-            class="border-b border-neutral-200 font-medium dark:border-white/10 text-black"
-          >
-            <tr>
-              <th scope="col" class="px-6 py-4">Name</th>
-              <th scope="col" class="px-6 py-4">Price</th>
-              <th scope="col" class="px-6 py-4">Quantity</th>
-              <th scope="col" class="px-6 py-4">Category</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(item of inventories; track $index){
-            <tr
-              class="border-b border-primary-200 bg-primary-100 text-neutral-800"
-            >
-              <td class="whitespace-nowrap px-6 py-4 font-medium">
-                {{ item.name }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4">{{ item.price }}</td>
-              <td class="whitespace-nowrap px-6 py-4">{{ item.quantity }}</td>
-              <td class="whitespace-nowrap px-6 py-4">{{ item.category }}</td>
-            </tr>
-
-            }
-          </tbody>
-        </table>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+        <p class="mt-4 text-xs lg:text-lg font-bold text-black italic">
+          New Item
+        </p>
       </div>
     </div>
   </div>
+  }
+  <div
+    (click)="edit(item.id)"
+    class="relative w-32 lg:w-48 p-2 lg:p-2 m-auto shadow-lg rounded-2xl hover:cursor-pointer"
+  >
+    <div class="w-full h-full text-center">
+      <div class="grid grid-cols-1 justify-between h-full">
+        <div
+          class="absolute top-0 right-0 text-black px-2 py-1 m-2 rounded-md text-xs font-medium italic"
+        >
+          {{ item.quantity }} - pcs
+        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-10 lg:w-16 h-20 m-auto mt-4 text-black dark:text-black"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+          />
+        </svg>
+        <p class="mt-4 text-xs lg:text-lg font-bold text-black">
+          {{ item.name }}
+        </p>
+        <p class="px-6 text-xs font-thin text-black">#{{ item.price }}</p>
+      </div>
+    </div>
+  </div>
+  }
 </div>
 }@else {
-<div class="grid grid-cols-1">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
-    fill="currentColor"
-    class="w-20 h-20 m-auto mt-4 text-black"
-    viewBox="0 0 2048 1792"
-  >
-    <path
-      d="M1920 768q53 0 90.5 37.5t37.5 90.5-37.5 90.5-90.5 37.5h-15l-115 662q-8 46-44 76t-82 30h-1280q-46 0-82-30t-44-76l-115-662h-15q-53 0-90.5-37.5t-37.5-90.5 37.5-90.5 90.5-37.5h1792zm-1435 800q26-2 43.5-22.5t15.5-46.5l-32-416q-2-26-22.5-43.5t-46.5-15.5-43.5 22.5-15.5 46.5l32 416q2 25 20.5 42t43.5 17h5zm411-64v-416q0-26-19-45t-45-19-45 19-19 45v416q0 26 19 45t45 19 45-19 19-45zm384 0v-416q0-26-19-45t-45-19-45 19-19 45v416q0 26 19 45t45 19 45-19 19-45zm352 5l32-416q2-26-15.5-46.5t-43.5-22.5-46.5 15.5-22.5 43.5l-32 416q-2 26 15.5 46.5t43.5 22.5h5q25 0 43.5-17t20.5-42zm-1156-1217l-93 412h-132l101-441q19-88 89-143.5t160-55.5h167q0-26 19-45t45-19h384q26 0 45 19t19 45h167q90 0 160 55.5t89 143.5l101 441h-132l-93-412q-11-44-45.5-72t-79.5-28h-167q0 26-19 45t-45 19h-384q-26 0-45-19t-19-45h-167q-45 0-79.5 28t-45.5 72z"
-    ></path>
-  </svg>
-  <div class="m-auto text-black">
-    <h1>Inventory is empty</h1>
-    <button
-      mat-raised-button
-      (click)="addItem()"
-      color="primary"
-      class="w-full"
-    >
-      Add New Item
-    </button>
+<div
+  (click)="addItem()"
+  class="relative w-32 lg:w-48 p-2 lg:p-3 m-auto shadow-lg rounded-2xl hover:cursor-pointer"
+>
+  <div class="w-full h-full text-center">
+    <div class="grid grid-cols-1 justify-between h-full">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-10 lg:w-20 h-20 m-auto mt-4 text-black dark:text-black"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+        />
+      </svg>
+      <p class="mt-4 text-xs lg:text-lg font-bold text-black italic">
+        Add Item
+      </p>
+    </div>
   </div>
+</div>
+<div class="grid grid-cols-1 text-center mt-4">
+  <h1 class="text-black text-xs lg:text-lg m-auto">Store Inventory is empty</h1>
 </div>
 }

@@ -1,1 +1,64 @@
-<p>categories works!</p>
+@if(categories.length > 0){
+<div class="grid -grid-cols-1 justify-center">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-5 h-5 m-auto mt-4 text-black dark:text-black col-span-1"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+    />
+  </svg>
+  <h1 class="text-black col-span-1">Store Categories</h1>
+</div>
+<div [formGroup]="categoryForm" class="grid grid-cols-1 text-center">
+  <input
+    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline col-span-3"
+    formControlName="searchCategories"
+    (keyup)="onChange($event)"
+    type="text"
+    placeholder="Search for categories"
+  />
+</div>
+<div
+  id="Projects"
+  class="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-3 ssm:grid-cols-2 justify-items-center gap-5 justify-center mt-5 mb-5 ssm:pb-10"
+>
+  @for(item of categories; track $index; let first = $first){
+  <div
+    class="relative w-32 lg:w-48 p-2 lg:p-3 m-auto shadow-lg rounded-2xl hover:cursor-pointer"
+  >
+    <div class="w-full h-full text-center">
+      <div class="grid grid-cols-1 justify-between h-full">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-10 lg:w-20 h-20 m-auto mt-4 text-black dark:text-black"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+          />
+        </svg>
+        <p class="mt-4 text-xs lg:text-lg font-bold text-black italic">
+          {{ item }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+</div>
+}@else {
+<div class="grid grid-cols-1 text-center m-auto mt-4">
+  <h1 class="text-black text-xs lg:text-lg">Store not categorized</h1>
+</div>
+}

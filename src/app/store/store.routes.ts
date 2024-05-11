@@ -5,6 +5,8 @@ import { UsersComponent } from './users/users.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ShopComponent } from './shop/shop.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SalesComponent } from './sales/sales.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +18,12 @@ export const routes: Routes = [
       { path: 'checkout', component: CheckoutComponent, title: 'Checkout' },
       { path: 'shop', component: ShopComponent, title: 'Shop' },
       { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
+      { path: 'sales', component: SalesComponent, title: 'Sales' },
+      {
+        path: 'categories',
+        component: CategoriesComponent,
+        title: 'Categories',
+      },
     ],
   },
 ];

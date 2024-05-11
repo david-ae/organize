@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '../models/domain/store';
-import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../../base.service';
-import { catchError } from 'rxjs';
+import { catchError, distinctUntilChanged, share } from 'rxjs';
+import { Item } from '../models/domain/item';
+import { UpdateStoreInventoryDto } from '../models/valueobjects/store.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -14,14 +15,48 @@ export class StoreService extends BaseService {
   }
 
   getStore(id: string) {
-    return this.httpClient
-      .get<Store>(`${this.storeApiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
+    return this.httpClient.get<Store>(`${this.storeApiUrl}/${id}`);
   }
 
   createStore(store: Store) {
     return this.httpClient
-      .post(`${this.storeApiUrl}`, store)
-      .pipe(catchError(this.handleError));
+      .post<Store>(`${this.storeApiUrl}`, store)
+      .pipe(share(), catchError(this.handleError));
+  }
+
+  addCategoriesToStore(id: string, categories: string[]) {
+    return this.httpClient
+      .patch<Store>(`${this.storeApiUrl}/${id}/categories`, categories)
+      .pipe(catchError(this.handleError), share());
+  }
+
+  addItemToStoreInventory(id: string, item: Item) {
+    return this.httpClient
+      .patch<Store>(`${this.storeApiUrl}/${id}/inventory-item`, item)
+      .pipe(catchError(this.handleError), share());
+  }
+
+  updateStoreInventory(id: string, store: UpdateStoreInventoryDto) {
+    return this.httpClient
+      .patch<Store>(`${this.storeApiUrl}/${id}/inventory`, store)
+      .pipe(catchError(this.handleError), share());
+  }
+
+  getStoreByEmail(email: string) {
+    return this.httpClient
+      .post<Store>(`${this.storeApiUrl}/details`, { email: email })
+      .pipe(share());
+  }
+
+  getStoreCategories(id: string) {
+    return this.httpClient
+      .get<Store>(`${this.storeApiUrl}/${id}/storeCategories`)
+      .pipe(share());
+  }
+
+  getStoreItemByCategory(id: string, category: string) {
+    return this.httpClient
+      .get<Store>(`${this.storeApiUrl}/${id}/storeItems?category=${category}`)
+      .pipe(share());
   }
 }

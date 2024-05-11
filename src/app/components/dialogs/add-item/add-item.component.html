@@ -1,7 +1,6 @@
-@if(store$ | async; as store){
+@if(categories.length > 0){
 <div [formGroup]="itemForm" class="bg-white p-5">
-  <h1 class="">Add New Item</h1>
-  @if(store.categories.length > 0){
+  <h1 class="">New Item</h1>
   <div class="grid grid-cols-1 m-5">
     <div class="relative h-10 w-full min-w-[200px]">
       <select
@@ -23,6 +22,7 @@
     <input
       class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       formControlName="itemName"
+      [maxLength]="19"
       type="text"
       placeholder="Item Name"
     />
@@ -37,6 +37,7 @@
       class="shadow appearance-none border rounded min-w-14 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       formControlName="itemQuantity"
       type="number"
+      onkeypress="return /\d/.test(String.fromCharCode(((event||window.event).which||(event||window.event).which)));"
       placeholder="Quantity"
       restrictNumbers
     />
@@ -52,10 +53,7 @@
       Add Item
     </button>
   </div>
-
-  }@else {
-  <h1>Add an item Category to continue</h1>
-  }
 </div>
-
+} @else {
+<h1 class="p-5 bg-white text-black">Add an item Category to continue</h1>
 }

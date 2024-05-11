@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { SigninComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import { SaleComponent } from './components/sale/sale.component';
+import { OnboardingComponent } from './auth/onboarding/onboarding.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'signin', pathMatch: 'full' },
@@ -11,4 +11,9 @@ export const routes: Routes = [
   },
   { path: 'signin', component: SigninComponent, title: 'Sign In' },
   { path: 'signup', component: SignupComponent, title: 'Sign Up' },
+  {
+    path: 'onboarding',
+    component: OnboardingComponent,
+    title: 'Onboarding',
+  },
 ];

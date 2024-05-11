@@ -1,5 +1,8 @@
 import { createAction, props, Store } from '@ngrx/store';
 import { Store as Bank } from '../../store/models/domain/store';
+import { Item } from '../../store/models/domain/item';
+import { UpdateStoreInventoryDto } from '../../store/models/valueobjects/store.dto';
+import { ItemUpdate } from '../enum/item-update.enum';
 
 export const createStore = createAction(
   '[Create Store] Store',
@@ -8,10 +11,23 @@ export const createStore = createAction(
 
 export const storeCreated = createAction(
   '[Store Created] Store',
-  props<{ store: Bank }>()
+  props<{ payload: Bank }>()
+);
+
+export const addCategoriesToStore = createAction(
+  '[Add Category To Store] Store',
+  props<{ id: string; categories: string[] }>()
+);
+export const addItemToStoreInventory = createAction(
+  '[Add Item to Store Inventory] Store',
+  props<{ id: string; item: Item }>()
 );
 
 export const loadStores = createAction('[Load Stores] Store');
+export const loadSpinner = createAction(
+  '[Load Spinner] Store',
+  props<{ isLoaded: boolean }>()
+);
 
 export const storesLoaded = createAction(
   '[Stores Loaded] Store',
@@ -35,12 +51,25 @@ export const storeLoaded = createAction(
   '[Store Loaded] Store',
   props<{ payload: Bank }>()
 );
+export const signedIn = createAction(
+  '[Store Loaded] Store',
+  props<{ payload: Bank }>()
+);
 
 export const loadStoreException = createAction('[Load Store] Store');
 //#endregion
 export const updateStore = createAction(
   '[Update Store] Store',
   props<{ id: string; store: Bank }>()
+);
+
+export const updateStoreInventory = createAction(
+  '[Update Store Inventory] Store',
+  props<{
+    id: string;
+    store: UpdateStoreInventoryDto;
+    updateType: ItemUpdate;
+  }>()
 );
 
 export const getStore = createAction(

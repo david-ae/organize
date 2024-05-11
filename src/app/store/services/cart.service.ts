@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CartService {
   cart$ = new BehaviorSubject<Cart | undefined>(undefined);
+  currentCart = this.cart$.asObservable();
   cart = new Cart();
 
   constructor() {}
@@ -36,5 +37,14 @@ export class CartService {
 
   getTotal() {
     return this.cart.getTotal();
+  }
+
+  clearCart() {
+    this.cart = new Cart();
+    this.cart$.next(undefined);
+  }
+
+  getNewCart() {
+    return new Cart();
   }
 }

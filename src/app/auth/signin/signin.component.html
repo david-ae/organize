@@ -1,28 +1,55 @@
-<div class="flex h-screen">
-  <div class="m-auto">
-    @if(buttonText !== 'Login'){
-    <button mat-raised-button color="warn">
-      <a (click)="signin()" routerLinkActive="router-link-active">
-        {{ buttonText }}</a
-      >
-    </button>
-    }@else {
-    <div
-      [formGroup]="signinForm"
-      class="grid grid-cols-1 lg:grid-cols-2 sm:grid-cols-2 gap-4"
+<div class="flex flex-col min-h-screen">
+  <div class="m-auto mt-auto">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="w-20 h-20 m-auto text-black mb-10"
     >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"
+      />
+    </svg>
+
+    @if(buttonText !== 'Login'){
+    <div class="grid grid-cols-1 gap-4">
+      <button mat-raised-button color="warn">
+        <a (click)="signin()" routerLinkActive="router-link-active">
+          {{ buttonText }}</a
+        >
+      </button>
+      <button mat-raised-button color="accent">
+        <a (click)="removeAccount()" routerLinkActive="router-link-active">
+          Remove Account</a
+        >
+      </button>
+    </div>
+    }@else {
+    <div [formGroup]="signinForm" class="grid grid-cols-1 gap-4">
       <input
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         formControlName="email"
         type="text"
         placeholder="Enter email"
       />
-      <button [disabled]="!signinForm.valid" mat-raised-button color="warn">
-        <a (click)="signin()" routerLinkActive="router-link-active">
-          {{ buttonText }}</a
-        >
+      <button
+        (click)="signin()"
+        [disabled]="!signinForm.valid"
+        mat-raised-button
+        color="warn"
+      >
+        {{ buttonText }}
       </button>
+      <a mat-raised-button [routerLink]="'/onboarding'" color="accent"
+        >Create an account</a
+      >
     </div>
     }
   </div>
+  <app-footer></app-footer>
 </div>
+<app-loading-spinner></app-loading-spinner>

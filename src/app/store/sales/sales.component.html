@@ -1,1 +1,115 @@
-<p>sales works!</p>
+<div class="grid grid-cols-1 mx-auto w-full lg:w-3/5 sm:w-3/4">
+  <div class="grid grid-cols-1 lg:grid-cols-2">
+    <div class="">
+      <mat-form-field class="ssm:w-full lg:w-3/4">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input
+            matStartDate
+            formControlName="start"
+            placeholder="Start date"
+          />
+          <mat-hint class="text-black">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <input matEndDate formControlName="end" placeholder="End date" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        @if (range.controls.start.hasError('matStartDateInvalid')) {
+        <mat-error>Invalid start date</mat-error>
+        } @if (range.controls.end.hasError('matEndDateInvalid')) {
+        <mat-error>Invalid end date</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="w-full lg:w-1/2 mb-4">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="searchSales()"
+        class="w-full"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+@if(sales.length > 0){
+<div class="grid grid-cols-1 m-auto">
+  <table class="table-auto">
+    <thead>
+      <tr>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Name
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Quatity Sold
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Total
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Date
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(sale of sales | paginate: { itemsPerPage: itemsPerPage, currentPage:
+      currentPage }; track $index ){
+      <tr>
+        <td class="px-5 py-5 border-b border-gray-200 text-black text-sm">
+          {{ sale._id }}
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 text-black text-sm">
+          {{ sale.count | number : "2.0-0" }}
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 text-black text-sm">
+          #{{ sale.totalSaleAmount | number : "2.0-1" }}
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 text-black text-sm">
+          {{ sale.transactionDate | date : "dd/MM/yyyy" }}
+        </td>
+      </tr>
+
+      }
+    </tbody>
+  </table>
+  <div class="m-auto text-black text-lg mt-4">
+    Total: <span class="italic font-bold">#{{ total | number : "2.0-1" }}</span>
+  </div>
+</div>
+
+@if(sales.length > itemsPerPage){
+<pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+} } @else {
+<div class="grid grid-cols-1">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-20 h-20 m-auto mt-4 text-black dark:text-black"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
+    />
+  </svg>
+  <div class="m-auto text-black">
+    <h1>No Sales made</h1>
+  </div>
+</div>
+}

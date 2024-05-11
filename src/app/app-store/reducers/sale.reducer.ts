@@ -5,14 +5,16 @@ import {
   createSelector,
   on,
 } from '@ngrx/store';
-import { Sale } from '../../store/models/domain/sale';
-import * as SaleActions from './../actions/sale.actions';
+import * as saleActions from './../actions/sale.actions';
+import { SaleDto } from '../models/sale.dto';
 
 export interface SaleState {
-  sales: Sale[];
+  isLoading: boolean;
+  sales: SaleDto[];
 }
 
 export const initialSaleStore: SaleState = {
+  isLoading: false,
   sales: [],
 };
 
@@ -23,14 +25,32 @@ export const getSales = createSelector(
   (state) => state.sales
 );
 
+export const getSaleIsLoadingState = createSelector(
+  saleFeatureState,
+  (state) => state.isLoading
+);
+
 export const saleFeature = createFeature({
   name: saleFeatureState.name,
   reducer: createReducer(
     initialSaleStore,
-    on(SaleActions.createSale, (state, action) => {
+    on(saleActions.salesLoaded, (state, action) => {
       return {
         ...state,
-        sales: [...state.sales, action.sale],
+        isLoading: false,
+        sales: action.payload,
+      };
+    }),
+    on(saleActions.salesCreated, (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }),
+    on(saleActions.loadSpinner, (state, action) => {
+      return {
+        ...state,
+        isLoading: action.isLoaded,
       };
     })
   ),
@@ -40,4 +60,5 @@ export const {
   name: saleFeatureKey,
   reducer: saleReducer,
   selectSales,
+  selectIsLoading,
 } = saleFeature;

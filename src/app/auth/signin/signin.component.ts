@@ -15,7 +15,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { CartService } from '../../store/services/cart.service';
 
 @Component({
   selector: 'app-signin',
@@ -26,6 +33,10 @@ import { Subject, takeUntil } from 'rxjs';
     MatButtonModule,
     RouterModule,
     ReactiveFormsModule,
+    LoadingSpinnerComponent,
+    NgxSpinnerModule,
+    CommonModule,
+    FooterComponent,
   ],
   providers: [BaseService, AuthService],
   templateUrl: './signin.component.html',
@@ -33,18 +44,19 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class SigninComponent implements OnInit, OnDestroy {
   private baseService = inject(BaseService);
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  private cartService = inject(CartService);
   store = inject(Store<AppState>);
 
   signinForm!: FormGroup;
-  buttonText = 'Login';
+  buttonText$ = new BehaviorSubject('Login');
+  btnText$ = this.buttonText$.asObservable();
+  buttonText = '';
   key = this.baseService.key;
-  userDetails: AppUserDto = { email: '', id: '' };
+  userDetails!: AppUserDto | null;
 
   unsubscribe$ = new Subject<void>();
 
-  constructor() {}
+  constructor(private toastrService: ToastrService) {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -55,16 +67,20 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.signinForm = new FormGroup({
       email: new FormControl('', [Validators.required]),
     });
+    this.btnText$.subscribe((text) => (this.buttonText = text));
     const storeUser = this.baseService.getItemFromLocalStorage(
       this.key
     ) as string;
     this.userDetails = JSON.parse(storeUser);
+
     if (this.userDetails !== null) {
       this.buttonText = this.buttonText + ` as ${this.userDetails.email}`;
+      this.buttonText$.next(this.buttonText);
     }
   }
 
   signin() {
+    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
     if (!this.userDetails) {
       const email = this.signinForm.get('email')?.value;
       this.getStoreAndRedirect(email);
@@ -72,14 +88,13 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   private getStoreAndRedirect(email: string) {
-    this.authService
-      .getStoreByEmail(email)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((store) => {
-        if (store) {
-          this.store.dispatch(storeActions.storeLoaded({ payload: store }));
-          this.router.navigate(['/store/dashboard']);
-        }
-      });
+    this.store.dispatch(storeActions.loadStoreByEmail({ email: email }));
+  }
+
+  removeAccount() {
+    this.baseService.removeItemFromLocalStorage(this.key);
+    this.cartService.clearCart();
+    this.userDetails = null;
+    this.buttonText$.next('Login');
   }
 }

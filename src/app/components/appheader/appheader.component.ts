@@ -1,12 +1,11 @@
 import { AppState } from './../../app.state';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../store/services/cart.service';
-import { map, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
-import { UtilitiesService } from '../../store/services/utilities.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { SaleComponent } from '../sale/sale.component';
@@ -17,6 +16,7 @@ import { Store as Bank } from './../../store/models/domain/store';
 import { BaseService } from '../../base.service';
 import { AppUserDto } from '../../app-user.dto';
 import { Item } from '../../store/models/domain/item';
+import { LogoutdialogComponent } from '../dialogs/logoutdialog/logoutdialog.component';
 @Component({
   selector: 'app-appheader',
   standalone: true,
@@ -24,39 +24,41 @@ import { Item } from '../../store/models/domain/item';
   templateUrl: './appheader.component.html',
   styleUrl: './appheader.component.css',
 })
-export class AppheaderComponent implements OnInit {
+export class AppheaderComponent implements OnInit, OnDestroy {
   @Input() sideNav!: MatSidenav;
 
-  utilitiesService = inject(UtilitiesService);
   private store = inject(Store<AppState>);
   private router = inject(Router);
   private baseService = inject(BaseService);
+  protected cartService = inject(CartService);
 
   store$!: Observable<Bank>;
   currentStoreUser!: AppUserDto;
   key = this.baseService.key;
-  inventories: Item[] = [];
+  inventory: Item[] = [];
+
+  unsubriber$ = new Subject<void>();
 
   constructor(public dialog: MatDialog) {}
 
-  cartService = inject(CartService);
+  ngOnDestroy(): void {
+    this.unsubriber$.next();
+    this.unsubriber$.complete();
+  }
+
   numberOfItems: number = 0;
 
   ngOnInit(): void {
-    this.cartService.cart$.pipe(
-      map((cart) => {
-        if (cart) {
-          this.numberOfItems = cart.getNumberOfItems();
-        }
-      })
-    );
+    this.cartService.currentCart.subscribe((cart) => {
+      if (cart) {
+        this.numberOfItems = cart.getNumberOfItems();
+      } else this.numberOfItems = 0;
+    });
     this.store$ = this.store.pipe(select(getStoreDetails));
-    this.store$.subscribe(
-      (store) =>{
-        (this.currentStoreUser = { email: store.email, id: store.id as string })
-        this.inventories = store.inventories;
-      }
-    );
+    this.store$.subscribe((store) => {
+      this.currentStoreUser = { email: store.email, id: store.id as string };
+      this.inventory = store.inventory;
+    });
   }
 
   toggleNav() {
@@ -66,13 +68,25 @@ export class AppheaderComponent implements OnInit {
 
   addSale() {
     let dialogRef = this.dialog.open(SaleComponent, {
-      data: { inventories: this.inventories },
+      data: { inventories: this.inventory },
+      width: '80%',
       panelClass: 'dialog',
     });
     dialogRef.afterOpened().subscribe((result) => {});
   }
 
   logout() {
+    this.dialog
+      .open(LogoutdialogComponent, {})
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === 'confirm') {
+          this.processLogout();
+        }
+      });
+  }
+
+  processLogout() {
     if (
       this.currentStoreUser.id !== undefined ||
       this.currentStoreUser.email !== ''

@@ -11,7 +11,13 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [MatTabsModule, CommonModule, MatButtonModule, MatIconModule, ReactiveFormsModule],
+  imports: [
+    MatTabsModule,
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })

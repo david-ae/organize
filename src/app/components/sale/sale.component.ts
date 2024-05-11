@@ -21,6 +21,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Store as Bank } from './../../store/models/domain/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
+import { CartService } from '../../store/services/cart.service';
 
 @Component({
   selector: 'app-sale',
@@ -31,8 +32,10 @@ import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 })
 export class SaleComponent implements OnInit, OnDestroy {
   store = inject(Store<AppState>);
+  cartService = inject(CartService);
 
   inventories$ = new BehaviorSubject<Item[]>([]);
+  cart$ = this.cartService.currentCart;
 
   saleForm!: FormGroup;
   inventories: Item[] = [];
@@ -40,11 +43,12 @@ export class SaleComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
+  unsubscriber$ = new Subject<void>();
+
   ngOnDestroy(): void {
     this.unsubscriber$.next();
     this.unsubscriber$.complete();
   }
-  unsubscriber$ = new Subject<void>();
 
   ngOnInit(): void {
     this.saleForm = new FormGroup({
@@ -55,7 +59,7 @@ export class SaleComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscriber$)
     );
 
-    this.store$.subscribe((store) => (this.inventories = store.inventories));
+    this.store$.subscribe((store) => (this.inventories = store.inventory));
   }
 
   onChange(event: any) {
@@ -68,12 +72,20 @@ export class SaleComponent implements OnInit, OnDestroy {
         filter((item) => !!item),
         switchMap((i: string) =>
           i
-            ? of(this.inventories?.filter((s: Item) => s.name.includes(i)))
+            ? of(
+                this.inventories?.filter((s: Item) =>
+                  s.name.toLowerCase().includes(i.toLowerCase())
+                )
+              )
             : of([])
         )
       )
       .subscribe((items) => {
         this.inventories$.next(items);
       });
+  }
+
+  addToCart(item: Item) {
+    this.cartService.addToCart(item);
   }
 }

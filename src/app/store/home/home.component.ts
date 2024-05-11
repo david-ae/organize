@@ -19,6 +19,9 @@ import { CartService } from '../services/cart.service';
 import { CheckoutComponent } from '../checkout/checkout.component';
 import { SidenavComponent } from '../../components/sidenav/sidenav.component';
 import { UtilitiesService } from '../services/utilities.service';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { Cart } from '../models/cart';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-shelf',
@@ -36,8 +39,9 @@ import { UtilitiesService } from '../services/utilities.service';
     CheckoutComponent,
     SidenavComponent,
     MatSidenavModule,
+    LoadingSpinnerComponent,
   ],
-  providers: [CartService, MatSidenavContainer],
+  providers: [MatSidenavContainer],
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements AfterContentChecked {

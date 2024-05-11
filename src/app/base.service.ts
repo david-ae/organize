@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { environment } from './environments/environment';
 
 @Injectable({
@@ -8,6 +8,10 @@ import { environment } from './environments/environment';
 })
 export class BaseService {
   protected readonly storeApiUrl = `${environment.Stores}`;
+  protected readonly categoryApiUrl = `${environment.Categories}`;
+  protected readonly saleApiUrl = `${environment.Sales}`;
+  protected readonly userApiUrl = `${environment.Users}`;
+
   key = 'storeUser';
   constructor() {}
 

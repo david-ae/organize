@@ -1,20 +1,42 @@
 <mat-toolbar class="mat-elevation-z6 navbar" color="accent">
   <mat-toolbar-row class="toolbar-row">
     <div class="grid grid-cols-2">
-      <button (click)="toggleNav()" mat-icon-button>
+      <!-- <button (click)="toggleNav()" mat-icon-button>
         <mat-icon>menu</mat-icon>
-      </button>
-      <div>Organize</div>
+      </button> -->
+      <!-- <div>Organize</div> -->
     </div>
-    <span class="m-3 cursor-pointer">
+    <!-- <span class="m-3 cursor-pointer">
       <a (click)="addSale()" routerLinkActive="text-white">
         <mat-icon>library_add</mat-icon>
       </a>
-    </span>
+    </span> -->
     <div class="">
       <span class="m-3 cursor-pointer">
         <a [routerLink]="'/store/dashboard'" routerLinkActive="text-white">
           <mat-icon>home_app_logo</mat-icon>
+        </a>
+      </span>
+      <span class="m-3 cursor-pointer"
+        ><a
+          [routerLink]="'/store/shop'"
+          class="link"
+          routerLinkActive="text-white"
+        >
+          <mat-icon
+            ><span class="material-symbols-outlined"> shopping_bag </span>
+          </mat-icon>
+        </a>
+      </span>
+      <span class="m-3 cursor-pointer"
+        ><a
+          [routerLink]="'/store/inventory'"
+          class="link"
+          routerLinkActive="text-white"
+        >
+          <mat-icon
+            ><span class="material-symbols-outlined"> inventory_2 </span>
+          </mat-icon>
         </a>
       </span>
       <span class="m-3 cursor-pointer"
@@ -31,12 +53,9 @@
           {{ numberOfItems }}
         </a>
       </span>
+
       <span class="m-3 cursor-pointer"
-        ><a
-        (click)="logout()"
-          routerLinkActive="text-white"
-          class="link"
-        >
+        ><a (click)="logout()" routerLinkActive="text-white" class="link">
           <mat-icon
             ><span class="material-symbols-outlined"> logout </span></mat-icon
           ></a
