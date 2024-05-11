@@ -65,8 +65,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
       searchInventory: new FormControl(''),
     });
 
-    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
-
     this.store$ = this.store.pipe(
       select(getStoreDetails),
       takeUntil(this.unsubscribe$)
