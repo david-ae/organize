@@ -11,6 +11,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { getStoreIsLoadingState } from '../../app-store/reducers/store.reducer';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { getSaleIsLoadingState } from '../../app-store/reducers/sale.reducer';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -23,7 +24,8 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
   store = inject(Store<AppState>);
   isLoaded = false;
 
-  isLoading$!: Observable<boolean>;
+  isLoadingStore$!: Observable<boolean>;
+  isLoadingSale$!: Observable<boolean>;
   unsubscriber$ = new Subject<void>();
 
   constructor(private spinner: NgxSpinnerService) {}
@@ -34,11 +36,22 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.pipe(
+    this.isLoadingStore$ = this.store.pipe(
       select(getStoreIsLoadingState),
       takeUntil(this.unsubscriber$)
     );
-    this.isLoading$.subscribe((loading) => {
+
+    this.isLoadingSale$ = this.store.pipe(
+      select(getSaleIsLoadingState),
+      takeUntil(this.unsubscriber$)
+    );
+
+    this.isLoadingStore$.subscribe((loading) => {
+      if (loading) this.spinner.show();
+      else this.spinner.hide();
+    });
+
+    this.isLoadingSale$.subscribe((loading) => {
       if (loading) this.spinner.show();
       else this.spinner.hide();
     });

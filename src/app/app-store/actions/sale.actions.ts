@@ -29,7 +29,7 @@ export const getSalesByQuery = createAction(
 
 export const getSalesByGroupQuery = createAction(
   '[Get Sales By Query] Sale',
-  props<{ storeId: string }>()
+  props<{ storeId: string, dateFrom: string, dateTo: string }>()
 );
 
 export const salesLoaded = createAction(

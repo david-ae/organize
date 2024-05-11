@@ -24,7 +24,6 @@ export class PaginationComponent implements OnInit {
     if (this.totalItems) {
       this.totalPages = Math.ceil(this.totalItems / this.itemPerPage);
       this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-      console.log(this.pages);
     }
   }
 

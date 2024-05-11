@@ -60,7 +60,6 @@ export class DatePickerComponent implements OnInit {
   getDateValue(date: any) {
     let selectedDate = new Date(this.year, this.month, date);
     this.datepickerValue = selectedDate.toDateString();
-    console.log(selectedDate);
 
     this.showDatepicker = false;
   }

@@ -197,6 +197,5 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.inventory = this.inventory.map((i) =>
       i.id == cartItem.getItem().id ? Object.assign({}, i, item) : i
     );
-    // console.log(this.inventory);
   }
 }

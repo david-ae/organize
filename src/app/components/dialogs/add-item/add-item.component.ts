@@ -14,7 +14,6 @@ import { getStoreDetails } from '../../../app-store/reducers/store.reducer';
 import { Store as Bank } from './../../../store/models/domain/store';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { NumberRestrictionDirective } from '../../../directives/number-restriction.directive';
 import { Item } from '../../../store/models/domain/item';
 import * as storeActions from './../../../app-store/actions/store.actions';
 import { Category } from '../../../store/models/domain/category';
