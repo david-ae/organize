@@ -1,8 +1,8 @@
 import { Environment } from './environment.interface';
 
 export const environment: Environment = {
-  Stores: 'https://proud-pink-giraffe.cyclic.app/stores',
-  Users: 'https://proud-pink-giraffe.cyclic.app/users',
-  Sales: 'https://proud-pink-giraffe.cyclic.app/sales',
-  Categories: 'https://proud-pink-giraffe.cyclic.app/categories',
+  Stores: 'https://organize-backend-geby.onrender.com/stores',
+  Users: 'https://organize-backend-geby.onrender.com/users',
+  Sales: 'https://organize-backend-geby.onrender.com/sales',
+  Categories: 'https://organize-backend-geby.onrender.com/categories',
 };
