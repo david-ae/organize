@@ -23,6 +23,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CartService } from '../../store/services/cart.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from '../token.interceptor';
 
 @Component({
   selector: 'app-signin',
@@ -38,7 +40,11 @@ import { CartService } from '../../store/services/cart.service';
     CommonModule,
     FooterComponent,
   ],
-  providers: [BaseService, AuthService],
+  providers: [
+    BaseService,
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css',
 })

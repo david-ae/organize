@@ -23,13 +23,20 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       HttpClientModule,
       BrowserAnimationsModule,
-      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
     ),
     provideRouter(routes),
+
     provideAnimationsAsync(),
     provideToastr({ timeOut: 2000, positionClass: 'toast-center-center' }),
     provideStore(reducers, { metaReducers: [clearStateMetaReducer] }),
-    provideEffects([StoreEffects, CategoryEffects, UserEffects, SaleEffects, ItemEffects]),
+    provideEffects([
+      StoreEffects,
+      CategoryEffects,
+      UserEffects,
+      SaleEffects,
+      ItemEffects,
+    ]),
     CartService,
   ],
 };

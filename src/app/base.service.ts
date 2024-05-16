@@ -7,6 +7,7 @@ import { environment } from './environments/environment';
   providedIn: 'root',
 })
 export class BaseService {
+  protected readonly authApiUrl = `${environment.Auth}`;
   protected readonly storeApiUrl = `${environment.Stores}`;
   protected readonly categoryApiUrl = `${environment.Categories}`;
   protected readonly saleApiUrl = `${environment.Sales}`;
@@ -35,7 +36,7 @@ export class BaseService {
     localStorage.setItem(key, item);
   }
 
-  getItemFromLocalStorage(key: string) {
+  getItemFromLocalStorage(key: string): any {
     return localStorage.getItem(key);
   }
 
