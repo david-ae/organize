@@ -1,12 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { mergeMap, map, catchError, of, exhaustMap, tap } from 'rxjs';
-import {
-  loadStoreByEmail,
-  storeLoaded,
-  loadStoreException,
-} from '../actions/store.actions';
+import { tap } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as storeActions from './../actions/store.actions';
 import { Injectable } from '@angular/core';

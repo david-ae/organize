@@ -18,6 +18,8 @@ import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { NumberRestrictionDirective } from '../../directives/number-restriction.directive';
 import { RouterModule } from '@angular/router';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-onboarding',
@@ -28,7 +30,9 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
     ReactiveFormsModule,
     MatButtonToggleModule,
     RouterModule,
+    MatInputModule,
     LoadingSpinnerComponent,
+    MatFormFieldModule,
   ],
   templateUrl: './onboarding.component.html',
   styleUrl: './onboarding.component.css',
@@ -40,6 +44,8 @@ export class OnboardingComponent implements OnInit {
 
   newStore$!: Observable<Bank>;
 
+  isLinear = false;
+
   ngOnInit(): void {
     this.storeForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -49,6 +55,12 @@ export class OnboardingComponent implements OnInit {
       ]),
       address: new FormControl(''),
       storePhonenumber: new FormControl(''),
+    });
+    this.userForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     });
 
     this.newStore$ = this.store.pipe(select(getStoreDetails));

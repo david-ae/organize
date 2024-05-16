@@ -51,6 +51,7 @@ import { TokenInterceptor } from '../token.interceptor';
 export class SigninComponent implements OnInit, OnDestroy {
   private baseService = inject(BaseService);
   private cartService = inject(CartService);
+  private authService = inject(AuthService);
   store = inject(Store<AppState>);
 
   signinForm!: FormGroup;
@@ -62,7 +63,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
 
-  constructor(private toastrService: ToastrService) {}
+  constructor() {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -72,6 +73,7 @@ export class SigninComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.signinForm = new FormGroup({
       email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     });
     this.btnText$.subscribe((text) => (this.buttonText = text));
     const storeUser = this.baseService.getItemFromLocalStorage(
@@ -86,11 +88,17 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   signin() {
-    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
-    if (!this.userDetails) {
-      const email = this.signinForm.get('email')?.value;
-      this.getStoreAndRedirect(email);
-    } else this.getStoreAndRedirect(this.userDetails.email);
+    // this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
+    // if (!this.userDetails) {
+    //   const email = this.signinForm.get('email')?.value;
+    //   this.getStoreAndRedirect(email);
+    // } else this.getStoreAndRedirect(this.userDetails.email);
+    this.authService
+      .signIn({
+        email: this.signinForm.get('email')?.value,
+        password: this.signinForm.get('password')?.value,
+      })
+      .subscribe((token) => console.log(token));
   }
 
   private getStoreAndRedirect(email: string) {
