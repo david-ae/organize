@@ -25,6 +25,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { CartService } from '../../store/services/cart.service';
 import { SignInResponse } from '../models/sign-in-response.dto';
 import { getAuthResponse } from '../../app-store/reducers/auth.reducer';
+import { User } from '../../store/models/domain/user';
 
 @Component({
   selector: 'app-signin',
@@ -54,7 +55,7 @@ export class SigninComponent implements OnInit, OnDestroy {
   buttonText$ = new BehaviorSubject('Login');
   btnText$ = this.buttonText$.asObservable();
   buttonText = '';
-  userDetails!: AppUserDto | null;
+  userDetails!: User | null;
   signedIn$!: Observable<SignInResponse | undefined>;
 
   unsubscribe$ = new Subject<void>();
@@ -73,11 +74,10 @@ export class SigninComponent implements OnInit, OnDestroy {
     });
     this.btnText$.subscribe((text) => (this.buttonText = text));
     const storeUser = this.baseService.getItemFromLocalStorage(
-      this.authService.ACCESS_TOKEN
+      this.authService.store_user
     );
-    if (storeUser === undefined) {
+    if (storeUser !== undefined) {
       this.userDetails = JSON.parse(storeUser);
-
       if (this.userDetails !== null) {
         this.buttonText = this.buttonText + ` as ${this.userDetails.email}`;
         this.buttonText$.next(this.buttonText);
@@ -99,6 +99,8 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.signInStoreUser();
   }
 
+  refreshSignin() {}
+
   signInStoreUser() {
     this.signedIn$.pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
       if (response) {
@@ -117,6 +119,7 @@ export class SigninComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           userActions.userLoaded({
             payload: {
+              id: response?.user.id,
               email: response?.user.email,
               storeId: response?.store.id,
               name: `${response?.user.firstName} ${response?.user.lastName}`,
@@ -127,10 +130,6 @@ export class SigninComponent implements OnInit, OnDestroy {
         this.router.navigate(['store/dashboard']);
       }
     });
-  }
-
-  private getStoreAndRedirect(email: string) {
-    this.store.dispatch(storeActions.loadStoreByEmail({ email: email }));
   }
 
   removeAccount() {

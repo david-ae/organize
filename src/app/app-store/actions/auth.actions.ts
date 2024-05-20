@@ -23,6 +23,15 @@ export const signedIn = createAction(
 export const signUp = createAction(
   '[SignedIn]  Auth',
   props<{ payload: SignInResponse }>()
+)
+
+;
+export const logout = createAction(
+  '[Logout]  Auth',
+  props<{ payload: string }>()
+);
+export const loggedOut = createAction(
+  '[Logout]  Auth',
 );
 
 export const loadSpinner = createAction(

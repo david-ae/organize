@@ -52,13 +52,25 @@ export class AuthEffects {
     )
   );
 
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.logout),
+      exhaustMap((action) =>
+        this.authService.logout(action.payload).pipe(
+          map(() => authActions.loggedOut()),
+          catchError(() => {
+            this.toastrService.error(`Unable to logyou out`);
+            return of(authActions.loadAuthException());
+          })
+        )
+      )
+    )
+  );
+
   closeSpinner$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(
-          authActions.loadAuthException,
-          authActions.signedIn
-        ),
+        ofType(authActions.loadAuthException, authActions.signedIn),
         tap((action) => this.spinnerService.hide())
       ),
     { dispatch: false }

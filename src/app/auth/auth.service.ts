@@ -40,7 +40,10 @@ export class AuthService extends BaseService {
   /**
    * Clear the token after logout
    */
-  logout() {
-    this.router.navigateByUrl('/login');
+  logout(userId: string) {
+    // this.router.navigateByUrl('/login');
+    return this.httpClient
+      .post(`${this.authApiUrl}/logout`, userId)
+      .pipe(catchError(this.handleError));
   }
 }

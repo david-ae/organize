@@ -15,6 +15,7 @@ export class BaseService {
 
   ACCESS_TOKEN = 'ACCESS_TOKEN';
   REFRESH_TOKEN = 'REFRESH_TOKEN';
+  store_user = 'store_user';
   constructor() {}
 
   public handleError(error: HttpErrorResponse) {
