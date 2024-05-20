@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
-import { loadStoreException, storeLoaded } from '../actions/store.actions';
 import { StoreService } from '../../store/services/store.service';
 import { Router } from '@angular/router';
 import * as storeActions from './../actions/store.actions';
+import * as authActions from './../actions/auth.actions';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ItemUpdate } from '../enum/item-update.enum';
+import { AuthService } from '../../auth/auth.service';
 @Injectable()
 export class StoreEffects {
   constructor(
@@ -17,24 +18,6 @@ export class StoreEffects {
     private spinnerService: NgxSpinnerService,
     private toastrService: ToastrService
   ) {}
-
-  createStore$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(storeActions.createStore),
-      mergeMap((action) =>
-        this.storeService.createStore(action.store).pipe(
-          map((store) => storeActions.storeCreated({ payload: store })),
-          tap(() => this.router.navigate(['/store/dashboard'])),
-          catchError(() => {
-            this.toastrService.error(
-              'Unable to create your store. Please try again'
-            );
-            return of(storeActions.loadStoreException());
-          })
-        )
-      )
-    )
-  );
 
   updateStoreInventory$ = createEffect(() =>
     this.actions$.pipe(

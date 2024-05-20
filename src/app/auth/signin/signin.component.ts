@@ -3,7 +3,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { BaseService } from '../../base.service';
 import { Store } from '@ngrx/store';
 import * as storeActions from './../../app-store/actions/store.actions';
@@ -15,16 +15,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
-import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CartService } from '../../store/services/cart.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from '../token.interceptor';
 
 @Component({
   selector: 'app-signin',
@@ -40,11 +36,7 @@ import { TokenInterceptor } from '../token.interceptor';
     CommonModule,
     FooterComponent,
   ],
-  providers: [
-    BaseService,
-    AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-  ],
+  providers: [BaseService, AuthService],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css',
 })
@@ -76,23 +68,19 @@ export class SigninComponent implements OnInit, OnDestroy {
       password: new FormControl('', [Validators.required]),
     });
     this.btnText$.subscribe((text) => (this.buttonText = text));
-    const storeUser = this.baseService.getItemFromLocalStorage(
-      this.key
-    ) as string;
-    this.userDetails = JSON.parse(storeUser);
+    const storeUser = this.baseService.getItemFromLocalStorage(this.key);
+    if (storeUser === undefined) {
+      this.userDetails = JSON.parse(storeUser);
 
-    if (this.userDetails !== null) {
-      this.buttonText = this.buttonText + ` as ${this.userDetails.email}`;
-      this.buttonText$.next(this.buttonText);
+      if (this.userDetails !== null) {
+        this.buttonText = this.buttonText + ` as ${this.userDetails.email}`;
+        this.buttonText$.next(this.buttonText);
+      }
     }
   }
 
   signin() {
-    // this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
-    // if (!this.userDetails) {
-    //   const email = this.signinForm.get('email')?.value;
-    //   this.getStoreAndRedirect(email);
-    // } else this.getStoreAndRedirect(this.userDetails.email);
+    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
     this.authService
       .signIn({
         email: this.signinForm.get('email')?.value,

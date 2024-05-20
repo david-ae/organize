@@ -17,38 +17,35 @@
     <mat-step [stepControl]="storeForm">
       <form [formGroup]="storeForm">
         <ng-template matStepLabel>Enter Store Details</ng-template>
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="name"
-          placeholder="Enter Store Name"
-        />
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="email"
-          placeholder="Enter Store Email"
-        />
-        @if(getError(storeForm.get('email'))){
-        <label class="text-red-600">
-          {{ getError(storeForm.get("email")) }}
-        </label>
-        }
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="address"
-          placeholder="Enter Store Address"
-        />
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="storePhonenumber"
-          placeholder="Enter Store Phone Number"
-          restrictNumbers
-        />
+        <div class="grid grid-cols-1 gap-y-4">
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            formControlName="name"
+            placeholder="Enter Store Name"
+          />
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            formControlName="address"
+            placeholder="Enter Store Address"
+          />
+        </div>
         <div class="justify-between pt-5">
-          <button mat-raised-button class="float-right" matStepperNext>
+          <button
+            mat-raised-button
+            (click)="back()"
+            class="float-left"
+            matStepperNext
+          >
+            Back to Signin
+          </button>
+          <button
+            mat-raised-button
+            [disabled]="!storeForm.valid"
+            class="float-right"
+            matStepperNext
+          >
             Next
           </button>
         </div>
@@ -56,41 +53,56 @@
     </mat-step>
     <mat-step [stepControl]="userForm" label="Enter Owner Details">
       <form [formGroup]="userForm">
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="firstName"
-          placeholder="Enter Store Name"
-        />
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="lastName"
-          placeholder="Enter Store Name"
-        />
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="text"
-          formControlName="email"
-          placeholder="Enter Store Email"
-        />
-        @if(getError(storeForm.get('email'))){
-        <label class="text-red-600">
-          {{ getError(storeForm.get("email")) }}
-        </label>
-        }
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="password"
-          formControlName="password"
-          placeholder="Enter Store Address"
-        />
+        <div class="grid grid-cols-1 gap-y-4">
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            formControlName="firstName"
+            placeholder="Enter First Name"
+          />
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            formControlName="lastName"
+            placeholder="Enter Last Name"
+          />
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            formControlName="email"
+            placeholder="Enter Email"
+          />
+          @if(getError(userForm.get('email'))){
+          <label class="text-red-600">
+            {{ getError(userForm.get("email")) }}
+          </label>
+          }
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            formControlName="userPhonenumber"
+            placeholder="Enter Phone Number"
+            restrictNumbers
+          />
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="password"
+            formControlName="password"
+            placeholder="Enter Password"
+          />
+        </div>
         <div class="justify-between pt-5">
           <button mat-raised-button class="float-left" matStepperPrevious>
             Back
           </button>
-          <button mat-raised-button class="float-right" matStepperNext>
-            Next
+          <button
+            [disabled]="!userForm.valid"
+            mat-raised-button
+            (click)="register()"
+            class="float-right"
+            matStepperNext
+          >
+            Complete
           </button>
         </div>
       </form>

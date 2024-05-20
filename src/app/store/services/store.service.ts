@@ -5,6 +5,8 @@ import { BaseService } from '../../base.service';
 import { catchError, distinctUntilChanged, share } from 'rxjs';
 import { Item } from '../models/domain/item';
 import { UpdateStoreInventoryDto } from '../models/valueobjects/store.dto';
+import { SignUpDto } from '../../auth/models/sign-up.dto';
+import { SignInResponse } from '../../auth/models/sign-up-response.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +20,9 @@ export class StoreService extends BaseService {
     return this.httpClient.get<Store>(`${this.storeApiUrl}/${id}`);
   }
 
-  createStore(store: Store) {
+  createStore(onboard: SignUpDto) {
     return this.httpClient
-      .post<Store>(`${this.storeApiUrl}`, store)
+      .post<SignInResponse>(`${this.authApiUrl}/local/signup`, onboard)
       .pipe(share(), catchError(this.handleError));
   }
 

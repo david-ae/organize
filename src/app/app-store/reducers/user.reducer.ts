@@ -50,7 +50,7 @@ export const userFeature = createFeature({
       return {
         ...state,
         isLoading: false,
-        store: action.payload,
+        currentUser: action.payload,
       };
     }),
     on(userActions.loadSpinner, (state, action) => {

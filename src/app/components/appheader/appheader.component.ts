@@ -56,7 +56,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
     });
     this.store$ = this.store.pipe(select(getStoreDetails));
     this.store$.subscribe((store) => {
-      this.currentStoreUser = { email: store.email, id: store.id as string };
+      // this.currentStoreUser = { email: store.email, id: store.id as string };
       this.inventory = store.inventory;
     });
   }
@@ -87,12 +87,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   }
 
   processLogout() {
-    if (
-      this.currentStoreUser.id !== undefined ||
-      this.currentStoreUser.email !== ''
-    ) {
-      this.handleLocalStorageOnLogout();
-    }
+    this.handleLocalStorageOnLogout();
     this.store.dispatch(userActions.logoutAction());
     this.router.navigate(['/signin']);
   }

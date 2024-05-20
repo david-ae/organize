@@ -1,13 +1,8 @@
-import { createAction, props, Store } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { Store as Bank } from '../../store/models/domain/store';
 import { Item } from '../../store/models/domain/item';
 import { UpdateStoreInventoryDto } from '../../store/models/valueobjects/store.dto';
 import { ItemUpdate } from '../enum/item-update.enum';
-
-export const createStore = createAction(
-  '[Create Store] Store',
-  props<{ store: Bank }>()
-);
 
 export const storeCreated = createAction(
   '[Store Created] Store',

@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { SignInDto } from '../../auth/models/sign-in.dto';
+import { SignInResponse } from '../../auth/models/sign-up-response.dto';
+import { SignUpDto } from '../../auth/models/sign-up.dto';
 
 export const signIn = createAction(
   '[Sign In] Auth',
@@ -8,9 +10,19 @@ export const signIn = createAction(
   }>()
 );
 
+export const createStore = createAction(
+  '[Create Store] Auth',
+  props<{ onboard: SignUpDto }>()
+);
+
 export const signedIn = createAction(
   '[SignedIn]  Auth',
   props<{ payload: any }>()
+);
+
+export const signUp = createAction(
+  '[SignedIn]  Auth',
+  props<{ payload: SignInResponse }>()
 );
 
 export const loadSpinner = createAction(

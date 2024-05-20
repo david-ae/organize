@@ -6,7 +6,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
 import { reducers, clearStateMetaReducer } from './reducers';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import { StoreEffects } from './app-store/effects/store.effects';
 import { CategoryEffects } from './app-store/effects/category.effects';
@@ -14,9 +20,10 @@ import { UserEffects } from './app-store/effects/user.effects';
 import { SaleEffects } from './app-store/effects/sale.effects';
 import { CartService } from './store/services/cart.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { provideToastr, ToastrModule } from 'ngx-toastr';
-import { AuthEffects } from './app-store/effects/auth.effects';
+import { provideToastr } from 'ngx-toastr';
 import { ItemEffects } from './app-store/effects/item.effects';
+import { tokenInterceptor } from './token.interceptor';
+import { AuthEffects } from './app-store/effects/auth.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,7 +33,6 @@ export const appConfig: ApplicationConfig = {
       NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
     ),
     provideRouter(routes),
-
     provideAnimationsAsync(),
     provideToastr({ timeOut: 2000, positionClass: 'toast-center-center' }),
     provideStore(reducers, { metaReducers: [clearStateMetaReducer] }),
@@ -36,6 +42,7 @@ export const appConfig: ApplicationConfig = {
       UserEffects,
       SaleEffects,
       ItemEffects,
+      AuthEffects,
     ]),
     CartService,
   ],

@@ -1,22 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base.service';
-import {
-  catchError,
-  config,
-  map,
-  mapTo,
-  Observable,
-  of,
-  share,
-  tap,
-} from 'rxjs';
-import { Store } from '../store/models/domain/store';
+import { catchError, map, tap } from 'rxjs';
 import { SignInDto } from './models/sign-in.dto';
-import { TokensDto } from './models/tokens.dto';
-import { TokenService } from '../common/token.service';
-import { Token } from './token';
 import { Router } from '@angular/router';
+import { SignInResponse } from './models/sign-up-response.dto';
+import { SignUpDto } from './models/sign-up.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +18,15 @@ export class AuthService extends BaseService {
 
   constructor(
     private httpClient: HttpClient,
-    private tokenService: TokenService,
     private router: Router
   ) {
     super();
+  }
+
+  signUp(onboard: SignUpDto) {
+    return this.httpClient
+      .post<SignInResponse>(`${this.authApiUrl}/local/signup`, onboard)
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -44,30 +38,15 @@ export class AuthService extends BaseService {
   signIn(credentials: SignInDto) {
     //call the API to get token after login successfully
     return this.httpClient
-      .post<Token>(`${this.authApiUrl}/local/signin`, credentials)
-      .pipe(
-        tap((token) => {
-          console.log('auth service logined ', token);
-          //save the token into local storage
-          this.tokenService.set(token);
-        }),
-        map(() => {
-          console.log('auth service logined and map ', this.check());
-          //check the token whether is valid
-          return this.check();
-        })
-      );
+      .post<SignInResponse>(`${this.authApiUrl}/local/signin`, credentials)
+      .pipe(catchError(this.handleError))
+      
   }
 
   /**
    * Clear the token after logout
    */
   logout() {
-    this.tokenService.clear();
     this.router.navigateByUrl('/login');
-  }
-
-  check() {
-    return this.tokenService.valid();
   }
 }

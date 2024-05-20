@@ -4,7 +4,6 @@
 
 ::ng-deep .mat-horizontal-stepper-header-container {
   background-color: white;
-  border: 1px solid grey;
   border-radius: 3px;
 }
 
@@ -37,4 +36,17 @@
   pointer-events: none;
   color: var(--mdc-protected-button-disabled-label-text-color);
   background-color: #c2185b;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-state-number {
+  /* background-color: #ba2805; */
+  background-color: rgba(0, 0, 0, 0.54);
+  color: #fff;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected,
+::ng-deep .mat-step-header .mat-step-icon-state-done,
+::ng-deep .mat-step-header .mat-step-icon-state-edit {
+  background-color: #ba2805;
+  color: #fff;
 }
