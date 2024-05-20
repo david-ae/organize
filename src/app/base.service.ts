@@ -13,7 +13,8 @@ export class BaseService {
   protected readonly saleApiUrl = `${environment.Sales}`;
   protected readonly userApiUrl = `${environment.Users}`;
 
-  key = 'storeUser';
+  ACCESS_TOKEN = 'ACCESS_TOKEN';
+  REFRESH_TOKEN = 'REFRESH_TOKEN';
   constructor() {}
 
   public handleError(error: HttpErrorResponse) {

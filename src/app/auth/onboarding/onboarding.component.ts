@@ -1,5 +1,5 @@
 import { AppState } from '../../app.state';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -13,7 +13,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { select, Store } from '@ngrx/store';
 import * as storeActions from '../../app-store/actions/store.actions';
 import * as authActions from '../../app-store/actions/auth.actions';
-import { map, Observable, tap } from 'rxjs';
+import * as userActions from '../../app-store/actions/user.actions';
+import { map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { Store as Bank } from '../../store/models/domain/store';
 import { getStoreDetails } from '../../app-store/reducers/store.reducer';
 import { NumberRestrictionDirective } from '../../directives/number-restriction.directive';
@@ -21,7 +22,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { SignInResponse } from '../models/sign-up-response.dto';
+import { SignInResponse } from '../models/sign-in-response.dto';
 import { getAuthResponse } from '../../app-store/reducers/auth.reducer';
 import { AuthService } from '../auth.service';
 
@@ -41,7 +42,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './onboarding.component.html',
   styleUrl: './onboarding.component.css',
 })
-export class OnboardingComponent implements OnInit {
+export class OnboardingComponent implements OnInit, OnDestroy {
   store = inject(Store<AppState>);
   userForm!: FormGroup;
   storeForm!: FormGroup;
@@ -50,8 +51,14 @@ export class OnboardingComponent implements OnInit {
   signedIn$!: Observable<SignInResponse | undefined>;
 
   isLinear = false;
+  unsubscribe$ = new Subject<void>();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 
   ngOnInit(): void {
     this.storeForm = new FormGroup({
@@ -127,6 +134,37 @@ export class OnboardingComponent implements OnInit {
         },
       })
     );
+    this.signInStoreUser();
+  }
+
+  signInStoreUser() {
+    this.signedIn$.pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
+      if (response) {
+        this.authService.saveToLocalStorage(
+          this.authService.ACCESS_TOKEN,
+          response?.tokens.access_token
+        );
+        this.authService.saveToLocalStorage(
+          this.authService.REFRESH_TOKEN,
+          response?.tokens.refresh_token
+        );
+
+        this.store.dispatch(
+          storeActions.storeLoaded({ payload: response.store })
+        );
+        this.store.dispatch(
+          userActions.userLoaded({
+            payload: {
+              email: response?.user.email,
+              storeId: response?.store.id,
+              name: `${response?.user.firstName} ${response?.user.lastName}`,
+            },
+          })
+        );
+
+        this.router.navigate(['store/dashboard']);
+      }
+    });
   }
 
   back() {

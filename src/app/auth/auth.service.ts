@@ -4,22 +4,17 @@ import { BaseService } from '../base.service';
 import { catchError, map, tap } from 'rxjs';
 import { SignInDto } from './models/sign-in.dto';
 import { Router } from '@angular/router';
-import { SignInResponse } from './models/sign-up-response.dto';
+import { SignInResponse } from './models/sign-in-response.dto';
 import { SignUpDto } from './models/sign-up.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
-  ACCESS_TOKEN = 'ACCESS_TOKEN';
-  REFRESH_TOKEN = 'REFRESH_TOKEN';
   STORE_NAME!: string;
   USER!: string;
 
-  constructor(
-    private httpClient: HttpClient,
-    private router: Router
-  ) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     super();
   }
 
@@ -39,8 +34,7 @@ export class AuthService extends BaseService {
     //call the API to get token after login successfully
     return this.httpClient
       .post<SignInResponse>(`${this.authApiUrl}/local/signin`, credentials)
-      .pipe(catchError(this.handleError))
-      
+      .pipe(catchError(this.handleError));
   }
 
   /**

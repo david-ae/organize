@@ -4,11 +4,9 @@ import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
 import { StoreService } from '../../store/services/store.service';
 import { Router } from '@angular/router';
 import * as storeActions from './../actions/store.actions';
-import * as authActions from './../actions/auth.actions';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ItemUpdate } from '../enum/item-update.enum';
-import { AuthService } from '../../auth/auth.service';
 @Injectable()
 export class StoreEffects {
   constructor(

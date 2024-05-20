@@ -6,7 +6,7 @@ import { catchError, distinctUntilChanged, share } from 'rxjs';
 import { Item } from '../models/domain/item';
 import { UpdateStoreInventoryDto } from '../models/valueobjects/store.dto';
 import { SignUpDto } from '../../auth/models/sign-up.dto';
-import { SignInResponse } from '../../auth/models/sign-up-response.dto';
+import { SignInResponse } from '../../auth/models/sign-in-response.dto';
 
 @Injectable({
   providedIn: 'root',

@@ -32,6 +32,7 @@ export const appConfig: ApplicationConfig = {
       BrowserAnimationsModule,
       NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
     ),
+    provideHttpClient(withInterceptors([tokenInterceptor])),
     provideRouter(routes),
     provideAnimationsAsync(),
     provideToastr({ timeOut: 2000, positionClass: 'toast-center-center' }),

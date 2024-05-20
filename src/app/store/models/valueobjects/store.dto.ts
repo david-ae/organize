@@ -3,10 +3,11 @@
 import { Item } from '../domain/item';
 
 export interface StoreDto {
+  id?: string;
   name: string;
   email: string;
   address: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   inventory: Item[];
   categories: string[];
 }

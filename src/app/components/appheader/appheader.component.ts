@@ -17,6 +17,7 @@ import { BaseService } from '../../base.service';
 import { AppUserDto } from '../../app-user.dto';
 import { Item } from '../../store/models/domain/item';
 import { LogoutdialogComponent } from '../dialogs/logoutdialog/logoutdialog.component';
+import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-appheader',
   standalone: true,
@@ -31,10 +32,11 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private baseService = inject(BaseService);
   protected cartService = inject(CartService);
+  protected authService = inject(AuthService);
 
   store$!: Observable<Bank>;
   currentStoreUser!: AppUserDto;
-  key = this.baseService.key;
+  key = this.authService.ACCESS_TOKEN;
   inventory: Item[] = [];
 
   unsubriber$ = new Subject<void>();

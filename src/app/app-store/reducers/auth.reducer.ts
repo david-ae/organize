@@ -6,7 +6,7 @@ import {
   on,
 } from '@ngrx/store';
 import * as authActions from '../actions/auth.actions';
-import { SignInResponse } from '../../auth/models/sign-up-response.dto';
+import { SignInResponse } from '../../auth/models/sign-in-response.dto';
 
 export interface AuthState {
   isLoading: boolean;

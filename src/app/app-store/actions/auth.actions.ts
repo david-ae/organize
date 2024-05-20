@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { SignInDto } from '../../auth/models/sign-in.dto';
-import { SignInResponse } from '../../auth/models/sign-up-response.dto';
+import { SignInResponse } from '../../auth/models/sign-in-response.dto';
 import { SignUpDto } from '../../auth/models/sign-up.dto';
 
 export const signIn = createAction(

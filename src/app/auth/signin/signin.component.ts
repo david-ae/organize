@@ -3,9 +3,9 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { BaseService } from '../../base.service';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as storeActions from './../../app-store/actions/store.actions';
 import { AppUserDto } from '../../app-user.dto';
 import {
@@ -14,13 +14,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import * as authActions from '../../app-store/actions/auth.actions';
+import * as userActions from '../../app-store/actions/user.actions';
 import { AuthService } from '../auth.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CartService } from '../../store/services/cart.service';
+import { SignInResponse } from '../models/sign-in-response.dto';
+import { getAuthResponse } from '../../app-store/reducers/auth.reducer';
 
 @Component({
   selector: 'app-signin',
@@ -50,12 +54,12 @@ export class SigninComponent implements OnInit, OnDestroy {
   buttonText$ = new BehaviorSubject('Login');
   btnText$ = this.buttonText$.asObservable();
   buttonText = '';
-  key = this.baseService.key;
   userDetails!: AppUserDto | null;
+  signedIn$!: Observable<SignInResponse | undefined>;
 
   unsubscribe$ = new Subject<void>();
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -68,7 +72,9 @@ export class SigninComponent implements OnInit, OnDestroy {
       password: new FormControl('', [Validators.required]),
     });
     this.btnText$.subscribe((text) => (this.buttonText = text));
-    const storeUser = this.baseService.getItemFromLocalStorage(this.key);
+    const storeUser = this.baseService.getItemFromLocalStorage(
+      this.authService.ACCESS_TOKEN
+    );
     if (storeUser === undefined) {
       this.userDetails = JSON.parse(storeUser);
 
@@ -77,16 +83,50 @@ export class SigninComponent implements OnInit, OnDestroy {
         this.buttonText$.next(this.buttonText);
       }
     }
+    this.signedIn$ = this.store.pipe(select(getAuthResponse));
   }
 
   signin() {
     this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
-    this.authService
-      .signIn({
-        email: this.signinForm.get('email')?.value,
-        password: this.signinForm.get('password')?.value,
+    this.store.dispatch(
+      authActions.signIn({
+        credentials: {
+          email: this.signinForm.get('email')?.value,
+          password: this.signinForm.get('password')?.value,
+        },
       })
-      .subscribe((token) => console.log(token));
+    );
+    this.signInStoreUser();
+  }
+
+  signInStoreUser() {
+    this.signedIn$.pipe(takeUntil(this.unsubscribe$)).subscribe((response) => {
+      if (response) {
+        this.authService.saveToLocalStorage(
+          this.authService.ACCESS_TOKEN,
+          response?.tokens.access_token
+        );
+        this.authService.saveToLocalStorage(
+          this.authService.REFRESH_TOKEN,
+          response?.tokens.refresh_token
+        );
+
+        this.store.dispatch(
+          storeActions.storeLoaded({ payload: response.store })
+        );
+        this.store.dispatch(
+          userActions.userLoaded({
+            payload: {
+              email: response?.user.email,
+              storeId: response?.store.id,
+              name: `${response?.user.firstName} ${response?.user.lastName}`,
+            },
+          })
+        );
+
+        this.router.navigate(['store/dashboard']);
+      }
+    });
   }
 
   private getStoreAndRedirect(email: string) {
@@ -94,7 +134,7 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   removeAccount() {
-    this.baseService.removeItemFromLocalStorage(this.key);
+    this.baseService.removeItemFromLocalStorage(this.authService.ACCESS_TOKEN);
     this.cartService.clearCart();
     this.userDetails = null;
     this.buttonText$.next('Login');

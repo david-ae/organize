@@ -42,7 +42,9 @@ export class AuthEffects {
         this.authService.signIn(action.credentials).pipe(
           map((store) => authActions.signedIn({ payload: store })),
           catchError(() => {
-            this.toastrService.error('Unable to retrieve your store');
+            this.toastrService.error(
+              'Invalid Credentials. Please check you email or password'
+            );
             return of(authActions.loadAuthException());
           })
         )
@@ -53,17 +55,11 @@ export class AuthEffects {
   closeSpinner$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(storeActions.storeLoaded, storeActions.loadStoreException),
+        ofType(
+          authActions.loadAuthException,
+          authActions.signedIn
+        ),
         tap((action) => this.spinnerService.hide())
-      ),
-    { dispatch: false }
-  );
-
-  loginRedirect$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(storeActions.storeLoaded),
-        tap((action) => this.router.navigate(['/store/dashboard']))
       ),
     { dispatch: false }
   );
