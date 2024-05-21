@@ -12,6 +12,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { getStoreIsLoadingState } from '../../app-store/reducers/store.reducer';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { getSaleIsLoadingState } from '../../app-store/reducers/sale.reducer';
+import { getAuthIsLoadingState } from '../../app-store/reducers/auth.reducer';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -25,6 +26,7 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
   isLoaded = false;
 
   isLoadingStore$!: Observable<boolean>;
+  isLoadingAuth$!: Observable<boolean>;
   isLoadingSale$!: Observable<boolean>;
   unsubscriber$ = new Subject<void>();
 
@@ -46,12 +48,22 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscriber$)
     );
 
+    this.isLoadingAuth$ = this.store.pipe(
+      select(getAuthIsLoadingState),
+      takeUntil(this.unsubscriber$)
+    );
+
     this.isLoadingStore$.subscribe((loading) => {
       if (loading) this.spinner.show();
       else this.spinner.hide();
     });
 
     this.isLoadingSale$.subscribe((loading) => {
+      if (loading) this.spinner.show();
+      else this.spinner.hide();
+    });
+
+    this.isLoadingAuth$.subscribe((loading) => {
       if (loading) this.spinner.show();
       else this.spinner.hide();
     });

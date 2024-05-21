@@ -99,15 +99,11 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   }
 
   processLogout() {
-    this.store.dispatch(
-      authActions.logout({ payload: this.currentStoreUser.id as string })
-    );
     this.router.navigate(['/signin']);
     this.handleLocalStorageOnLogout();
   }
 
   private handleLocalStorageOnLogout() {
-    this.baseService.removeItemFromLocalStorage(this.key);
     this.baseService.saveToLocalStorage(
       this.store_user,
       JSON.stringify(this.currentStoreUser)

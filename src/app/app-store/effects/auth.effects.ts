@@ -35,6 +35,23 @@ export class AuthEffects {
     )
   );
 
+  loadStoreByEmail$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.loadStoreByEmail),
+      exhaustMap((action) =>
+        this.authService.loadStoreByEmail(action.email).pipe(
+          map((storedetails) =>
+            authActions.loadStore({ payload: storedetails })
+          ),
+          catchError(() => {
+            this.toastrService.error('Unable to load your store');
+            return of(authActions.loadAuthException());
+          })
+        )
+      )
+    )
+  );
+
   signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.signIn),

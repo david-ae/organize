@@ -6,23 +6,30 @@ import {
   on,
 } from '@ngrx/store';
 import * as authActions from '../actions/auth.actions';
-import { SignInResponse } from '../../auth/models/sign-in-response.dto';
+import { LoadStoreResponse, SignInResponse } from '../../auth/models/sign-in-response.dto';
 
 export interface AuthState {
   isLoading: boolean;
-  response: SignInResponse | undefined;
+  signInResponse: SignInResponse | undefined;
+  loadStoreResponse: LoadStoreResponse | undefined;
 }
 
 export const initialAuthState: AuthState = {
   isLoading: false,
-  response: undefined,
+  signInResponse: undefined,
+  loadStoreResponse: undefined
 };
 
 const authFeatureState = createFeatureSelector<AuthState>('auth');
 
 export const getAuthResponse = createSelector(
   authFeatureState,
-  (state) => state.response
+  (state) => state.signInResponse
+);
+
+export const getLoadStoreResponse = createSelector(
+  authFeatureState,
+  (state) => state.loadStoreResponse
 );
 
 export const getAuthIsLoadingState = createSelector(
@@ -38,7 +45,7 @@ export const authFeature = createFeature({
       return {
         ...state,
         isLoading: false,
-        response: action.payload,
+        signInResponse: action.payload,
       };
     }),
     on(authActions.loadSpinner, (state, action) => {
@@ -60,6 +67,6 @@ export const authFeature = createFeature({
 export const {
   name: authFeatureKey,
   reducer: authReducer,
-  selectResponse,
+  selectSignInResponse,
   selectIsLoading,
 } = authFeature;

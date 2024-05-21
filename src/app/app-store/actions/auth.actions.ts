@@ -1,12 +1,19 @@
 import { createAction, props } from '@ngrx/store';
 import { SignInDto } from '../../auth/models/sign-in.dto';
-import { SignInResponse } from '../../auth/models/sign-in-response.dto';
+import { LoadStoreResponse, SignInResponse } from '../../auth/models/sign-in-response.dto';
 import { SignUpDto } from '../../auth/models/sign-up.dto';
 
 export const signIn = createAction(
   '[Sign In] Auth',
   props<{
     credentials: SignInDto;
+  }>()
+);
+
+export const loadStoreByEmail = createAction(
+  '[Load Store] Auth',
+  props<{
+    email: string;
   }>()
 );
 
@@ -23,16 +30,17 @@ export const signedIn = createAction(
 export const signUp = createAction(
   '[SignedIn]  Auth',
   props<{ payload: SignInResponse }>()
-)
+);
 
-;
+export const loadStore = createAction(
+  '[LoadStore]  Auth',
+  props<{ payload: LoadStoreResponse }>()
+);
 export const logout = createAction(
   '[Logout]  Auth',
   props<{ payload: string }>()
 );
-export const loggedOut = createAction(
-  '[Logout]  Auth',
-);
+export const loggedOut = createAction('[Logout]  Auth');
 
 export const loadSpinner = createAction(
   '[Load Spinner] Auth',
