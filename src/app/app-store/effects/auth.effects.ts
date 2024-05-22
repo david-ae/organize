@@ -7,6 +7,7 @@ import * as authActions from './../actions/auth.actions';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class AuthEffects {
@@ -87,7 +88,11 @@ export class AuthEffects {
   closeSpinner$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(authActions.loadAuthException, authActions.signedIn),
+        ofType(
+          authActions.loadAuthException,
+          authActions.signedIn,
+          authActions.loadStore
+        ),
         tap((action) => this.spinnerService.hide())
       ),
     { dispatch: false }

@@ -24,13 +24,24 @@ import { provideToastr } from 'ngx-toastr';
 import { ItemEffects } from './app-store/effects/item.effects';
 import { tokenInterceptor } from './token.interceptor';
 import { AuthEffects } from './app-store/effects/auth.effects';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('ACCESS_TOKEN');
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
       HttpClientModule,
       BrowserAnimationsModule,
-      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
+      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+      JwtModule.forRoot({
+        config: {
+          tokenGetter: tokenGetter,
+          allowedDomains: ['localhost:4200'],
+        },
+      })
     ),
     provideHttpClient(withInterceptors([tokenInterceptor])),
     provideRouter(routes),

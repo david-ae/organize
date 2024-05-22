@@ -141,16 +141,22 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   getStoreByEmail() {
-    this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
-    this.store.dispatch(
-      authActions.loadStoreByEmail({ email: this.buttonText })
-    );
+    if (this.authService.isAuthenticated()) {
+      this.store.dispatch(storeActions.loadSpinner({ isLoaded: true }));
+      this.store.dispatch(
+        authActions.loadStoreByEmail({
+          email: this.userDetails?.email as string,
+        })
+      );
+      this.loadStore();
+    } else this.removeAccount();
   }
 
   loadStore() {
     this.loadedStore$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((response) => {
+        console.log(response);
         if (response) {
           this.authService.user_id = response?.user.id as string;
           this.store.dispatch(
@@ -172,9 +178,11 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   removeAccount() {
-    this.store.dispatch(
-      authActions.logout({ payload: this.authService.user_id as string })
-    );
+    if (this.authService.isAuthenticated()) {
+      this.store.dispatch(
+        authActions.logout({ payload: this.authService.user_id as string })
+      );
+    }
 
     this.baseService.removeItemFromLocalStorage(this.authService.ACCESS_TOKEN);
     this.cartService.clearCart();

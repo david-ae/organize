@@ -6,7 +6,10 @@ import {
   on,
 } from '@ngrx/store';
 import * as authActions from '../actions/auth.actions';
-import { LoadStoreResponse, SignInResponse } from '../../auth/models/sign-in-response.dto';
+import {
+  LoadStoreResponse,
+  SignInResponse,
+} from '../../auth/models/sign-in-response.dto';
 
 export interface AuthState {
   isLoading: boolean;
@@ -17,7 +20,7 @@ export interface AuthState {
 export const initialAuthState: AuthState = {
   isLoading: false,
   signInResponse: undefined,
-  loadStoreResponse: undefined
+  loadStoreResponse: undefined,
 };
 
 const authFeatureState = createFeatureSelector<AuthState>('auth');
@@ -53,14 +56,14 @@ export const authFeature = createFeature({
         ...state,
         isLoading: action.isLoaded,
       };
+    }),
+    on(authActions.loadStore, (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        loadStoreResponse: action.payload,
+      };
     })
-    // on(authActions.signIn, (state, action) => {
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     response: action.payload
-    //   };
-    // }),
   ),
 });
 

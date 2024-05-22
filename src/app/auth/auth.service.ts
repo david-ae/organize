@@ -4,8 +4,12 @@ import { BaseService } from '../base.service';
 import { catchError, map, Subject, tap } from 'rxjs';
 import { SignInDto } from './models/sign-in.dto';
 import { Router } from '@angular/router';
-import { LoadStoreResponse, SignInResponse } from './models/sign-in-response.dto';
+import {
+  LoadStoreResponse,
+  SignInResponse,
+} from './models/sign-in-response.dto';
 import { SignUpDto } from './models/sign-up.dto';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +20,11 @@ export class AuthService extends BaseService {
 
   public refreshToken$ = new Subject<boolean>();
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(
+    private httpClient: HttpClient,
+    private jwtHelperService: JwtHelperService,
+    private router: Router
+  ) {
     super();
     this.refreshToken$.subscribe((res) => {
       this.refreshToken();
@@ -45,7 +53,7 @@ export class AuthService extends BaseService {
   loadStoreByEmail(email: string) {
     //call the API to get token after login successfully
     return this.httpClient
-      .post<LoadStoreResponse>(`${this.authApiUrl}/details`, email)
+      .post<LoadStoreResponse>(`${this.authApiUrl}/details`, { email: email })
       .pipe(catchError(this.handleError));
   }
 
@@ -63,15 +71,13 @@ export class AuthService extends BaseService {
    * Refresh token
    */
   refreshToken() {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      'Bearer ' + localStorage.getItem(this.REFRESH_TOKEN)
-    );
     return this.httpClient
-      .post(`${this.authApiUrl}/refresh`, this.user_id, {
-        headers: headers,
-        withCredentials: true,
-      })
+      .post(`${this.authApiUrl}/refresh`, {})
       .pipe(catchError(this.handleError));
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem(this.ACCESS_TOKEN);
+    return !this.jwtHelperService.isTokenExpired(token);
   }
 }
