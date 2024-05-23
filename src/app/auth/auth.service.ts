@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base.service';
-import { catchError, map, Subject, tap } from 'rxjs';
+import { catchError, Subject, take, Observable } from 'rxjs';
 import { SignInDto } from './models/sign-in.dto';
 import { Router } from '@angular/router';
 import {
@@ -18,17 +18,11 @@ export class AuthService extends BaseService {
   STORE_NAME!: string;
   user_id!: string;
 
-  public refreshToken$ = new Subject<boolean>();
-
   constructor(
     private httpClient: HttpClient,
-    private jwtHelperService: JwtHelperService,
-    private router: Router
+    private jwtHelperService: JwtHelperService
   ) {
     super();
-    this.refreshToken$.subscribe((res) => {
-      this.refreshToken();
-    });
   }
 
   signUp(onboard: SignUpDto) {
@@ -70,9 +64,11 @@ export class AuthService extends BaseService {
   /**
    * Refresh token
    */
-  refreshToken() {
+  refreshToken(userId: string, refreshToken: string):Observable<SignInResponse> {
     return this.httpClient
-      .post(`${this.authApiUrl}/refresh`, {})
+      .post<SignInResponse>(`${this.authApiUrl}/refresh/${userId}`, {
+        refreshToken: refreshToken,
+      })
       .pipe(catchError(this.handleError));
   }
 

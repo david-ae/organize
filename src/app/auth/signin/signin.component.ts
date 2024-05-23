@@ -156,7 +156,6 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.loadedStore$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((response) => {
-        console.log(response);
         if (response) {
           this.authService.user_id = response?.user.id as string;
           this.store.dispatch(

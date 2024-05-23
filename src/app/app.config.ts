@@ -7,11 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
 import { reducers, clearStateMetaReducer } from './reducers';
 import {
-  HTTP_INTERCEPTORS,
   HttpClientModule,
   provideHttpClient,
   withInterceptors,
-  withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import { StoreEffects } from './app-store/effects/store.effects';
@@ -44,6 +42,8 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideHttpClient(withInterceptors([tokenInterceptor])),
+    // provideHttpClient(withInterceptorsFromDi()),
+    // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     provideRouter(routes),
     provideAnimationsAsync(),
     provideToastr({ timeOut: 2000, positionClass: 'toast-center-center' }),
